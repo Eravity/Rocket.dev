@@ -1,6 +1,7 @@
 "use client";
 import { useIntlDateTime } from "../hooks/intl";
 import { useEffect, useState } from "react";
+import Clock from "./Clock";
 
 export default function DateAndTime() {
   const { formatTime } = useIntlDateTime();
@@ -20,9 +21,9 @@ export default function DateAndTime() {
   }
 
   return (
-    <div className="flex flex-col items-center border">
-      <h1 className="font-semibold text-neutral-500">
-        {formatTime(currentDate)}
+    <div className="flex flex-col items-center">
+      <h1 className="flex gap-1 items-center font-semibold text-neutral-500">
+        <Clock /> {formatTime(currentDate)}
       </h1>
     </div>
   );

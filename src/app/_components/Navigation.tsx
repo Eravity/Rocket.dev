@@ -1,7 +1,6 @@
 'use client'
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import DateAndTime from "./DateAndTime";
 
 
 // prettier-ignore
@@ -18,7 +17,6 @@ export default function Navigation() {
         <li><Link href="/catalog" className={pathname === '/catalog' ? activeLink : link}>Catalog</Link></li>
         <li><Link href="/favorites" className={pathname === '/favorites' ? activeLink : link}>Favorites</Link></li>
       </ul>
-      <DateAndTime/>
     </nav>
   );
 }
