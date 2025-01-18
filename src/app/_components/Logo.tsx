@@ -1,6 +1,8 @@
+import Link from "next/link";
+
 export default function Logo() {
   return (
-    <div className="flex items-center space-x-2">
+    <Link href="/" className="flex items-center space-x-2">
       <svg
         width="40px"
         height="40px"
@@ -17,6 +19,6 @@ export default function Logo() {
       </svg>
 
       <h1 className="text-4xl mb-1 font-bold text-blueLotus">Rocket</h1>
-    </div>
+    </Link>
   );
 }
