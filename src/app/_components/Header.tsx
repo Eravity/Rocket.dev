@@ -1,4 +1,5 @@
 import Bell from "./Bell";
+import Calendar from "./Calendar";
 import Logo from "./Logo";
 import Navigation from "./Navigation";
 import Profile from "./Profile";
@@ -14,6 +15,7 @@ export default function Header() {
           </div>
           <Search />
           <div className="flex space-x-5 items-center">
+            <Calendar/>
             <Bell />
             <Profile />
           </div>
