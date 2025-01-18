@@ -6,7 +6,7 @@ export default function Search() {
     <div className="relative flex items-center">
       <input 
         type="text" 
-        placeholder="Search..."
+        placeholder="Search articles"
         className="border-2 rounded-xl w-[300px] p-1" 
       />
       <button 

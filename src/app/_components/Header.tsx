@@ -11,9 +11,8 @@ export default function Header() {
         <div className="flex justify-between">
           <div className="flex space-x-5 items-center">
             <Logo />
-            <div className="w-[1px] h-7 bg-neutral-300"></div>
           </div>
-            <Search />
+          <Search />
           <div className="flex space-x-5 items-center">
             <Bell />
             <Profile />
