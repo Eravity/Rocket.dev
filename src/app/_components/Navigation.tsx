@@ -1,6 +1,8 @@
 'use client'
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import DateAndTime from "./DateAndTime";
+
 
 // prettier-ignore
 export default function Navigation() {
@@ -9,13 +11,14 @@ export default function Navigation() {
   const activeLink = 'font-semibold text-black border-b-2 border-black pb-[9px]';
 
   return (
-    <nav className="mt-5">
+    <nav className="mt-5 flex justify-between">
       <ul className="flex space-x-8">
         <li><Link href="/" className={pathname === '/' ? activeLink : link}>Home</Link></li>
         <li><Link href="/learning" className={pathname === '/learning' ? activeLink : link}>My Learning</Link></li>
         <li><Link href="/catalog" className={pathname === '/catalog' ? activeLink : link}>Catalog</Link></li>
         <li><Link href="/favorites" className={pathname === '/favorites' ? activeLink : link}>Favorites</Link></li>
       </ul>
+      <DateAndTime/>
     </nav>
   );
 }

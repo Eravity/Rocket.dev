@@ -3,7 +3,7 @@ import ArrowDown from "./ArrowDown";
 export default function Profile() {
   return (
     <div className="flex space-x-3 items-center">
-      <div className="w-10 h-10 flex justify-center items-center bg-skySplash rounded-lg">
+      <div className="w-10 h-10 flex justify-center items-center bg-blueLotus rounded-lg">
         <h1 className="text-white font-bold">CC</h1>
       </div>
 
