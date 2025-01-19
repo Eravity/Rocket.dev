@@ -16,6 +16,7 @@ export default function Navigation() {
         <li><Link href="/learning" className={pathname === '/learning' ? activeLink : link}>My Learning</Link></li>
         <li><Link href="/catalog" className={pathname === '/catalog' ? activeLink : link}>Catalog</Link></li>
         <li><Link href="/favorites" className={pathname === '/favorites' ? activeLink : link}>Favorites</Link></li>
+        <li><Link href="/achievements" className={pathname === '/achievenemts' ? activeLink : link}>Achievements</Link></li>
       </ul>
     </nav>
   );

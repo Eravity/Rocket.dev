@@ -1,11 +1,14 @@
 import Greeting from "./_components/Greeting";
-import Widgets from "./_components/Widgets";
+import Treat from "./_components/Treat";
 
 export default function Home() {
   return (
-    <div className="flex justify-between items-center">
-      <Greeting />
-      <Widgets/>
-    </div>
+    <main className="felx flex-col space-y-10">
+      <div className="flex justify-between items-center">
+        <Greeting />
+        <h1>.</h1>
+      </div>
+      <Treat/>
+    </main>
   );
 }

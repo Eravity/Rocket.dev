@@ -18,7 +18,7 @@ export default {
         skySplash: '#00B0E7',    
         fireAmber: '#FFAC00',    
         pastelWave: '#FF75CD',   
-        shadowGray: '#333333',
+        shadowGray: '#303030',
         lightGray: '#EAEAEA',
       },
     },
