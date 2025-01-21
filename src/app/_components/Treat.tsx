@@ -14,17 +14,18 @@ import useDrinkPreparation, {
 //   cream: "bg-[#fff7e0]",
 // } as const;
 
+const COLORS = {
+  orange: "bg-[#ffde59]",
+  lightOrange: "bg-[#fff3c2]",
+  creamOrange: "bg-[#fffae6]",
+} as const;
+
 // const COLORS = {
-//   brown: "bg-[#FFE500]/80",
-//   lightBrown: "bg-[#FFE500]/40",
-//   cream: "bg-[#FFE500]/20",
+//   orange: "bg-[#ffc242]",
+//   lightOrange: "bg-[#ffd47a]/60",
+//   creamOrange: "bg-[#ffe9cc]",
 // } as const;
 
-const COLORS = {
-  brown: "bg-[#FFAC00]/80",
-  lightBrown: "bg-[#FFAC00]/30",
-  cream: "bg-[#FFAC00]/20",
-} as const;
 
 export default function Treat() {
   const { coffee, tea, hotChocolate } = drinks;
@@ -72,22 +73,22 @@ export default function Treat() {
 
   return (
     <div
-      className={`rounded-xl flex flex-col md:flex-row gap-4 md:gap-0 justify-between p-4 ${COLORS.cream}`}
+      className={`rounded-xl flex flex-col md:flex-row gap-4 md:gap-0 justify-between p-4 ${COLORS.creamOrange}`}
     >
       <div className="space-y-2 flex-1">
         <div className="flex items-center space-x-3">
           <div
-            className={`py-1 px-3 w-fit rounded-md font-semibold text-white ${COLORS.brown}`}
+            className={`py-1 px-3 w-fit rounded-md font-semibold text-white ${COLORS.orange}`}
           >
             Treat
           </div>
-          <h1 className="font-bold text-lg md:text-xl">Something Good</h1>
+          <h1 className="font-bold text-lg md:text-xl">Something Good ✨</h1>
         </div>
         <p className="max-w-screen-xl text-sm md:text-base">{currentQuote}</p>
       </div>
       <div className="flex items-center justify-center">
         <div
-          className={`h-[1px] md:h-full md:w-[1px] mr-0 md:mx-2 w-full my-2 md:my-auto ${COLORS.brown}`}
+          className={`h-[1px] md:h-full md:w-[1px] mr-0 md:mx-2 w-full my-2 md:my-auto ${COLORS.orange}`}
         />
         <div className="space-y-1 px-4">
           <div className="text-sm md:text-base font-semibold text-center md:text-left">
@@ -101,7 +102,7 @@ export default function Treat() {
                 <button
                   key={drink.alt}
                   onClick={() => handleDrinkSelect(drink)}
-                  className={`p-2 h-fit border-2 border-[#FFAC00]/80 ${COLORS.lightBrown} rounded-lg hover:${COLORS.brown} transition-colors duration-200`}
+                  className={`p-2 h-fit border-2 border-[#ffde59] ${COLORS.lightOrange} rounded-lg hover:${COLORS.orange} transition-colors duration-200`}
                 >
                   <Image
                     width={32}
@@ -114,8 +115,8 @@ export default function Treat() {
               ))
             ) : (
               <div
-                className={`w-full p-2 text-center border-2 border-[#FFAC00]/80 ${
-                  COLORS.lightBrown
+                className={`w-full p-2 text-center border-2 border-[#ffde59] ${
+                  COLORS.lightOrange
                 } rounded-lg transition-all duration-300 ${
                   status === "preparing" ? "animate-pulse" : ""
                 }`}
