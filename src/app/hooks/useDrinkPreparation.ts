@@ -37,7 +37,7 @@ export default function useDrinkPreparation() {
           const now = Date.now();
           localStorage.setItem("nextDrinkTime", (now + 7200000).toString());
           setStoredTime(now + 7200000);
-        }, 2000);
+        }, 3000);
 
         return () => clearTimeout(readyTimer);
       }, 3000);

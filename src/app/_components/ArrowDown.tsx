@@ -1,6 +1,10 @@
-export default function ArrowDown() {
+type ArrowDownProps = {
+  className?: string;
+}
+
+export default function ArrowDown({className}: ArrowDownProps) {
   return (
-    <button className="">
+    <button className={className}>
       <svg
         fill="#303030"
         height="15px"

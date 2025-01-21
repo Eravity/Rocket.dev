@@ -1,22 +1,50 @@
 'use client'
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useMenu } from './MenuContext';
 
-
-// prettier-ignore
 export default function Navigation() {
   const pathname = usePathname();
+  const { isMenuOpen } = useMenu();
   const link = 'font-semibold text-neutral-500';
   const activeLink = 'font-semibold text-black border-b-2 border-black pb-[9px]';
+  
+  const navItems = [
+    { href: '/', label: 'Home' },
+    { href: '/learning', label: 'My Learning' },
+    { href: '/catalog', label: 'Catalog' },
+    { href: '/favorites', label: 'Favorites' },
+    { href: '/achievements', label: 'Achievements' },
+  ];
 
   return (
-    <nav className="mt-5 flex justify-between">
-      <ul className="flex space-x-8">
-        <li><Link href="/" className={pathname === '/' ? activeLink : link}>Home</Link></li>
-        <li><Link href="/learning" className={pathname === '/learning' ? activeLink : link}>My Learning</Link></li>
-        <li><Link href="/catalog" className={pathname === '/catalog' ? activeLink : link}>Catalog</Link></li>
-        <li><Link href="/favorites" className={pathname === '/favorites' ? activeLink : link}>Favorites</Link></li>
-        <li><Link href="/achievements" className={pathname === '/achievenemts' ? activeLink : link}>Achievements</Link></li>
+    <nav className="mt-5">
+      {/* Desktop Navigation */}
+      <ul className="hidden md:flex space-x-8">
+        {navItems.map((item) => (
+          <li key={item.href}>
+            <Link 
+              href={item.href} 
+              className={pathname === item.href ? activeLink : link}
+            >
+              {item.label}
+            </Link>
+          </li>
+        ))}
+      </ul>
+
+      {/* Mobile Navigation */}
+      <ul className={`md:hidden flex flex-col space-y-4 ${isMenuOpen ? 'block' : 'hidden'}`}>
+        {navItems.map((item) => (
+          <li key={item.href}>
+            <Link 
+              href={item.href} 
+              className={`block ${pathname === item.href ? 'text-black font-semibold' : 'text-neutral-500'}`}
+            >
+              {item.label}
+            </Link>
+          </li>
+        ))}
       </ul>
     </nav>
   );
