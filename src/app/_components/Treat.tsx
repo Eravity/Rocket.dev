@@ -75,7 +75,7 @@ export default function Treat() {
       </div>
       <div className="flex items-center justify-center">
         <div
-          className={`h-[1px] md:h-full md:w-[1px] mr-0 md:mx-2 w-full my-2 md:my-auto ${COLORS.brown}`}
+          className={`h-[1px] md:h-full md:w-[1px] mr-0 md:mx-1 w-3/6 my-2 md:my-auto ${COLORS.brown}`}
         />
         <div className="space-y-1 px-4">
           <div className="text-sm md:text-base font-semibold text-center md:text-left">
@@ -83,7 +83,7 @@ export default function Treat() {
               ? "Next drink available in:"
               : "Time for a warm treat!"}
           </div>
-          <div className="flex gap-2 justify-center">
+          <div className="flex gap-4 justify-center">
             {status === "selecting" ? (
               drinkItems.map((drink) => (
                 <button
