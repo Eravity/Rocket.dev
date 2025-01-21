@@ -11,7 +11,7 @@ export default function Certificate() {
         viewBox="0 0 512 512"
         xmlSpace="preserve"
       >
-        <style type="text/css">{`.st0{fill:#000000;}`}</style>
+        <style type="text/css">{`.st0{fill:#FFAC00;}`}</style>
         <g>
           <path
             className="st0"

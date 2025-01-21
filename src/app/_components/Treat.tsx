@@ -8,10 +8,22 @@ import useDrinkPreparation, {
   formatTime,
 } from "@/app/hooks/useDrinkPreparation";
 
+// const COLORS = {
+//   brown: "bg-[#7c5d39]",
+//   lightBrown: "bg-[#ccac86]",
+//   cream: "bg-[#fff7e0]",
+// } as const;
+
+// const COLORS = {
+//   brown: "bg-[#FFE500]/80",
+//   lightBrown: "bg-[#FFE500]/40",
+//   cream: "bg-[#FFE500]/20",
+// } as const;
+
 const COLORS = {
-  brown: "bg-[#7c5d39]",
-  lightBrown: "bg-[#ccac86]",
-  cream: "bg-[#fff7e0]",
+  brown: "bg-[#FFAC00]/80",
+  lightBrown: "bg-[#FFAC00]/30",
+  cream: "bg-[#FFAC00]/20",
 } as const;
 
 export default function Treat() {
@@ -75,7 +87,7 @@ export default function Treat() {
       </div>
       <div className="flex items-center justify-center">
         <div
-          className={`h-[1px] md:h-full md:w-[1px] mr-0 md:mx-1 w-3/6 my-2 md:my-auto ${COLORS.brown}`}
+          className={`h-[1px] md:h-full md:w-[1px] mr-0 md:mx-2 w-full my-2 md:my-auto ${COLORS.brown}`}
         />
         <div className="space-y-1 px-4">
           <div className="text-sm md:text-base font-semibold text-center md:text-left">
@@ -83,13 +95,13 @@ export default function Treat() {
               ? "Next drink available in:"
               : "Time for a warm treat!"}
           </div>
-          <div className="flex gap-4 justify-center">
+          <div className="flex gap-2 justify-center">
             {status === "selecting" ? (
               drinkItems.map((drink) => (
                 <button
                   key={drink.alt}
                   onClick={() => handleDrinkSelect(drink)}
-                  className={`p-2 h-fit border-2 border-[#7c5d39] ${COLORS.lightBrown} rounded-lg hover:${COLORS.brown} transition-colors duration-200`}
+                  className={`p-2 h-fit border-2 border-[#FFAC00]/80 ${COLORS.lightBrown} rounded-lg hover:${COLORS.brown} transition-colors duration-200`}
                 >
                   <Image
                     width={32}
@@ -102,7 +114,7 @@ export default function Treat() {
               ))
             ) : (
               <div
-                className={`w-full p-2 text-center border-2 border-[#7c5d39] ${
+                className={`w-full p-2 text-center border-2 border-[#FFAC00]/80 ${
                   COLORS.lightBrown
                 } rounded-lg transition-all duration-300 ${
                   status === "preparing" ? "animate-pulse" : ""
