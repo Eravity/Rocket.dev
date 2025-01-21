@@ -8,7 +8,7 @@ export default function Greeting({ username = "Champion" }: GreetingProps) {
     hour < 12 ? "Good morning" : hour < 18 ? "Good afternoon" : "Good evening";
 
   return (
-    <div className="text-center md:text-left">
+    <div className="text-center md:text-left w-96 lg:w-full">
       <h1 className="text-5xl md:text-4xl font-bold text-neutral-900">
         {greeting}, {username}👋
       </h1>

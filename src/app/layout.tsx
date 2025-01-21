@@ -23,7 +23,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${workSans.variable} antialiased mx-auto`}>
         <Header />
-        <div className="container mx-auto my-8">{children}</div>
+        <div className="container mx-auto my-8 px-4">{children}</div>
       </body>
     </html>
   );
