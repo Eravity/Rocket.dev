@@ -6,7 +6,7 @@ export default function Search() {
       <div className="flex rounded-lg focus-within:ring-2 focus-within:ring-blueLotus">
         <input
           type="text"
-          placeholder="Search..."
+          placeholder="Search articles"
           className="w-full px-4 py-2 border rounded-l-lg focus:outline-none"
         />
         <button

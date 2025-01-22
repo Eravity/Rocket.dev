@@ -1,4 +1,5 @@
 import Greeting from "./_components/Greeting";
+import InProgressContent from "./_components/InProgressContent";
 import Stats from "./_components/Stats";
 import Treat from "./_components/Treat";
 
@@ -9,9 +10,16 @@ export default function Home() {
         <div className="w-full flex justify-center md:justify-start">
           <Greeting />
         </div>
-        <Stats/>
+        <Stats />
       </div>
-      <Treat/>
+      <Treat />
+      <div className="grid grid-cols-4 gap-4 ">
+        <div className="col-span-3 h-[40] grid gap-4">
+          <InProgressContent/>
+        </div>
+
+        <div className="col-span-1 grid border gap-4"></div>
+      </div>
     </main>
   );
 }

@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
-import { Work_Sans } from "next/font/google";
+import { Fredoka } from "next/font/google";
 import Header from "./_components/Header";
 
 import "./globals.css";
 
-const workSans = Work_Sans({
-  variable: "--font-work-sans",
+const fredoka = Fredoka({
+  variable: "--font-fredoka",
   subsets: ["latin"],
 });
 
@@ -21,7 +21,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${workSans.variable} antialiased mx-auto`}>
+      <body className={`${fredoka.variable} font-fredoka antialiased mx-auto`}>
         <Header />
         <div className="container mx-auto my-8 px-4">{children}</div>
       </body>
