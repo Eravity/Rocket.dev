@@ -7,8 +7,8 @@ type CourseData = {
   image: StaticImageData;
   title: string;
   materials: number;
-  competition: string;
-  deadline: string;
+  competition: number;
+  deadline: number;
   buttonText: string;
 }
 
@@ -17,16 +17,16 @@ const courses: CourseData[] = [
     image: image1,
     title: "Mastering UI/UX Design: A Guide...",
     materials: 5,
-    competition: "-",
-    deadline: "1 Day",
+    competition: 0,
+    deadline: 1,
     buttonText: "Start"
   },
   {
     image: image2,
     title: "Creating Engaging Learning Jour...",
     materials: 14,
-    competition: "64%",
-    deadline: "12 hrs",
+    competition: 64,
+    deadline: 12,
     buttonText: "Continue"
   }
 ];
@@ -63,9 +63,9 @@ const CourseRow = ({ course }: { course: CourseData }) => (
       </h2>
     </div>
     <InfoCell label="Content" value={`${course.materials} Materials`} />
-    <InfoCell label="Competition" value={course.competition} />
-    <InfoCell label="Deadline" value={course.deadline} />
-    <div className="flex items-center justify-center">
+    <InfoCell label="Competition" value={`${course.competition}%`} />
+    <InfoCell label="Deadline" value={`${course.deadline} hrs`} />
+    <div className="flex items-center justify-end pr-7">
       <button className="px-4 py-1 border rounded-md">
         {course.buttonText}
       </button>
