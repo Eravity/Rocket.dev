@@ -63,7 +63,7 @@ const CourseRow = ({ course }: { course: CourseData }) => (
   <>
     <div className="flex items-center justify-center p-2">
       <div className="relative w-full h-full">
-        <Link href={''}>
+        <Link href={""}>
           <Image
             src={course.image}
             alt={course.title}
