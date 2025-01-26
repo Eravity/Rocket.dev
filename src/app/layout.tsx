@@ -25,7 +25,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${fredoka.variable} font-fredoka antialiased`}>
         <Header />
-        <div className="container mx-auto my-8 px-4 md:px-6">{children}</div>
+        <div className="container mx-auto my-8 px-4 md:px-16">{children}</div>
       </body>
     </html>
   );
