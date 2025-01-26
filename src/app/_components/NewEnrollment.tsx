@@ -10,29 +10,29 @@ export default function NewEnrollment() {
         <h1 className="font-bold text-lg mb-4">New enrollment</h1>
         <InfoSign info="Here are the courses you enrolled in" />
       </div>
-      <div className="flex gap-5">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         <CourseBox
           imageUrl={image1.src}
-          title="Course Title"
-          resourceType="video"
-          tags={["tag1", "tag2"]}
-          status="active"
+          title="Enhancing Learning Engagement Through Thoughtful UX/UI"
+          resourceType="Course"
+          tags={["Prototyping", "Urgent"]}
+          status="Active"
         />
 
         <CourseBox
           imageUrl={image2.src}
-          title="Course Title"
-          resourceType="video"
-          tags={["tag1", "tag2"]}
-          status="active"
+          title="UX/UI 101 - For Beginners to be great and good Designer"
+          resourceType="Article"
+          tags={["Prototyping", "Not Urgent"]}
+          status="Not Started"
         />
 
         <CourseBox
           imageUrl={image1.src}
-          title="Course Title"
-          resourceType="video"
-          tags={["tag1", "tag2"]}
-          status="active"
+          title="Mastering UI Design for Impactful Experience"
+          resourceType="Article"
+          tags={["Prototyping", "Not Urgent"]}
+          status="Not Started"
         />
       </div>
     </section>

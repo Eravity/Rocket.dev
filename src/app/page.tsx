@@ -2,7 +2,7 @@ import Greeting from "./_components/Greeting";
 import InProgressContent from "./_components/InProgressContent";
 import NewEnrollment from "./_components/NewEnrollment";
 import Stats from "./_components/Stats";
-import Treat from "./_components/Treat";
+// import Treat from "./_components/Treat";
 
 export default function Home() {
   return (
@@ -13,7 +13,7 @@ export default function Home() {
         </div>
         <Stats />
       </div>
-      <Treat />
+      {/* <Treat /> */}
       <div className="grid grid-cols-4 gap-4">
         <div className="col-span-3 grid gap-10">
           <InProgressContent />
