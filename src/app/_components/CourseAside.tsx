@@ -1,0 +1,12 @@
+import ArticleIcon from "./ArticleIcon";
+import CourseData from "./CourseData";
+import Time from "./Time";
+
+export default function CourseAside() {
+  return (
+    <div className="col-span-1 flex flex-col gap-4">
+      <CourseData icon={<ArticleIcon />} value={124} label={'Learning content'}/>
+      <CourseData icon={<Time />} value={124} label={'Learning content'}/>
+    </div>
+  );
+}

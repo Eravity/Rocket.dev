@@ -5,7 +5,7 @@ import image2 from "../images/2.jpg";
 
 export default function NewEnrollment() {
   return (
-    <section className="flex flex-col">
+    <section className="flex flex-col relative">
       <div className="flex gap-2 items-baseline">
         <h1 className="font-bold text-lg mb-4">New enrollment</h1>
         <InfoSign info="Here are the courses you enrolled in" />

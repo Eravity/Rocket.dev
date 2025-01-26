@@ -69,14 +69,16 @@ const InfoCell = ({
 
 const CourseRow = ({ course }: { course: CourseData }) => (
   <>
-    <div className="flex items-center justify-center p-2 min-h-[80px] sm:min-h-0">
-      <div className="relative w-full h-full">
-        <Link href={""}>
+    <div className="flex items-center justify-center p-2">
+      <div className="relative w-full aspect-[16/10] max-h-[80px] overflow-hidden rounded-lg">
+        <Link href={""} className="block h-full">
           <Image
             src={course.image}
             alt={course.title}
             fill
-            className="object-cover rounded-lg absolute inset-0"
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            priority
+            className="object-cover absolute inset-0 transition-transform duration-300 hover:scale-110"
           />
         </Link>
       </div>
@@ -85,14 +87,19 @@ const CourseRow = ({ course }: { course: CourseData }) => (
       <h2 className="w-full h-1/2 flex items-center text-neutral-500 font-semibold text-xs sm:text-sm">
         Course
       </h2>
-      <Link href={""} className="w-full h-1/2 text-sm sm:text-base md:text-lg font-bold line-clamp-1">
-        {course.title}
-      </Link>
+      <div className="w-full h-1/2">
+        <Link 
+          href={""} 
+          className="inline-block text-sm sm:text-base md:text-lg font-bold transition-colors duration-200 hover:text-blueLotus line-clamp-1"
+        >
+          {course.title}
+        </Link>
+      </div>
     </div>
     <InfoCell 
       label="Content" 
       value={<>
-        <Files /> {course.materials} Materials
+        <Files /> {course.materials}
       </>} 
     />
     <InfoCell 
@@ -111,8 +118,8 @@ const CourseRow = ({ course }: { course: CourseData }) => (
       }
       isUrgent={course.deadline < 24}
     />
-    <div className="flex items-center justify-end pr-2 sm:pr-7">
-      <button className="px-3 sm:px-4 py-1 border rounded-md text-xs sm:text-sm">
+    <div className="flex items-center justify-end pr-2 sm:pr-4 md:pr-6 lg:pr-8">
+      <button className="px-3 sm:px-4 py-1 border rounded-md text-xs sm:text-sm transition-all duration-200 hover:bg-blueLotus hover:text-white hover:border-blueLotus active:scale-95">
         {course.buttonText}
       </button>
     </div>
@@ -121,7 +128,7 @@ const CourseRow = ({ course }: { course: CourseData }) => (
 
 export default function CourseProgress() {
   return (
-    <div className="w-full h-auto sm:h-48 grid grid-cols-8 grid-rows-[auto_1px_auto] sm:grid-rows-[1fr_1px_1fr] rounded-lg border overflow-x-auto">
+    <div className="w-full h-auto sm:h-48 grid grid-cols-8 grid-rows-[auto_1px_auto] sm:grid-rows-[1fr_1px_1fr] rounded-lg border overflow-hidden duration-200">
       <CourseRow course={courses[0]} />
       <div className="col-span-8 bg-gray-200" />
       <CourseRow course={courses[1]} />
