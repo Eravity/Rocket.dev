@@ -52,12 +52,12 @@ const InfoCell = ({
   icon?: React.ReactNode;
   isUrgent?: boolean;
 }) => (
-  <div className="flex items-center justify-center flex-col p-2 space-y-1">
-    <h2 className="w-full h-1/2 flex items-center text-neutral-500 font-semibold text-xs sm:text-sm">
+  <div className="flex items-start justify-center flex-col p-2 space-y-2">
+    <h2 className="w-full flex items-center text-neutral-500 font-semibold text-xs sm:text-sm">
       {label}
     </h2>
     <h2
-      className={`w-full h-1/2 flex gap-1 items-center font-semibold text-xs sm:text-sm ${
+      className={`w-full flex gap-1 items-center font-semibold text-xs sm:text-sm ${
         isUrgent ? "text-red-500" : ""
       }`}
     >
@@ -70,7 +70,7 @@ const InfoCell = ({
 const CourseRow = ({ course }: { course: CourseData }) => (
   <>
     <div className="flex items-center justify-center p-2">
-      <div className="relative w-full aspect-[16/10] max-h-[80px] overflow-hidden rounded-lg">
+      <div className="relative w-full h-full max-h-[80px] overflow-hidden rounded-lg">
         <Link href={""} className="block h-full">
           <Image
             src={course.image}
@@ -83,11 +83,11 @@ const CourseRow = ({ course }: { course: CourseData }) => (
         </Link>
       </div>
     </div>
-    <div className="col-span-3 flex flex-col space-y-1 items-start justify-center p-2">
-      <h2 className="w-full h-1/2 flex items-center text-neutral-500 font-semibold text-xs sm:text-sm">
+    <div className="col-span-3 flex flex-col items-start justify-center p-2 space-y-0.5">
+      <h2 className="w-full flex items-center text-neutral-500 font-semibold text-xs sm:text-sm">
         Course
       </h2>
-      <div className="w-full h-1/2">
+      <div className="w-full">
         <Link 
           href={""} 
           className="inline-block text-sm sm:text-base md:text-lg font-bold transition-colors duration-200 hover:text-blueLotus line-clamp-1"
@@ -128,7 +128,7 @@ const CourseRow = ({ course }: { course: CourseData }) => (
 
 export default function CourseProgress() {
   return (
-    <div className="w-full h-auto sm:h-48 grid grid-cols-8 grid-rows-[auto_1px_auto] sm:grid-rows-[1fr_1px_1fr] rounded-lg border overflow-hidden duration-200">
+    <div className="w-full h-auto sm:h-52 grid grid-cols-8 grid-rows-[auto_1px_auto] sm:grid-rows-[1fr_1px_1fr] rounded-lg border overflow-hidden duration-200">
       <CourseRow course={courses[0]} />
       <div className="col-span-8 bg-gray-200" />
       <CourseRow course={courses[1]} />

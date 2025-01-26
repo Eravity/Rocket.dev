@@ -11,13 +11,14 @@ interface CourseBoxProps {
 export function CourseBox({ imageUrl, title, resourceType, tags, status }: CourseBoxProps) {
   return (
     <div className="h-full flex flex-col w-full border p-2 sm:p-3 rounded-lg overflow-hidden transition-all duration-300 hover:shadow-lg cursor-pointer">
-      <div className="overflow-hidden rounded-lg">
+      <div className="overflow-hidden rounded-lg aspect-video relative">
         <Image
-          className="w-full h-[200px] md:h-[160px] lg:h-[200px] object-cover rounded-lg transition-transform duration-300 hover:scale-105"
+          className="absolute inset-0 w-full h-full object-cover rounded-lg transition-transform duration-300 hover:scale-105"
           src={imageUrl}
           alt={title}
           width={400}
           height={300}
+          priority
         />
       </div>
       <div className="flex flex-col justify-between flex-grow px-2 sm:px-4 py-2 sm:py-3">
