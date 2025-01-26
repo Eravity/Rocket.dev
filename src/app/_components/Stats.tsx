@@ -7,7 +7,7 @@ type StatsCardProps = {
 };
 
 const StatsCard = ({ Icon, value, label }: StatsCardProps) => (
-  <div className="flex justify-between h-16 sm:h-16 md:h-12 lg:h-16 border-2 rounded-lg p-1.5 sm:p-2 w-full sm:w-auto">
+  <div className="flex justify-between h-16 sm:h-16 md:h-12 lg:h-16 border rounded-lg p-1.5 sm:p-2 w-full sm:w-auto">
     <div className="min-w-[32px] sm:min-w-[40px] md:min-w-[48px] lg:min-w-[56px] flex justify-center items-center">
       <div className="w-5 sm:w-6 md:w-7 lg:w-8">
         <Icon />
