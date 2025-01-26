@@ -12,7 +12,7 @@ export default function Header() {
   return (
     <MenuProvider>
       <SearchProvider>
-        <header className="flex flex-col container mx-auto px-16 pt-4 mb-2">
+        <header className="flex flex-col container mx-auto md:px-6 2xl:px-16 pt-4 mb-2">
           <div className="flex justify-between items-center">
             <div className="flex space-x-5 items-center hover:opacity-80 transition-opacity duration-200">
               <Logo />
