@@ -8,24 +8,11 @@ import useDrinkPreparation, {
   formatTime,
 } from "@/app/hooks/useDrinkPreparation";
 
-// const COLORS = {
-//   brown: "bg-[#7c5d39]",
-//   lightBrown: "bg-[#ccac86]",
-//   cream: "bg-[#fff7e0]",
-// } as const;
-
 const COLORS = {
   orange: "bg-[#ffde59]",
   lightOrange: "bg-[#fff3c2]",
   creamOrange: "bg-[#fffae6]",
 } as const;
-
-// const COLORS = {
-//   orange: "bg-[#ffc242]",
-//   lightOrange: "bg-[#ffd47a]/60",
-//   creamOrange: "bg-[#ffe9cc]",
-// } as const;
-
 
 export default function Treat() {
   const { coffee, tea, hotChocolate } = drinks;
@@ -72,7 +59,9 @@ export default function Treat() {
   };
 
   return (
-    <div className={`rounded-xl flex flex-col md:flex-row gap-4 md:gap-0 justify-between p-4 ${COLORS.creamOrange}`}>
+    <div
+      className={`rounded-xl flex flex-col md:flex-row gap-4 md:gap-0 justify-between p-4 ${COLORS.creamOrange}`}
+    >
       <div className="space-y-2 flex-1">
         <div className="flex items-center space-x-3">
           <div
@@ -85,7 +74,9 @@ export default function Treat() {
         <p className="max-w-screen-xl text-sm md:text-base">{currentQuote}</p>
       </div>
       <div className="flex items-center justify-center">
-        <div className={`h-[1px] md:h-full md:w-[1px] mr-0 md:mx-2 w-full my-2 md:my-auto ${COLORS.orange}`} />
+        <div
+          className={`h-[1px] md:h-full md:w-[1px] mr-0 md:mx-2 w-full my-2 md:my-auto ${COLORS.orange}`}
+        />
         <div className="space-y-2 w-full px-2 md:px-4">
           <div className="text-sm md:text-base font-semibold text-center">
             {status === "cooldown"
@@ -110,11 +101,13 @@ export default function Treat() {
                 </button>
               ))
             ) : (
-              <div className={`w-full min-w-[200px] p-2 text-center border-2 border-[#ffde59] ${
-                COLORS.lightOrange
-              } rounded-lg transition-all duration-300 ${
-                status === "preparing" ? "animate-pulse" : ""
-              }`}>
+              <div
+                className={`w-full min-w-[200px] p-2 text-center border-2 border-[#ffde59] ${
+                  COLORS.lightOrange
+                } rounded-lg transition-all duration-300 ${
+                  status === "preparing" ? "animate-pulse" : ""
+                }`}
+              >
                 {getStatusContent()}
               </div>
             )}
