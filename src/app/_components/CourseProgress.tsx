@@ -1,9 +1,17 @@
+"use client"
+
 import Image from "next/image";
 import Link from "next/link";
 import image1 from "../images/1.jpg";
 import image2 from "../images/2.jpg";
 import { StaticImageData } from "next/image";
 import Clock from "./Clock";
+import Files from "./Files";
+import dynamic from "next/dynamic";
+
+const DynamicProgressPieChart = dynamic(() => import("./ProgressPieChart"), {
+  ssr: false
+});
 
 type CourseData = {
   image: StaticImageData;
@@ -40,12 +48,12 @@ const InfoCell = ({
   isUrgent,
 }: {
   label: string;
-  value: string | number;
+  value: string | number | React.ReactNode;
   icon?: React.ReactNode;
   isUrgent?: boolean;
 }) => (
   <div className="flex items-center justify-center flex-col p-2 space-y-1">
-    <h2 className="w-full h-1/2 flex items-center text-neutral-700 font-semibold text-xs sm:text-sm">
+    <h2 className="w-full h-1/2 flex items-center text-neutral-500 font-semibold text-xs sm:text-sm">
       {label}
     </h2>
     <h2
@@ -74,15 +82,25 @@ const CourseRow = ({ course }: { course: CourseData }) => (
       </div>
     </div>
     <div className="col-span-3 flex flex-col space-y-1 items-start justify-center p-2">
-      <h2 className="w-full h-1/2 flex items-center text-neutral-700 font-semibold text-xs sm:text-sm">
+      <h2 className="w-full h-1/2 flex items-center text-neutral-500 font-semibold text-xs sm:text-sm">
         Course
       </h2>
       <Link href={""} className="w-full h-1/2 text-sm sm:text-base md:text-lg font-bold line-clamp-1">
         {course.title}
       </Link>
     </div>
-    <InfoCell label="Content" value={`${course.materials} Materials`} />
-    <InfoCell label="Competition" value={`${course.competition}%`} />
+    <InfoCell 
+      label="Content" 
+      value={<>
+        <Files /> {course.materials} Materials
+      </>} 
+    />
+    <InfoCell 
+      label="Competition" 
+      value={<>
+        <DynamicProgressPieChart data={course.competition} /> {course.competition}%
+      </>} 
+    />
     <InfoCell
       icon={<Clock color={course.deadline < 24 ? "red" : "#737373"} />}
       label="Deadline"

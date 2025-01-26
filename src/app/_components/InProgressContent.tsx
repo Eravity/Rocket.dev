@@ -1,4 +1,9 @@
-import CourseProgress from "./CourseProgress";
+"use client"
+
+import dynamic from "next/dynamic";
+const DynamicCourseProgress = dynamic(() => import("./CourseProgress"), {
+  ssr: false
+});
 import InfoSign from "./InfoSign";
 
 export default function InProgressContent() {
@@ -13,7 +18,7 @@ export default function InProgressContent() {
           View all
         </button>
       </div>
-      <CourseProgress />
+      <DynamicCourseProgress />
     </div>
   );
 }
