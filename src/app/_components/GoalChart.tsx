@@ -14,9 +14,14 @@ const COLORS = {
 } as const;
 
 export default function GoalChart({ data }: { data: number }) {
-  const validatedData = Math.max(0, Math.min(100, data));
-
-  const testData = [{ value: 6 }, { value: 30 }];
+  // Calculate percentage here instead
+  const percentage = (data / 30) * 100;
+  const validatedData = Math.max(0, Math.min(100, percentage));
+  
+  const chartData = [
+    { value: data },           // completed minutes
+    { value: Math.max(30 - data, 0) }  // remaining minutes
+  ];
 
   return (
     <div
@@ -34,7 +39,7 @@ export default function GoalChart({ data }: { data: number }) {
     >
       <PieChart width={CHART_SIZE} height={CHART_SIZE}>
         <Pie
-          data={testData}
+          data={chartData}
           dataKey="value"
           cx="50%"
           cy="50%"
@@ -44,7 +49,7 @@ export default function GoalChart({ data }: { data: number }) {
           endAngle={END_ANGLE}
           cornerRadius={CORNER_RADIUS}
         >
-          {testData.map((entry, index) => (
+          {chartData.map((entry, index) => (
             <Cell
               key={`cell-${index}`}
               fill={index === 0 ? COLORS.completed : COLORS.remaining}
