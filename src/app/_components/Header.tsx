@@ -1,12 +1,12 @@
 import { MenuProvider } from './MenuContext';
 import { SearchProvider } from './SearchContext';
-import Bell from "./Bell";
-import Calendar from "./Calendar";
-import Logo from "./Logo";
+import Bell from "./Icons/Bell";
+import Calendar from "./Icons/Calendar";
+import Logo from "./Icons/Logo";
 import Navigation from "./Navigation";
 import Profile from "./Profile";
 import Search from "./Search";
-import MobileMenuButton from "./MobileMenuButton";
+import MobileMenuButton from "./Icons/MobileMenuButton";
 
 export default function Header() {
   return (

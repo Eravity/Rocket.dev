@@ -1,4 +1,4 @@
-import icons from "./Icons";
+import icons from "./Icons/Icons";
 
 type StatsCardProps = {
   Icon: React.ComponentType;

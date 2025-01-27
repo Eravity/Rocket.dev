@@ -1,6 +1,6 @@
-import ArticleIcon from "./ArticleIcon";
+import ArticleIcon from "./Icons/ArticleIcon";
 import CourseData from "./CourseData";
-import Time from "./Time";
+import Time from "./Icons/Time";
 
 export default function CourseAside() {
   return (

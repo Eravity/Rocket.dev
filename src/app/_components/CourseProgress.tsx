@@ -1,16 +1,17 @@
-"use client"
+"use client";
 
 import Image from "next/image";
 import Link from "next/link";
 import image1 from "../images/1.jpg";
 import image2 from "../images/2.jpg";
 import { StaticImageData } from "next/image";
-import Clock from "./Clock";
-import Files from "./Files";
+import Clock from "./Icons/Clock";
+import Files from "./Icons/Files";
 import dynamic from "next/dynamic";
+import CourseIcon from "./Icons/course";
 
 const DynamicProgressPieChart = dynamic(() => import("./ProgressPieChart"), {
-  ssr: false
+  ssr: false,
 });
 
 type CourseData = {
@@ -84,29 +85,39 @@ const CourseRow = ({ course }: { course: CourseData }) => (
       </div>
     </div>
     <div className="col-span-3 flex flex-col items-start justify-center p-2 space-y-0.5">
-      <h2 className="w-full flex items-center text-neutral-500 font-semibold text-xs sm:text-sm">
-        Course
-      </h2>
+      <div className="flex gap-1">
+        <div className="w-fit h-fit flex items-center justify-center p-[2px] rounded bg-skySplash">
+          <CourseIcon />
+        </div>
+        <h2 className="w-full flex items-center text-neutral-500 font-semibold text-xs sm:text-sm">
+          Course
+        </h2>
+      </div>
       <div className="w-full">
-        <Link 
-          href={""} 
+        <Link
+          href={""}
           className="inline-block text-sm sm:text-base md:text-lg font-bold transition-colors duration-200 hover:text-blueLotus line-clamp-1"
         >
           {course.title}
         </Link>
       </div>
     </div>
-    <InfoCell 
-      label="Content" 
-      value={<>
-        <Files /> {course.materials}
-      </>} 
+    <InfoCell
+      label="Content"
+      value={
+        <>
+          <Files /> {course.materials}
+        </>
+      }
     />
-    <InfoCell 
-      label="Competition" 
-      value={<>
-        <DynamicProgressPieChart data={course.competition} /> {course.competition}%
-      </>} 
+    <InfoCell
+      label="Competition"
+      value={
+        <>
+          <DynamicProgressPieChart data={course.competition} />{" "}
+          {course.competition}%
+        </>
+      }
     />
     <InfoCell
       icon={<Clock color={course.deadline < 24 ? "red" : "#737373"} />}

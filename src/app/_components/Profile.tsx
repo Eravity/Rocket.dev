@@ -1,4 +1,4 @@
-import ArrowDown from "./ArrowDown";
+import ArrowDown from "./Icons/ArrowDown";
 
 const Profile: React.FC = () => {
   return (

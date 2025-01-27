@@ -1,5 +1,5 @@
 'use client'
-import { useMenu } from './MenuContext';
+import { useMenu } from '../MenuContext';
 
 export default function MobileMenuButton() {
   const { isMenuOpen, setIsMenuOpen } = useMenu();
