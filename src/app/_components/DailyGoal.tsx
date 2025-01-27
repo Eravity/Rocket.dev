@@ -4,6 +4,7 @@ import dynamic from "next/dynamic";
 import InfoSign from "./InfoSign";
 import Rocket from "./Icons/Rocket";
 import { useLearningGoal } from "../hooks/useLearningGoal";
+import { useLearningState } from "../hooks/useLearningState";
 
 const DynamicChart = dynamic(() => import("./GoalChart"), { ssr: false });
 
@@ -30,6 +31,7 @@ const GoalStats = ({
   totalGoal,
   streak,
   isActive,
+  hasStartedToday,
   onStart,
   onPause,
   formattedDates,
@@ -38,6 +40,8 @@ const GoalStats = ({
   totalGoal: number;
   streak: { days: number; startDate: Date; endDate: Date };
   isActive: boolean;
+  isPaused: boolean;
+  hasStartedToday: boolean;
   onStart: () => void;
   onPause: () => void;
   formattedDates: { startDate: string; endDate: string };
@@ -68,7 +72,7 @@ const GoalStats = ({
       onClick={isActive ? onPause : onStart}
       className="self-start sm:self-auto w-fit mx-auto font-semibold underline-offset-[5px] border-b-2 border-blueLotus text-blueLotus hover:opacity-80 active:scale-95 transition-all duration-200 text-sm sm:text-base"
     >
-      {isActive ? "Pause Learning" : "Start Learning"}
+      {isActive ? "Pause Learning" : hasStartedToday ? "Continue Learning" : "Start Learning"}
     </button>
   </div>
 );
@@ -85,6 +89,18 @@ export default function DailyGoal() {
     formattedDates,
   } = useLearningGoal(30);
 
+  const { learningState, updateLearningState } = useLearningState();
+
+  const handleStart = () => {
+    updateLearningState({ hasStartedToday: true, isPaused: false });
+    startLearning();
+  };
+
+  const handlePause = () => {
+    updateLearningState({ isPaused: true });
+    pauseLearning();
+  };
+
   return (
     <div className="w-full h-fit flex flex-col p-4 border rounded-xl">
       <GoalHeader />
@@ -95,8 +111,10 @@ export default function DailyGoal() {
           totalGoal={totalGoal}
           streak={streak}
           isActive={isActive}
-          onStart={startLearning}
-          onPause={pauseLearning}
+          isPaused={learningState.isPaused}
+          hasStartedToday={learningState.hasStartedToday}
+          onStart={handleStart}
+          onPause={handlePause}
           formattedDates={formattedDates}
         />
       </div>

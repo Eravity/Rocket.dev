@@ -1,15 +1,37 @@
 "use client";
 
+import { useState, KeyboardEvent } from 'react';
+
 export default function Search() {
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const handleSearch = () => {
+    if (searchQuery.trim()) {
+      // TODO: Implement search logic
+      console.log('Searching for:', searchQuery);
+    }
+  };
+
+  const handleKeyPress = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      handleSearch();
+    }
+  };
+
   return (
     <div className="relative w-full">
       <div className="flex rounded-lg focus-within:ring-2 focus-within:ring-blueLotus">
         <input
           type="text"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          onKeyPress={handleKeyPress}
           placeholder="Search articles"
           className="w-full px-4 py-2 border rounded-l-lg focus:outline-none"
+          aria-label="Search articles"
         />
         <button
+          onClick={handleSearch}
           className="px-4 py-2 bg-blueLotus text-white rounded-r-lg hover:bg-opacity-90 flex items-center border-y border-r"
           aria-label="Search"
         >
