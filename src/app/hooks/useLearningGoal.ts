@@ -1,3 +1,5 @@
+'use client';
+
 import { useState, useEffect } from 'react';
 import { useIntlDateTime } from './intl';
 import { useLearningEvent } from './useLearningEvent';
@@ -56,6 +58,21 @@ export const useLearningGoal = (initialGoal: number = 30) => {
       },
     };
   });
+
+  const [isHydrated, setIsHydrated] = useState(false);
+
+  useEffect(() => {
+    setIsHydrated(true);
+    // Load saved minutes from localStorage
+    const savedMinutes = localStorage.getItem('todayMinutes');
+    if (savedMinutes) {
+      setState(prev => ({
+        ...prev,
+        todayMinutes: Number(savedMinutes),
+        currentProgress: Number(savedMinutes),
+      }));
+    }
+  }, []);
 
   useEffect(() => {
     let interval: NodeJS.Timeout;
@@ -122,7 +139,7 @@ export const useLearningGoal = (initialGoal: number = 30) => {
     startLearning,
     pauseLearning,
     resetProgress,
-    progressPercentage: state.todayMinutes,
+    progressPercentage: isHydrated ? state.todayMinutes : 0,
     formattedDates: {
       startDate: formatDate(state.streak.startDate),
       endDate: formatDate(state.streak.endDate)
