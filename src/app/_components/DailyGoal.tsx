@@ -75,7 +75,7 @@ const GoalStats = ({
           {streak.days} {streak.days === 1 ? "Day" : "Days"}
         </span>
       </h2>
-      <p className="text-sm text-neutral-400">
+      <p className="text-sm font-semibold text-neutral-400">
         ({formattedDates.startDate} - {formattedDates.endDate})
       </p>
     </div>

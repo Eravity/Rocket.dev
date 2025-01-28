@@ -10,7 +10,7 @@ const fredoka = Fredoka({
 });
 
 export const metadata: Metadata = {
-  title: "Rocket Learning Platform",
+  title: "Rocket",
   description: "Your personalized learning journey starts here",
   keywords:
     "education, online learning, courses, frontend, react, nextjs, html, css, javascript, fullstack",
