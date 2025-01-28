@@ -14,13 +14,13 @@ const COLORS = {
 } as const;
 
 export default function GoalChart({ data }: { data: number }) {
-  // Calculate percentage here instead
+
   const percentage = (data / 30) * 100;
   const validatedData = Math.max(0, Math.min(100, percentage));
   
   const chartData = [
-    { value: data },           // completed minutes
-    { value: Math.max(30 - data, 0) }  // remaining minutes
+    { value: data },          
+    { value: Math.max(30 - data, 0) }  
   ];
 
   return (

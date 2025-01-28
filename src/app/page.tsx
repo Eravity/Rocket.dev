@@ -4,6 +4,7 @@ import NewEnrollment from "./_components/NewEnrollment";
 import Stats from "./_components/Stats";
 import CourseAside from "./_components/CourseAside";
 import Treat from "./_components/Treat";
+import MostViewedContents from "./_components/MostViewedContents";
 
 export default function Home() {
   return (
@@ -19,6 +20,7 @@ export default function Home() {
         <div className="md:col-span-3 grid gap-6 md:gap-10">
           <InProgressContent />
           <NewEnrollment />
+          <MostViewedContents/>
         </div>
         <CourseAside />
       </div>
