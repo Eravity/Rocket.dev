@@ -76,13 +76,12 @@ const CourseRow = ({ course }: { course: CourseData }) => {
     <>
       <div className="flex items-center justify-center p-2">
         <div className="relative w-full h-full max-h-[80px] overflow-hidden rounded-lg">
-          <Link href={""} className="block h-full">
+          <Link href={""} className="relative block w-full h-full">
             <Image
               src={course.image}
               alt={course.title}
               fill
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-              priority
               className="object-cover absolute inset-0 transition-transform duration-300 hover:scale-110"
             />
           </Link>

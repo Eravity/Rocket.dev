@@ -13,16 +13,17 @@ const Content = ({
   icon?: string;
 }) => {
   return (
-    <Link href={""} className="flex p-2 border border-gray-200 rounded-lg">
+    <div className="flex justify-between p-2 border border-gray-200 rounded-lg">
       <h1 className="flex gap-2 text-sm font-semibold">
-        {icon} {title}
+        {icon} <Link href={""}>{title}</Link>
         {type && (
           <span className="text-gray-500 bg-neutral-200 px-2 flex items-center justify-center w-fit rounded-full">
             {type}
           </span>
         )}
       </h1>
-    </Link>
+        {completition}%
+    </div>
   );
 };
 
@@ -51,5 +52,3 @@ export default function MostViewedContents() {
     </section>
   );
 }
-
-
