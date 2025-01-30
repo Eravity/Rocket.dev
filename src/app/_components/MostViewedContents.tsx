@@ -31,6 +31,8 @@ export default function MostViewedContents() {
   ];
 
   const { topContent, otherContent } = useContentManager(contents);
+  const totalTop = topContent.reduce((acc, item) => acc + item.completition, 0);
+  otherContent.completition = 100 - totalTop;
 
   return (
     <section className="flex flex-col gap-3">
