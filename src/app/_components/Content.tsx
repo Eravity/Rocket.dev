@@ -1,11 +1,13 @@
 import Link from "next/link";
+import CourseIcon from "./Icons/Course";
+import QuizIcon from "./Icons/QuizIcon";
+import DocsIcon from "./Icons/DocsIcon";
 
 const Content = ({
   title,
   type,
   displayPercentage,
   timeSpent,
-  icon,
 }: {
   title: string;
   type?: string;
@@ -16,9 +18,16 @@ const Content = ({
   return (
     <div className="flex justify-between p-2 border border-gray-200 rounded-lg">
       <h1 className="flex gap-2 text-sm items-center font-semibold">
-        {icon} <Link href={""}>{title}</Link>
+        {type === "Course" ? (
+          <CourseIcon width={20} height={20} />
+        ) : type === "Quiz" ? (
+          <QuizIcon width={20} height={20} />
+        ) : type === "Page" ? (
+          <DocsIcon width={20} height={20} />
+        ) : null}
+        <Link href={""}>{title}</Link>
         {type && (
-          <span className="text-gray-500 bg-neutral-200 px-2 flex items-center justify-center w-fit rounded-full">
+          <span className="text-gray-500 bg-neutral-200 px-2 flex items-center justify-center w-fit rounded">
             {type}
           </span>
         )}
