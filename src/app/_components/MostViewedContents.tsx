@@ -7,32 +7,30 @@ export default function MostViewedContents() {
     {
       title: "Enhancing Learning Engagement Through Thoughtful UX/UI",
       type: "Page",
-      completition: 5, // adjusted
-      timeSpent: new Date(Date.now() - 1000 * 60 * 150), 
+      completition: 5,
+      timeSpent: new Date(Date.now() - 1000 * 60 * 150).toISOString(), 
     },
     {
       title: "Enhancing Learning Engagement Through Thoughtful UX/UI",
       type: "Course",
-      completition: 20, // adjusted from 25
-      timeSpent: new Date(Date.now() - 1000 * 60 * 45),
+      completition: 20,
+      timeSpent: new Date(Date.now() - 1000 * 60 * 45).toISOString(),
     },
     {
       title: "Introduction to React",
       type: "Course",
-      completition: 45, // unchanged
-      timeSpent: new Date(Date.now() - 1000 * 60 * 75), 
+      completition: 45, 
+      timeSpent: new Date(Date.now() - 1000 * 60 * 75).toISOString(), 
     },
     {
       title: "TypeScript Basics",
       type: "Page",
-      completition: 30, // adjusted from 15
-      timeSpent: new Date(Date.now() - 1000 * 60 * 105), 
+      completition: 30, 
+      timeSpent: new Date(Date.now() - 1000 * 60 * 105).toISOString(), 
     },
   ];
 
   const { topContent, otherContent } = useContentManager(contents);
-  const totalTop = topContent.reduce((acc, item) => acc + item.completition, 0);
-  otherContent.completition = 100 - totalTop;
 
   return (
     <section className="flex flex-col gap-3">
@@ -46,11 +44,15 @@ export default function MostViewedContents() {
             key={index}
             title={item.title}
             type={item.type}
-            completition={item.completition}
+            displayPercentage={item.displayPercentage}
             timeSpent={item.timeSpent}
           />
         ))}
-        <Content {...otherContent} />
+        <Content 
+          title={otherContent.title}
+          displayPercentage={otherContent.displayPercentage}
+          timeSpent={otherContent.timeSpent}
+        />
       </div>
     </section>
   );

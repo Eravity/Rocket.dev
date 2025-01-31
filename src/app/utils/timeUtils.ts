@@ -7,10 +7,16 @@ export const parseTime = (timeStr: string): number => {
   return parseInt(timeStr.replace('m', ''));
 };
 
-export const calculateTimeSpent = (date: Date): number => {
+export const calculateTimeSpent = (date: Date | string | number): number => {
+  const parsedDate = new Date(date);
+  if (isNaN(parsedDate.getTime())) {
+    console.warn('Invalid date provided');
+    return 0;
+  }
+  
   const now = new Date();
-  const diffInMinutes = Math.floor((now.getTime() - date.getTime()) / (1000 * 60));
-  return diffInMinutes;
+  const diffInMinutes = Math.floor((now.getTime() - parsedDate.getTime()) / (1000 * 60));
+  return Math.max(0, diffInMinutes);
 };
 
 export const formatTime = (minutes: number): string => {

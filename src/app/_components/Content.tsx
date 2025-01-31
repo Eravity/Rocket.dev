@@ -3,13 +3,13 @@ import Link from "next/link";
 const Content = ({
   title,
   type,
-  completition,
+  displayPercentage,
   timeSpent,
   icon,
 }: {
   title: string;
   type?: string;
-  completition?: number;
+  displayPercentage: number;
   timeSpent?: string;
   icon?: string;
 }) => {
@@ -25,11 +25,11 @@ const Content = ({
       </h1>
       <div className="w-1/4 flex relative items-center ml-auto h-6 rounded">
         <h1 className="absolute z-10 text-sm font-semibold text-neutral-600 pr-1 w-full text-right">
-          {completition}% ({timeSpent})
+          {displayPercentage || 0}% ({timeSpent || '0h'})
         </h1>
         <div
           className="rounded h-full ml-auto bg-[#82ca9d]/30"
-          style={{ width: `${completition}%` }}
+          style={{ width: `${displayPercentage || 0}%` }}
         ></div>
       </div>
     </div>
