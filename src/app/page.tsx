@@ -5,6 +5,7 @@ import Stats from "./_components/Stats";
 import CourseAside from "./_components/CourseAside";
 import Treat from "./_components/Treat";
 import MostViewedContents from "./_components/MostViewedContents";
+import ToBeReviewed from "./_components/ToBeReviewed";
 
 export default function Home() {
   return (
@@ -21,6 +22,7 @@ export default function Home() {
           <InProgressContent />
           <NewEnrollment />
           <MostViewedContents/>
+          <ToBeReviewed/>
         </div>
         <CourseAside />
       </div>

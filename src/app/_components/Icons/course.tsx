@@ -1,5 +1,6 @@
 export default function CourseIcon() {
   return (
+    <div className="w-fit h-fit flex items-center justify-center p-[3px] rounded bg-skySplash">
     <svg
       width="15px"
       height="15px"
@@ -15,5 +16,6 @@ export default function CourseIcon() {
         strokeLinejoin="round"
       />
     </svg>
+    </div>
   );
 }

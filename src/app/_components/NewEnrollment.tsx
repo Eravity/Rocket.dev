@@ -1,16 +1,13 @@
 import { CourseBox } from "./CourseBox";
-import InfoSign from "./InfoSign";
 import image1 from "../images/1.jpg";
 import image2 from "../images/2.jpg";
+import SectionTitle from "./SectionTitle";
 
 export default function NewEnrollment() {
   return (
-    <section className="flex flex-col relative">
+    <section className="flex flex-col gap-3 relative">
       <div className="flex items-baseline justify-between">
-        <div className="flex gap-2 items-baseline">
-          <h1 className="font-bold text-lg mb-4">New enrollment</h1>
-          <InfoSign info="Here are the courses you enrolled in" />
-        </div>
+        <SectionTitle title="New enrollment" info="Here you can see the courses you have enrolled in" />
         <button className="self-start sm:self-auto font-semibold underline-offset-[5px] border-b-2 border-blueLotus text-blueLotus hover:opacity-80 active:scale-95 transition-all duration-200 text-sm sm:text-base">
           View all
         </button>

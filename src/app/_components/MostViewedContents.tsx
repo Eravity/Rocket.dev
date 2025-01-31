@@ -1,14 +1,17 @@
-import InfoSign from "./InfoSign";
 import { useContentManager } from "../hooks/useContentManager";
 import Content from "./Content";
+import SectionTitle from "./SectionTitle";
+import CourseIcon from "./Icons/Course";
+import DocsIcon from "./Icons/DocsIcon";
+import QuizIcon from "./Icons/QuizIcon";
 
 export default function MostViewedContents() {
   const contents = [
     {
       title: "Enhancing Learning Engagement Through Thoughtful UX/UI",
-      type: "Page",
+      type: "Quiz",
       completition: 5,
-      timeSpent: new Date(Date.now() - 1000 * 60 * 150).toISOString(), 
+      timeSpent: new Date(Date.now() - 1000 * 60 * 150).toISOString(),
     },
     {
       title: "Enhancing Learning Engagement Through Thoughtful UX/UI",
@@ -19,14 +22,14 @@ export default function MostViewedContents() {
     {
       title: "Introduction to React",
       type: "Course",
-      completition: 45, 
-      timeSpent: new Date(Date.now() - 1000 * 60 * 75).toISOString(), 
+      completition: 45,
+      timeSpent: new Date(Date.now() - 1000 * 60 * 75).toISOString(),
     },
     {
       title: "TypeScript Basics",
-      type: "Page",
-      completition: 30, 
-      timeSpent: new Date(Date.now() - 1000 * 60 * 105).toISOString(), 
+      type: "Course",
+      completition: 30,
+      timeSpent: new Date(Date.now() - 1000 * 60 * 105).toISOString(),
     },
   ];
 
@@ -34,13 +37,24 @@ export default function MostViewedContents() {
 
   return (
     <section className="flex flex-col gap-3">
-      <div className="flex gap-2 items-baseline">
-        <h1 className="font-bold text-lg">Most viewed contents</h1>
-        <InfoSign info="Here are your most viewed articles" />
-      </div>
+      <SectionTitle
+        title="Most viewed contents"
+        info="Here you can see your most viewed contents"
+      />
       <div className="flex flex-col gap-4">
         {topContent.map((item, index) => (
           <Content
+            icon={
+              item.type === "Course" ? (
+                <CourseIcon />
+              ) : item.type === "Page" ? (
+                <DocsIcon />
+              ) : item.type === "Quiz" ? (
+                <QuizIcon />
+              ) : (
+                ""
+              )
+            }
             key={index}
             title={item.title}
             type={item.type}
@@ -48,7 +62,7 @@ export default function MostViewedContents() {
             timeSpent={item.timeSpent}
           />
         ))}
-        <Content 
+        <Content
           title={otherContent.title}
           displayPercentage={otherContent.displayPercentage}
           timeSpent={otherContent.timeSpent}

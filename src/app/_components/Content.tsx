@@ -11,11 +11,11 @@ const Content = ({
   type?: string;
   displayPercentage: number;
   timeSpent?: string;
-  icon?: string;
+  icon?: string | React.ReactElement;
 }) => {
   return (
     <div className="flex justify-between p-2 border border-gray-200 rounded-lg">
-      <h1 className="flex gap-2 text-sm font-semibold">
+      <h1 className="flex gap-2 text-sm items-center font-semibold">
         {icon} <Link href={""}>{title}</Link>
         {type && (
           <span className="text-gray-500 bg-neutral-200 px-2 flex items-center justify-center w-fit rounded-full">
