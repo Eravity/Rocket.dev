@@ -14,6 +14,7 @@ const DynamicProgressPieChart = dynamic(() => import("./ProgressPieChart"), {
 });
 
 export type CourseData = {
+  id: number;
   image: StaticImageData;
   title: string;
   materials: number;
@@ -61,7 +62,7 @@ const CourseRow = ({ course, resources }: { course: CourseData, resources: numbe
         label="Content"
         value={
           <>
-            <Files /> {resources} {resources > 1 ? "Chapters" : "Chapter"}
+            <Files /> {resources.length} {resources.length > 1 ? "Chapters" : "Chapter"}
           </>
         }
       />

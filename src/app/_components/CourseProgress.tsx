@@ -1,33 +1,19 @@
 "use client";
+import React from "react";
 import { useEffect, useState } from "react";
-import {
-  getCourses,
-  getCourseChapters,
-  getCourse,
-} from "../supabase/data-service";
+import { fetchCourseData } from "../services/courseService";
 import CourseRow, { CourseData } from "./CourseRow";
 
 export default function CourseProgress() {
   const [courses, setCourses] = useState<CourseData[]>([]);
-  const [courseChapters, setCourseChapters] = useState<number[]>([]);
+  const [courseChapters, setCourseChapters] = useState<{ [key: number]: number }>({});
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    async function fetchCourses() {
+    async function loadCourses() {
       try {
-        const courseData = await getCourses();
-        if (!courseData || courseData.length === 0) {
-          setError("No courses found.");
-          return;
-        }
-        setCourses(courseData);
-
-        // Fetch chapters for all courses
-        const chaptersCount: { [key: number]: number } = {};
-        for (const course of courseData) {
-          const count = await getCourseChapters(course.id);
-          chaptersCount[course.id] = count;
-        }
+        const { courses, chaptersCount } = await fetchCourseData();
+        setCourses(courses);
         setCourseChapters(chaptersCount);
       } catch (err: unknown) {
         if (err instanceof Error) {
@@ -37,7 +23,7 @@ export default function CourseProgress() {
         }
       }
     }
-    fetchCourses();
+    loadCourses();
   }, []);
 
   if (error) {
@@ -50,15 +36,15 @@ export default function CourseProgress() {
 
   return (
     <div className="w-full h-auto sm:h-52 grid grid-cols-8 grid-rows-[auto_1px_auto] sm:grid-rows-[1fr_1px_1fr] rounded-lg border overflow-hidden duration-200">
-      <CourseRow
-        course={courses[0]}
-        resources={courseChapters[courses[0].id] || 0}
-      />
-      <div className="col-span-8 bg-gray-200" />
-      <CourseRow
-        course={courses[1]}
-        resources={courseChapters[courses[1].id] || 0}
-      />
+      {courses.slice(0, 2).map((course, index, arr) => (
+        <React.Fragment key={course.id}>
+          <CourseRow
+            course={course}
+            resources={[courseChapters[course.id] || 0]}
+          />
+          {index < arr.length - 1 && <div className="col-span-8 bg-gray-200" />}
+        </React.Fragment>
+      ))}
     </div>
   );
 }
