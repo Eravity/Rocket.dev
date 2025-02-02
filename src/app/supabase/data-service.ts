@@ -10,9 +10,7 @@ export const getCourses = async () => {
 };
 
 export const getChapters = async () => {
-  const { data: chapters, error } = await supabase
-    .from("chapters")
-    .select("*");
+  const { data: chapters, error } = await supabase.from("chapters").select("*");
 
   if (error)
     throw new Error(`There was an error getting chapters: ${error.message}`);
@@ -29,7 +27,6 @@ export const getCourseChapters = async (courseId: number) => {
   if (error)
     throw new Error(`There was an error getting chapters: ${error.message}`);
 
-  console.log(data);
   return data.length;
 };
 
@@ -49,9 +46,9 @@ export const getCoursesWithChapters = async () => {
   const { data, error } = await supabase
     .from("courses")
     .select("*, chapters(*)");
-    
+
   if (error)
     throw new Error(`Error fetching courses with chapters: ${error.message}`);
-    
+
   return data;
 };

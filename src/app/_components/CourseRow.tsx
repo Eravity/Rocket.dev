@@ -37,6 +37,7 @@ const CourseRow = ({ course, resources }: { course: CourseData; resources: numbe
               src={course.image}
               alt={course.title}
               fill
+              priority 
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               className="object-cover absolute inset-0 transition-transform duration-300 hover:scale-110"
             />
