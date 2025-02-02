@@ -3,7 +3,7 @@ interface UseIntlDateTime {
   formatTime: (date: Date | number) => string;
 }
 
-export const useIntlDateTime = (locale = "RO-ro"): UseIntlDateTime => {
+export const useIntlDateTime = (locale = "En-en"): UseIntlDateTime => {
   const dateFormatter = new Intl.DateTimeFormat(locale, {
     month: "long",
     day: "2-digit",
