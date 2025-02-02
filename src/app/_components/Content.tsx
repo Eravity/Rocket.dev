@@ -1,5 +1,5 @@
 import Link from "next/link";
-import CourseIcon from "./Icons/Course";
+import CourseIcon from "./Icons/CourseIcon";
 import QuizIcon from "./Icons/QuizIcon";
 import DocsIcon from "./Icons/DocsIcon";
 

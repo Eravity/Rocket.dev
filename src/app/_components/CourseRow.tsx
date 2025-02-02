@@ -3,7 +3,7 @@ import Link from "next/link";
 import dynamic from "next/dynamic";
 import Clock from "./Icons/Clock";
 import Files from "./Icons/Files";
-import CourseIcon from "./Icons/Course";
+import CourseIcon from "./Icons/CourseIcon";
 import { useLearningEvent } from "../hooks/useLearningEvent";
 import { useRelativeTime } from "../hooks/useRelativeTime";
 import InfoCell from "./InfoCell";
@@ -46,7 +46,7 @@ const CourseRow = ({ course, resources }: { course: CourseData; resources: numbe
       </div>
 
       <div className="col-span-3 flex flex-col items-start justify-center p-2 space-y-0.5">
-        <div className="flex gap-1">
+        <div className="flex items-center gap-1">
           <CourseIcon />
           <h2 className="w-full flex items-center text-neutral-500 font-semibold text-xs sm:text-sm">
             Course

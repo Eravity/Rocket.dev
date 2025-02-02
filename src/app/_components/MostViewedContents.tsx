@@ -1,7 +1,7 @@
 import { useContentManager } from "../hooks/useContentManager";
 import Content from "./Content";
 import SectionTitle from "./SectionTitle";
-import CourseIcon from "./Icons/Course";
+import CourseIcon from "./Icons/CourseIcon";
 import DocsIcon from "./Icons/DocsIcon";
 import QuizIcon from "./Icons/QuizIcon";
 

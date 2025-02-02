@@ -1,14 +1,14 @@
 import type { Metadata } from "next";
-import { Istok_Web } from "next/font/google";
+// import { Plus_Jakarta_Sans } from "next/font/google";
 import Header from "./_components/Header";
 
 import "./globals.css";
 
-const fredoka = Istok_Web({
-  variable: "--font-Istok_Web",
-  subsets: ["latin"],
-  weight: "400"
-});
+// const plusJakartaSans = Plus_Jakarta_Sans({
+//   variable: "--font-Plus_Jakarta_Sans",
+//   subsets: ["latin"],
+//   weight: "400"
+// });
 
 export const metadata: Metadata = {
   title: "Rocket",
@@ -24,7 +24,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${fredoka.className} tracking-wider antialiased`}>
+      <body className={` tracking-wide antialiased`}>
         <Header />
         <div className="container mx-auto my-8 px-4 md:px-6 2xl:px-16">{children}</div>
       </body>

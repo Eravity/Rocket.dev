@@ -1,5 +1,5 @@
 import ArrowRight from "./Icons/ArrowRight";
-import CourseIcon from "./Icons/Course";
+import CourseIcon from "./Icons/CourseIcon";
 import DocsIcon from "./Icons/DocsIcon";
 import QuizIcon from "./Icons/QuizIcon";
 
