@@ -18,7 +18,7 @@ export type CourseData = {
   image: StaticImageData;
   title: string;
   materials: number;
-  competition: number;
+  completion: number;
   deadline: number;
   buttonText: string;
   resources: number;
@@ -67,11 +67,11 @@ const CourseRow = ({ course, resources }: { course: CourseData, resources: numbe
         }
       />
       <InfoCell
-        label="Competition"
+        label="Completion"
         value={
           <>
-            <DynamicProgressPieChart data={course.competition} />{" "}
-            {course.competition}%
+            <DynamicProgressPieChart data={course.completion} />{" "}
+            {course.completion}%
           </>
         }
       />
