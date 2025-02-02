@@ -44,3 +44,14 @@ export const getCourse = async (courseId: number) => {
 
   return course;
 };
+
+export const getCoursesWithChapters = async () => {
+  const { data, error } = await supabase
+    .from("courses")
+    .select("*, chapters(*)");
+    
+  if (error)
+    throw new Error(`Error fetching courses with chapters: ${error.message}`);
+    
+  return data;
+};
