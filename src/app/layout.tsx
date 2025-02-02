@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
-import { Fredoka } from "next/font/google";
+import { Istok_Web } from "next/font/google";
 import Header from "./_components/Header";
 
 import "./globals.css";
 
-const fredoka = Fredoka({
-  variable: "--font-fredoka",
+const fredoka = Istok_Web({
+  variable: "--font-Istok_Web",
   subsets: ["latin"],
+  weight: "400"
 });
 
 export const metadata: Metadata = {
@@ -23,7 +24,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${fredoka.variable} font-fredoka antialiased`}>
+      <body className={`${fredoka.className} tracking-wider antialiased`}>
         <Header />
         <div className="container mx-auto my-8 px-4 md:px-6 2xl:px-16">{children}</div>
       </body>
