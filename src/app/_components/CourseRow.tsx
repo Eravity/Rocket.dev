@@ -20,9 +20,10 @@ export type CourseData = {
   competition: number;
   deadline: number;
   buttonText: string;
+  resources: number[];
 };
 
-const CourseRow = ({ course }: { course: CourseData }) => {
+const CourseRow = ({ course, resources }: { course: CourseData, resources: number[] }) => {
   const { emitLearningEvent } = useLearningEvent();
   return (
     <>
@@ -60,7 +61,7 @@ const CourseRow = ({ course }: { course: CourseData }) => {
         label="Content"
         value={
           <>
-            <Files /> {course.materials}
+            <Files /> {resources} {resources > 1 ? "Chapters" : "Chapter"}
           </>
         }
       />
