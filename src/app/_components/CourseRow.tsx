@@ -31,14 +31,14 @@ const CourseRow = ({ course, resources }: { course: CourseData; resources: numbe
   return (
     <>
       <div className="flex items-center justify-center p-2">
-        <div className="relative w-full h-full max-h-[80px] overflow-hidden rounded-lg">
+        <div className="relative w-full aspect-[16/10] overflow-hidden rounded-lg">
           <Link href="" className="relative block w-full h-full">
             <Image
               src={course.image}
               alt={course.title}
               fill
               priority 
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              // sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               className="object-cover absolute inset-0 transition-transform duration-300 hover:scale-110"
             />
           </Link>

@@ -35,7 +35,7 @@ export default function CourseProgress() {
   }
 
   return (
-    <div className="w-full h-auto sm:h-52 grid grid-cols-8 grid-rows-[auto_1px_auto] sm:grid-rows-[1fr_1px_1fr] rounded-lg border overflow-hidden duration-200">
+    <div className="w-full h-auto grid grid-cols-8 grid-rows-[auto_1px_auto] sm:grid-rows-[1fr_1px_1fr] rounded-lg border overflow-hidden duration-200">
       {courses.slice(0, 2).map((course, index, arr) => (
         <React.Fragment key={course.id}>
           <CourseRow
