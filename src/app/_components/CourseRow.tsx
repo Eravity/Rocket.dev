@@ -21,7 +21,7 @@ export type CourseData = {
   competition: number;
   deadline: number;
   buttonText: string;
-  resources: number[];
+  resources: number;
 };
 
 const CourseRow = ({ course, resources }: { course: CourseData, resources: number[] }) => {
@@ -62,7 +62,7 @@ const CourseRow = ({ course, resources }: { course: CourseData, resources: numbe
         label="Content"
         value={
           <>
-            <Files /> {resources.length} {resources.length > 1 ? "Chapters" : "Chapter"}
+            <Files /> {resources[0]} {resources[0] > 1 ? "Chapters" : "Chapter"}
           </>
         }
       />
