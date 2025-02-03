@@ -28,7 +28,7 @@ const Roadmap = React.memo(
           {/* Progress bar */}
           <div className="w-full h-3 bg-[#E9F1FC] rounded relative">
             <motion.div
-              className="h-3 bg-[#82ca9d] rounded"
+              className="h-3 bg-blueLotus rounded"
               style={{ width: `${completionPercentage}%` }}
               transition={{ duration: 0.3 }}
             />
@@ -48,15 +48,15 @@ const Roadmap = React.memo(
                 style={{
                   left: `${leftPercent}%`,
                   top: "50%",
-                  transform: "translate(-50%, -34%)",
+                  transform: "translate(-50%, -32%)",
                 }}
               >
                 <motion.div
                   className={`w-12 h-12 flex items-center justify-center rounded-full border-[5px] transition-all duration-300 ${
                     isFirst || isLast
-                      ? "bg-[#82ca9d] border-white shadow-lg"
+                      ? "bg-blueLotus border-white shadow-lg"
                       : isCompleted
-                      ? "bg-white border-[#82ca9d]"
+                      ? "bg-white border-blueLotus"
                       : "bg-white border-[#E9F1FC]"
                   }`}
                 >
@@ -67,7 +67,7 @@ const Roadmap = React.memo(
                       {completionPercentage}%
                     </span>
                   ) : (
-                    <Check color={isCompleted ? "#82ca9d" : "#E9F1FC"} />
+                    <Check color={isCompleted ? "#5d4bf3" : "#E9F1FC"} />
                   )}
                 </motion.div>
                 <div className="mt-2 text-sm font-semibold text-center text-gray-600">
