@@ -1,3 +1,3 @@
-export default function MyLearningPage () {
-  return <div>Here are the courses you are learning right now</div>
-};
+export default function MyLearningPage() {
+  return <div></div>;
+}

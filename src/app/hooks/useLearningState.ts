@@ -12,7 +12,7 @@ export const useLearningState = () => {
   const [learningState, setLearningState] = useState<LearningState>({
     hasStartedToday: false,
     isPaused: false,
-    lastActiveDate: new Date().toDateString() // Set initial date to prevent mismatch
+    lastActiveDate: new Date().toDateString() 
   });
 
   useEffect(() => {
@@ -20,7 +20,7 @@ export const useLearningState = () => {
       const stored = localStorage.getItem('learningState');
       if (stored) {
         const parsed = JSON.parse(stored);
-        // Reset if it's a new day
+
         const today = new Date().toDateString();
         if (parsed.lastActiveDate !== today) {
           const newState = { hasStartedToday: false, isPaused: false, lastActiveDate: today };

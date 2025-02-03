@@ -26,7 +26,6 @@ const getStoredProgress = () => {
 
   try {
     const parsed = JSON.parse(stored);
-    // Convert stored date strings back to Date objects
     return {
       ...parsed,
       streak: {

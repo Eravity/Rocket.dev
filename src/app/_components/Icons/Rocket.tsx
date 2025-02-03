@@ -1,13 +1,21 @@
-export default function Rocket() {
+export default function Rocket({
+  width = 40,
+  height = 40,
+  color,
+}: {
+  width?: number;
+  height?: number;
+  color?: string;
+}) {
   return (
     <svg
-      width="40px"
-      height="40px"
+      width={width}
+      height={height}
       viewBox="0 0 15 15"
       version="1.1"
       id="rocket"
       xmlns="http://www.w3.org/2000/svg"
-      fill="#838383"
+      fill={color || "#838383"}
     >
       <path
         id="path7143"
