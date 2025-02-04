@@ -1,7 +1,9 @@
+import GoalProgress from "../_components/GoalProgress";
 import ArticleIcon from "./Icons/ArticleIcon";
 import CourseData from "./CourseData";
-import Time from "./Icons/Time";
 import DailyGoal from "./DailyGoal";
+import Time from "./Icons/Time";
+
 
 export default function CourseAside() {
   return (
@@ -9,6 +11,7 @@ export default function CourseAside() {
       <CourseData icon={<ArticleIcon />} value={124} label={'Learning content'}/>
       <CourseData icon={<Time />} value={44} label={'Learning time'}/>
       <DailyGoal/>
+      <GoalProgress/>
     </aside>
   );
 }

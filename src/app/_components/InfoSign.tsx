@@ -2,7 +2,7 @@ export default function InfoSign({ info }: { info: string }) {
   return (
     <div className="relative group">
       <div
-        className="inline-flex items-center justify-center w-4 h-4 rounded-full  text-black text-sm font-semibold cursor-help border-black border-[2px]"
+        className="inline-flex items-center justify-center w-4 h-4 rounded-full text-black text-sm font-semibold cursor-help border-black border-[2px]"
         role="button"
         aria-label="Information"
       >
