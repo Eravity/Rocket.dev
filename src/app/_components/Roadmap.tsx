@@ -54,7 +54,7 @@ const Roadmap = React.memo(
                 <motion.div
                   className={`w-12 h-12 flex items-center justify-center rounded-full border-[5px] transition-all duration-300 ${
                     isFirst || isLast
-                      ? "bg-blueLotus border-white shadow-lg"
+                      ? "bg-blueLotus border-white shadow-md"
                       : isCompleted
                       ? "bg-white border-blueLotus"
                       : "bg-white border-[#E9F1FC]"

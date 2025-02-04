@@ -1,3 +1,5 @@
+import GoalProgress from "../_components/GoalProgress";
+
 export default function MyLearningPage() {
-  return <div></div>;
+  return <div><GoalProgress/></div>;
 }
