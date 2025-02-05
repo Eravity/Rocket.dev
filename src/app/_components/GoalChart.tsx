@@ -14,13 +14,12 @@ const COLORS = {
 } as const;
 
 export default function GoalChart({ data }: { data: number }) {
-
-  const percentage = (data / 30) * 100;
-  const validatedData = Math.max(0, Math.min(100, percentage));
+  // Assume data is already a percentage (0-100)
+  const validatedData = Math.max(0, Math.min(100, data));
   
   const chartData = [
-    { value: data },          
-    { value: Math.max(30 - data, 0) }  
+    { value: validatedData },
+    { value: 100 - validatedData },
   ];
 
   return (
@@ -50,13 +49,19 @@ export default function GoalChart({ data }: { data: number }) {
           cornerRadius={CORNER_RADIUS}
         >
           {chartData.map((entry, index) => (
-            <Cell
-              key={`cell-${index}`}
-              fill={index === 0 ? COLORS.completed : COLORS.remaining}
-            />
+            <Cell key={`cell-${index}`} fill={index === 0 ? COLORS.completed : COLORS.remaining} />
           ))}
         </Pie>
       </PieChart>
+      <div
+        className="absolute top-1/2 transform -translate-y-1/2"
+        style={{
+          left: `calc(${validatedData}% - 10px)`,
+          width: "20px",
+          height: "20px",
+          backgroundColor: "transparent",
+        }}
+      />
     </div>
   );
 }

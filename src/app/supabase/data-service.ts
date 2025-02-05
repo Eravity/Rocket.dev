@@ -52,3 +52,20 @@ export const getCoursesWithChapters = async () => {
 
   return data;
 };
+
+export const getLearningProgress = async () => {
+  const { data: learning_progress, error } = await supabase
+    .from("learning_progress")
+    .select(
+      "streak_start, streak_end, streak_days, total_goal, today_minutes, progress_percentage, created_at"
+    );
+
+    console.log(learning_progress);
+
+  if (error)
+    throw new Error(
+      `There was an error getting learning progress: ${error.message}`
+    );
+
+  return learning_progress;
+};
