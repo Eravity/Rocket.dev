@@ -11,7 +11,7 @@ const DynamicChart = dynamic(() => import("./GoalChart"), { ssr: false });
 
 const GoalHeader = () => (
   <div className="flex gap-2">
-    <h1 className="font-bold">Goals</h1>
+    <h1 className="font-semibold">Goals</h1>
     <InfoSign info="Here you can see the progress of your daily goals" />
   </div>
 );
@@ -28,8 +28,8 @@ const GoalChart = ({ data, isActive }: { data: number; isActive: boolean }) => {
     <div className="mx-auto relative w-24 h-24">
       <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
         <DynamicChart data={data} />
-        <div className={shouldAnimate ? "animate-bounce" : ""}>
-          <Rocket />
+        <div className={shouldAnimate ? "animate-pulse" : ""}>
+          <Rocket color={shouldAnimate ? '#16a34a' : ''}/>
         </div>
       </div>
     </div>

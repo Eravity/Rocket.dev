@@ -12,7 +12,7 @@ export default function GoalProgress({
   const hatchStart = Math.min(currentPercent, targetPercent);
   const hatchWidth = Math.abs(currentPercent - targetPercent);
 
-  const solidWidth = current > target ? targetPercent : currentPercent;
+  const solidWidth = current >= target ? targetPercent : currentPercent;
   const sliderPosition = currentPercent;
 
   return (
@@ -23,12 +23,12 @@ export default function GoalProgress({
       </div>
       <div
         className={`w-full ${
-          current > target ? "bg-green-200" : "bg-red-200"
+          current >= target ? "bg-green-200" : "bg-red-200"
         } h-2 relative rounded-full`}
       >
         <div
           className={`${
-            current > target ? "bg-green-700" : "bg-red-800"
+            current >= target ? "bg-green-700" : "bg-red-800"
           } rounded-l-full h-full`}
           style={{ width: `${solidWidth}%` }}
         />
@@ -40,9 +40,9 @@ export default function GoalProgress({
               left: `${hatchStart}%`,
               width: `${hatchWidth}%`,
               backgroundImage: `repeating-linear-gradient(-45deg, ${
-                current > target ? "#22c55e" : "#f87171"
+                current >= target ? "#22c55e" : "#f87171"
               } 0, ${
-                current > target ? "#22c55e" : "#f87171"
+                current >= target ? "#22c55e" : "#f87171"
               } 2px, transparent 2px, transparent 4px)`,
             }}
           />
@@ -50,7 +50,7 @@ export default function GoalProgress({
 
         <div
           className={`absolute top-1/2 transform -translate-y-1/2 ${
-            current > target ? "bg-green-800" : "bg-red-800"
+            current >= target ? "bg-green-800" : "bg-red-800"
           } border-[4px] border-white rounded-full shadow`}
           style={{
             left: `calc(${sliderPosition}% - 10px)`,
@@ -63,14 +63,14 @@ export default function GoalProgress({
         You&apos;re{" "}
         <span
           className={`${
-            current > target ? "text-[#22c55e]" : "text-[#ef4444]"
+            current >= target ? "text-[#22c55e]" : "text-[#ef4444]"
           } font-semibold`}
         >
-          {current > target ? "ahead of pace" : "behind pace"}
+          {current >= target ? "ahead of pace" : "behind pace"}
         </span>{" "}
         and should reach your goal{" "}
         <span className="text-black font-semibold">
-          30% {current > target ? "ahead of schedule" : "behind schedule"}
+          30% {current >= target ? "ahead of schedule" : "behind schedule"}
         </span>
       </p>
     </div>
