@@ -56,9 +56,7 @@ export const getCoursesWithChapters = async () => {
 export const getLearningProgress = async () => {
   const { data: learning_progress, error } = await supabase
     .from("learning_progress")
-    .select(
-      "streak_start, streak_end, streak_days, total_goal, today_minutes, progress_percentage, created_at"
-    );
+    .select("id, streak_start, streak_end, streak_days, total_goal, today_minutes, progress_percentage, created_at"); // Added id
 
     console.log(learning_progress);
 
@@ -68,4 +66,13 @@ export const getLearningProgress = async () => {
     );
 
   return learning_progress;
+};
+
+export const updateTodayMinutes = async (id: string, newMinutes: number) => {
+  const { data, error } = await supabase
+    .from("learning_progress")
+    .update({ today_minutes: newMinutes })
+    .match({ id });
+  if (error) throw new Error(`Error updating today_minutes: ${error.message}`);
+  return data;
 };

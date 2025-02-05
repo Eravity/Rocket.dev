@@ -1,4 +1,5 @@
 "use client";
+import { useState, useEffect } from "react";
 import { PieChart, Pie, Cell } from "recharts";
 
 const CHART_SIZE = 96;
@@ -13,10 +14,16 @@ const COLORS = {
   remaining: "#f3f4f6",
 } as const;
 
+// Use local state for dynamic updates
 export default function GoalChart({ data }: { data: number }) {
-  // Assume data is already a percentage (0-100)
-  const validatedData = Math.max(0, Math.min(100, data));
-  
+  const [chartValue, setChartValue] = useState(data);
+
+  useEffect(() => {
+    setChartValue(data);
+  }, [data]);
+
+  // Assume value is in percentage (0-100)
+  const validatedData = Math.max(0, Math.min(100, chartValue));  
   const chartData = [
     { value: validatedData },
     { value: 100 - validatedData },
