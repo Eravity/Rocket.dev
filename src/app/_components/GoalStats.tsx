@@ -1,11 +1,5 @@
 "use client";
 import React, { useMemo } from "react";
-type LearningProgress = {
-  streak_start: string;
-  streak_end: string;
-  today_minutes: number;
-  total_goal: number;
-};
 
 interface GoalStatsProps {
   progress: {
@@ -26,7 +20,7 @@ const formatDate = (dateString: string): string => {
   return `${day}.${month}.${year}`;
 };
 
-export default function GoalStats({ progress, isActive, onSettings }: GoalStatsProps) {
+export default function GoalStats({ progress, onSettings }: GoalStatsProps) {
   // Compute streak days
   const computedStreakDays = useMemo(() => {
     const start = new Date(progress.streak_start);

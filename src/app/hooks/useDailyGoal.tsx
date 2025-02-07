@@ -127,13 +127,24 @@ export function useDailyGoal() {
       if (document.visibilityState === "hidden" && isActive) {
         setLastUpdateTime(now);
       }
-      if (document.visibilityState === "visible" && isActive && progress && lastUpdateTime) {
+      if (
+        document.visibilityState === "visible" &&
+        isActive &&
+        progress &&
+        lastUpdateTime
+      ) {
         const elapsed = Math.floor((now.getTime() - lastUpdateTime.getTime()) / (1000 * 60));
-        const progressDate = new Date(progress.created_at);
-        const newMinutes = now.toDateString() !== progressDate.toDateString() ? 0 : progress.today_minutes + elapsed;
-        updateMinutes.mutate({ id: progress.id, minutes: newMinutes });
-        setLastUpdateTime(now);
-        localStorage.setItem("dailyGoalLastUpdateTime", now.toISOString());
+        if (elapsed >= 10) {
+          // only update DB if at least 10 min have passed
+          const progressDate = new Date(progress.created_at);
+          const newMinutes =
+            now.toDateString() !== progressDate.toDateString()
+              ? 0
+              : progress.today_minutes + elapsed;
+          updateMinutes.mutate({ id: progress.id, minutes: newMinutes });
+          setLastUpdateTime(now);
+          localStorage.setItem("dailyGoalLastUpdateTime", now.toISOString());
+        }
       }
     };
     document.addEventListener("visibilitychange", handleVisibilityChange);
@@ -156,13 +167,54 @@ export function useDailyGoal() {
     if (isActive && progress && lastUpdateTime) {
       const now = new Date();
       const elapsed = Math.floor((now.getTime() - lastUpdateTime.getTime()) / (1000 * 60));
-      if (elapsed > 0) {
+      if (elapsed >= 10) {
+        // also check for 10 min threshold here
         updateMinutes.mutate({ id: progress.id, minutes: progress.today_minutes + elapsed });
         setLastUpdateTime(now);
         localStorage.setItem("dailyGoalLastUpdateTime", now.toISOString());
       }
     }
   }, [isActive, progress, updateMinutes, lastUpdateTime]);
+
+  // Add fallback: Sync progress every 30 minutes
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (isActive && progress && lastUpdateTime) {
+        const now = new Date();
+        const elapsed = Math.floor((now.getTime() - lastUpdateTime.getTime()) / (1000 * 60));
+        if (elapsed >= 30) {
+          updateMinutes.mutate({ id: progress.id, minutes: progress.today_minutes + elapsed });
+          setLastUpdateTime(now);
+          localStorage.setItem("dailyGoalLastUpdateTime", now.toISOString());
+          console.info("Fallback sync: 30+ minutes elapsed, data updated");
+        }
+      }
+    }, 30 * 60 * 1000); // every 30 minutes
+    return () => clearInterval(interval);
+  }, [isActive, progress, lastUpdateTime, updateMinutes]);
+
+  // Handle beforeunload: send final update if needed
+  useEffect(() => {
+    const handleBeforeUnload = () => {
+      if (isActive && progress && lastUpdateTime) {
+        const now = new Date();
+        const elapsed = Math.floor((now.getTime() - lastUpdateTime.getTime()) / (1000 * 60));
+        if (elapsed >= 10) {
+          // Use navigator.sendBeacon if available for a synchronous request
+          const url = "/api/sync-progress"; // endpoint to sync progress
+          const data = JSON.stringify({ id: progress.id, minutes: progress.today_minutes + elapsed });
+          if (navigator.sendBeacon) {
+            navigator.sendBeacon(url, data);
+          } else {
+            // fallback: attempt fetch, but note these may be aborted
+            fetch(url, { method: "POST", body: data, keepalive: true });
+          }
+        }
+      }
+    };
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    return () => window.removeEventListener("beforeunload", handleBeforeUnload);
+  }, [isActive, progress, lastUpdateTime]);
 
   return {
     isActive,
