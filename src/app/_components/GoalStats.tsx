@@ -1,6 +1,11 @@
 "use client";
 import React, { useMemo } from "react";
-import { LearningProgress } from "./DailyGoal";
+type LearningProgress = {
+  streak_start: string;
+  streak_end: string;
+  today_minutes: number;
+  total_goal: number;
+};
 
 interface GoalStatsProps {
   progress: LearningProgress;
