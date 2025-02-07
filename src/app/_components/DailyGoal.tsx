@@ -30,8 +30,7 @@ export default function DailyGoal() {
         <GoalStats
           progress={displayedProgress!}
           isActive={isActive && !autoPaused}
-          onStart={handleStart}
-          onPause={handlePause}
+          onSettings={handleStart}  // pass settings callback
         />
       </div>
     </div>

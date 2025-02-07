@@ -22,12 +22,23 @@ export function useDailyGoal() {
   const queryClient = useQueryClient();
   const inactivityTimer = useRef<NodeJS.Timeout | null>(null);
 
-  // Initialize state from localStorage
+  // Start handler
+  const handleStart = () => {
+    const now = new Date();
+    setIsActive(true);
+    setAutoPaused(false);
+    setLastUpdateTime(now);
+    localStorage.setItem("dailyGoalLastUpdateTime", now.toISOString());
+  };
+
+  // Update initialization effect to start timer immediately on first visit
   useEffect(() => {
     const stored = localStorage.getItem("dailyGoalLastUpdateTime");
     if (stored) {
       setLastUpdateTime(new Date(stored));
       setIsActive(true);
+    } else {
+      handleStart();
     }
   }, []);
 
@@ -77,20 +88,6 @@ export function useDailyGoal() {
   const progressPercentage = displayedProgress
     ? Math.round((displayedProgress.today_minutes / displayedProgress.total_goal) * 100)
     : 0;
-
-  // Start and pause handlers
-  const handleStart = () => {
-    const now = new Date();
-    setIsActive(true);
-    setAutoPaused(false);
-    setLastUpdateTime(now);
-    localStorage.setItem("dailyGoalLastUpdateTime", now.toISOString());
-  };
-  const handlePause = () => {
-    setIsActive(false);
-    setAutoPaused(false);
-    localStorage.removeItem("dailyGoalLastUpdateTime");
-  };
 
   // Inactivity effect with logging on resume/pause
   useEffect(() => {
@@ -173,7 +170,6 @@ export function useDailyGoal() {
     displayedProgress,
     progressPercentage,
     isLoading,
-    handleStart,
-    handlePause,
+    handleStart,  // used as settings callback now
   };
 }

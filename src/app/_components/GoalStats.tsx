@@ -8,10 +8,14 @@ type LearningProgress = {
 };
 
 interface GoalStatsProps {
-  progress: LearningProgress;
-  isActive: boolean; // new prop
-  onStart: () => void;
-  onPause: () => void;
+  progress: {
+    streak_start: string;
+    streak_end: string;
+    today_minutes: number;
+    total_goal: number;
+  };
+  isActive: boolean;
+  onSettings: () => void;
 }
 
 const formatDate = (dateString: string): string => {
@@ -22,7 +26,7 @@ const formatDate = (dateString: string): string => {
   return `${day}.${month}.${year}`;
 };
 
-export default function GoalStats({ progress, isActive, onStart, onPause }: GoalStatsProps) {
+export default function GoalStats({ progress, isActive, onSettings }: GoalStatsProps) {
   // Compute streak days
   const computedStreakDays = useMemo(() => {
     const start = new Date(progress.streak_start);
@@ -34,12 +38,8 @@ export default function GoalStats({ progress, isActive, onStart, onPause }: Goal
     return `${formatDate(progress.streak_start)} - ${formatDate(progress.streak_end)}`;
   }, [progress]);
 
-  const handleToggle = () => {
-    if (isActive) {
-      onPause();
-    } else {
-      onStart();
-    }
+  const handleSettings = () => {
+    onSettings();
   };
 
   return (
@@ -63,10 +63,10 @@ export default function GoalStats({ progress, isActive, onStart, onPause }: Goal
         </p>
       </div>
       <button
-        onClick={handleToggle}
+        onClick={handleSettings}
         className="self-center font-semibold underline-offset-[5px] border-b-2 border-blueLotus text-blueLotus hover:opacity-80 active:scale-95 transition-all duration-200 text-sm sm:text-base"
       >
-        {isActive ? "Pause Learning" : "Start Learning"}
+        Settings
       </button>
     </div>
   );
