@@ -58,8 +58,6 @@ export const getLearningProgress = async () => {
     .from("learning_progress")
     .select("id, streak_start, streak_end, streak_days, total_goal, today_minutes, progress_percentage, created_at"); // Added id
 
-    console.log(learning_progress);
-
   if (error)
     throw new Error(
       `There was an error getting learning progress: ${error.message}`
@@ -75,4 +73,44 @@ export const updateTodayMinutes = async (id: string, newMinutes: number) => {
     .match({ id });
   if (error) throw new Error(`Error updating today_minutes: ${error.message}`);
   return data;
+};
+
+export const ensureLearningProgress = async () => {
+  // Get the latest record
+  const { data, error } = await supabase
+    .from("learning_progress")
+    .select("*")
+    .order("created_at", { ascending: false })
+    .limit(1);
+  if (error)
+    throw new Error(`Error fetching learning progress: ${error.message}`);
+  const now = new Date();
+  if (data && data.length > 0) {
+    const lastRecord = data[0];
+    const streakEnd = new Date(lastRecord.streak_end);
+    const diffDays = Math.floor((now.getTime() - streakEnd.getTime()) / (1000 * 60 * 60 * 24));
+    if (diffDays > 0) { // if a new day
+      const { data: newRecord, error: insertError } = await supabase
+        .from("learning_progress")
+        .insert([{
+          user_id: "e4f7f29e-fb4f-4e42-8e14-c8b882c39e07",
+          total_goal: 30,
+        }]);
+      if (insertError)
+        throw new Error(`Error inserting new learning progress: ${insertError.message}`);
+      return newRecord;
+    }
+    return lastRecord;
+  } else {
+    // No record exists; create one.
+    const { data: newRecord, error: insertError } = await supabase
+      .from("learning_progress")
+      .insert([{
+        user_id: "e4f7f29e-fb4f-4e42-8e14-c8b882c39e07",
+        total_goal: 30,
+      }]);
+    if (insertError)
+      throw new Error(`Error inserting new learning progress: ${insertError.message}`);
+    return newRecord;
+  }
 };
