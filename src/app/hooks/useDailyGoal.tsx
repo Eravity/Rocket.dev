@@ -214,7 +214,7 @@ export function useDailyGoal() {
       if (isActive && progress && lastUpdateTime) {
         const now = new Date();
         const elapsed = Math.floor((now.getTime() - lastUpdateTime.getTime()) / (1000 * 60));
-        if (elapsed >= 10) {
+        if (elapsed > 0) { // Changed: always update if some minutes have been accumulated
           // Use navigator.sendBeacon if available for a synchronous request
           const url = "/api/sync-progress"; // endpoint to sync progress
           const data = JSON.stringify({ id: progress.id, minutes: storedMinutes + elapsed });
