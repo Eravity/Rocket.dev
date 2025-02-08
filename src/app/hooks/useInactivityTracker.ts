@@ -11,14 +11,14 @@ export function useInactivityTracker(
   useEffect(() => {
     const resetInactivity = (e?: Event) => {
       if (e && autoPaused) {
-        console.info("Activity detected: Timer resumed");
+        console.debug("[InactivityTracker] Activity detected:", e.type, "- Timer resumed");
         setAutoPaused(false);
         setLastUpdateTime(new Date());
       }
       if (inactivityTimer.current) clearTimeout(inactivityTimer.current);
       inactivityTimer.current = setTimeout(() => {
         if (isActive && !autoPaused) {
-          console.info("AFK: Timer paused");
+          console.debug("[InactivityTracker] User inactive for 1 minute - Timer paused");
           setAutoPaused(true);
         }
       }, 60000); // 1 minute timeout

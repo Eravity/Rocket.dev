@@ -40,8 +40,10 @@ export function useProgressSync({
   useEffect(() => {
     const handleVisibilityChange = () => {
       const now = new Date();
+      console.debug("[ProgressSync] Document visibility changed:", document.visibilityState);
       if (document.visibilityState === "hidden" && isActive) {
         setLastUpdateTime(now);
+        console.debug("[ProgressSync] Page hidden; updated lastUpdateTime:", now);
       }
       if (
         document.visibilityState === "visible" &&
@@ -52,17 +54,16 @@ export function useProgressSync({
         const elapsed = Math.floor(
           (now.getTime() - lastUpdateTime.getTime()) / (1000 * 60)
         );
-        if (elapsed >= 10) {
-          const progressDate = new Date(progress.created_at);
-          const newMinutes =
-            now.toDateString() !== progressDate.toDateString()
-              ? 0
-              : storedMinutes + elapsed;
+        // On resume, use the minutes saved in localStorage
+        const localMinutes = Number(localStorage.getItem("todayMinutes")) || storedMinutes;
+        console.debug("[ProgressSync] Page visible; elapsed minutes:", elapsed, "localMinutes:", localMinutes);
+        if (elapsed >= 1) { // if at least a minute has passed during AFK, sync
+          const newMinutes = localMinutes; // use persisted minutes
           updateMinutes.mutate({ id: progress.id, minutes: newMinutes });
           setStoredMinutes(newMinutes);
           setLastUpdateTime(now);
           localStorage.setItem("dailyGoalLastUpdateTime", now.toISOString());
-          localStorage.setItem("todayMinutes", newMinutes.toString());
+          console.debug("[ProgressSync] Synced progress with newMinutes:", newMinutes);
         }
       }
     };
@@ -94,11 +95,14 @@ export function useProgressSync({
           setLastUpdateTime(now);
           localStorage.setItem("dailyGoalLastUpdateTime", now.toISOString());
           localStorage.setItem("todayMinutes", newMinutes.toString());
-          console.info("Fallback sync: 30+ minutes elapsed, data updated");
+          console.debug("[ProgressSync] Fallback sync triggered; newMinutes:", newMinutes);
         }
       }
     }, 30 * 60 * 1000);
-    return () => clearInterval(interval);
+    return () => {
+      clearInterval(interval);
+      console.debug("[ProgressSync] Cleared fallback interval");
+    };
   }, [
     isActive,
     progress,

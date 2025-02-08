@@ -38,15 +38,17 @@ export function useDailyGoal() {
     const storedTime = localStorage.getItem("dailyGoalLastUpdateTime");
     const storedMinutesVal = localStorage.getItem("todayMinutes");
     const now = new Date();
+
     if (storedTime) {
       const storedDate = new Date(storedTime);
       if (now.toDateString() !== storedDate.toDateString()) {
-        // Reset if from another day
+        // Only reset if it's a new day
         setLastUpdateTime(now);
         setStoredMinutes(0);
         localStorage.setItem("todayMinutes", "0");
+        localStorage.setItem("dailyGoalLastUpdateTime", now.toISOString());
       } else {
-        // Always load stored values without resetting due to inactivity gap
+        // Otherwise keep the stored values regardless of elapsed time
         setLastUpdateTime(storedDate);
         setStoredMinutes(Number(storedMinutesVal) || 0);
       }
@@ -77,43 +79,66 @@ export function useDailyGoal() {
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["learningProgress"] }),
   });
 
-  // Timer update effect: accumulate active minutes and persist them
+  // Timer update effect: accumulate active minutes, updating localStorage every minute.
   useEffect(() => {
     let interval: NodeJS.Timeout;
-    if (isActive && lastUpdateTime && !autoPaused) { // removed "progress" from condition
+    if (isActive && lastUpdateTime && !autoPaused) { // runs only when not paused (AFK)
       interval = setInterval(() => {
         const diff = Date.now() - lastUpdateTime.getTime();
-        if (diff >= 60000) { // if at least 1 minute passed
+        if (diff >= 60000) { // each minute elapsed
           const minutesDiff = Math.floor(diff / (1000 * 60));
+          console.debug("[Timer Effect] Adding", minutesDiff, "minute(s); diff =", diff, "ms");
           setStoredMinutes(prev => {
             const newTotal = prev + minutesDiff;
             localStorage.setItem("todayMinutes", newTotal.toString());
+            console.debug("[Timer Effect] Updated storedMinutes:", newTotal);
             return newTotal;
           });
-          setLastUpdateTime(new Date());
+          // Update lastUpdateTime to now.
+          const newTime = new Date();
+          setLastUpdateTime(newTime);
+          console.debug("[Timer Effect] Updated lastUpdateTime:", newTime);
         }
       }, 1000);
     }
-    return () => interval && clearInterval(interval);
+    return () => {
+      if (interval) {
+        clearInterval(interval);
+        console.debug("[Timer Effect] Cleared timer interval");
+      }
+    };
   }, [isActive, lastUpdateTime, autoPaused]);
 
-  // Updated: Compute progress using the maximum of storedMinutes and API value
+  // Updated: Compute progress so that while active, we use local storedMinutes directly.
   const displayedProgress = useMemo(() => {
-    const localMinutes = storedMinutes;
-    const dbMinutes = progress ? progress.today_minutes : 0;
-    const finalMinutes = Math.max(localMinutes, dbMinutes);
-    return progress
-      ? { ...progress, today_minutes: finalMinutes }
-      : {
-          today_minutes: finalMinutes,
-          total_goal: 0,
-          streak_days: 0,
-          streak_start: "",
-          streak_end: "",
-          progress_percentage: 0,
-          created_at: new Date().toISOString()
-        };
-  }, [progress, storedMinutes]);
+    if (isActive) {
+      return progress
+        ? { ...progress, today_minutes: storedMinutes }
+        : {
+            today_minutes: storedMinutes,
+            total_goal: 0,
+            streak_days: 0,
+            streak_start: "",
+            streak_end: "",
+            progress_percentage: 0,
+            created_at: new Date().toISOString(),
+          };
+    } else {
+      const dbMinutes = progress ? progress.today_minutes : 0;
+      const finalMinutes = Math.max(storedMinutes, dbMinutes);
+      return progress
+        ? { ...progress, today_minutes: finalMinutes }
+        : {
+            today_minutes: finalMinutes,
+            total_goal: 0,
+            streak_days: 0,
+            streak_start: "",
+            streak_end: "",
+            progress_percentage: 0,
+            created_at: new Date().toISOString(),
+          };
+    }
+  }, [progress, storedMinutes, isActive]);
 
   const progressPercentage = displayedProgress
     ? Math.round((displayedProgress.today_minutes / displayedProgress.total_goal) * 100)
