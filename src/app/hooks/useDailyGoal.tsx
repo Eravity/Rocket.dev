@@ -63,10 +63,12 @@ export function useDailyGoal() {
   // Update elapsed timer every second while active
   useEffect(() => {
     let interval: NodeJS.Timeout;
-    if (isActive && lastUpdateTime && progress && !autoPaused) {
+    if (isActive && lastUpdateTime && progress) {
       interval = setInterval(() => {
-        const elapsed = Math.floor((Date.now() - lastUpdateTime.getTime()) / (1000 * 60));
-        setLocalElapsed(elapsed);
+        if (!autoPaused) {
+          const elapsed = Math.floor((Date.now() - lastUpdateTime.getTime()) / (1000 * 60));
+          setLocalElapsed(elapsed);
+        }
       }, 1000);
     } else {
       setLocalElapsed(0);
@@ -104,7 +106,7 @@ export function useDailyGoal() {
           setAutoPaused(true);
         }
       }, 60000); // 1 minute timeout
-    };
+    }; 
     document.addEventListener("mousemove", resetInactivity);
     document.addEventListener("mousedown", resetInactivity);
     document.addEventListener("scroll", resetInactivity);
@@ -222,6 +224,6 @@ export function useDailyGoal() {
     displayedProgress,
     progressPercentage,
     isLoading,
-    handleStart,  // used as settings callback now
+    handleStart,  
   };
 }

@@ -1,4 +1,3 @@
-
 "use client";
 import dynamic from "next/dynamic";
 import Rocket from "./Icons/Rocket";
@@ -9,15 +8,30 @@ const DynamicChart = dynamic(() => import("./GoalChart"), { ssr: false });
 export default function GoalChartWrapper({
   data,
   isActive,
+  autoPaused,
 }: {
   data: number;
   isActive: boolean;
+  autoPaused: boolean;
 }) {
   const [shouldAnimate, setShouldAnimate] = useState(false);
 
   useEffect(() => {
     setShouldAnimate(isActive);
   }, [isActive]);
+
+  useEffect(() => {
+    if (autoPaused) {
+      setShouldAnimate(false);
+    }
+  }, [autoPaused]);
+
+  // New effect to restart animation on resume after pause
+  useEffect(() => {
+    if (!autoPaused && isActive) {
+      setShouldAnimate(true);
+    }
+  }, [autoPaused, isActive]);
 
   return (
     <div className="mx-auto relative w-24 h-24">

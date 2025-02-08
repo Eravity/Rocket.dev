@@ -7,7 +7,7 @@ interface GoalStatsProps {
     streak_end: string;
     today_minutes: number;
     total_goal: number;
-  };
+  } | null;
   isActive: boolean;
   onSettings: () => void;
 }
@@ -23,12 +23,18 @@ const formatDate = (dateString: string): string => {
 export default function GoalStats({ progress, onSettings }: GoalStatsProps) {
   // Compute streak days
   const computedStreakDays = useMemo(() => {
+    if (!progress || !progress.streak_start || !progress.streak_end) {
+      return 0;
+    }
     const start = new Date(progress.streak_start);
     const end = new Date(progress.streak_end);
     return Math.floor((end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24)) + 1;
   }, [progress]);
 
   const formattedDates = useMemo(() => {
+    if (!progress || !progress.streak_start || !progress.streak_end) {
+      return "";
+    }
     return `${formatDate(progress.streak_start)} - ${formatDate(progress.streak_end)}`;
   }, [progress]);
 
@@ -41,7 +47,7 @@ export default function GoalStats({ progress, onSettings }: GoalStatsProps) {
       <h2 className="text-neutral-400 text-center font-semibold text-sm">
         Daily Goal:{" "}
         <span className="font-bold text-black">
-          {`${progress.today_minutes}/${progress.total_goal} minutes`}
+          {progress ? `${progress.today_minutes}/${progress.total_goal} minutes` : "N/A"}
         </span>
       </h2>
       <hr className="w-3/4 mx-auto" />

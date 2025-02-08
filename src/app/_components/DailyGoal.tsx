@@ -8,12 +8,11 @@ import { useDailyGoal } from "../hooks/useDailyGoal";
 export default function DailyGoal() {
   const {
     isActive,
-    autoPaused,
     displayedProgress,
     progressPercentage,
     isLoading,
+    autoPaused,
     handleStart,
-    handlePause,
   } = useDailyGoal();
 
   if (isLoading) {
@@ -26,10 +25,10 @@ export default function DailyGoal() {
     <div className="w-full h-fit flex flex-col p-4 border rounded-xl">
       <GoalHeader />
       <div className="flex flex-col gap-3 mt-6 relative">
-        <GoalChartWrapper data={progressPercentage} isActive={isActive && !autoPaused} />
+        <GoalChartWrapper data={progressPercentage} isActive={isActive} autoPaused={autoPaused} />
         <GoalStats
           progress={displayedProgress!}
-          isActive={isActive && !autoPaused}
+          isActive={isActive}
           onSettings={handleStart}  // pass settings callback
         />
       </div>

@@ -5,15 +5,13 @@ import Check from "./Icons/Check";
 import Rocket from "./Icons/Rocket";
 
 const steps = [
+  { title: "Start" },
   { title: "HTML & CSS" },
   { title: "JavaScript" },
-  { title: "Tailwind" },
-  { title: "TypeScript" },
-  { title: "React" },
-  { title: "Next.js" },
-  { title: "Databases" },
-  { title: "Git" },
-  { title: "AI" },
+  { title: "React & State" },
+  { title: "Next.js & API" },
+  { title: "Supabase & SQL" },
+  { title: "Finish" },
 ];
 
 const Roadmap = React.memo(
@@ -25,7 +23,7 @@ const Roadmap = React.memo(
     const currentIndex = 1 + completedForRest;
 
     return (
-      <div className="w-full h-full px-8 py-4">
+      <div className="w-full h-full px-4 py-4">
         <div className="relative w-full h-fit">
           {/* Progress bar */}
           <div className="w-full h-3 bg-[#E9F1FC] rounded relative">
@@ -56,7 +54,7 @@ const Roadmap = React.memo(
                 <motion.div
                   className={`w-12 h-12 flex items-center justify-center rounded-full border-[5px] transition-all duration-300 ${
                     isFirst || isLast
-                      ? "bg-blueLotus border-white shadow-md"
+                      ? "bg-blueLotus border-white shadow-lg"
                       : isCompleted
                       ? "bg-white border-blueLotus"
                       : "bg-white border-[#E9F1FC]"
@@ -72,7 +70,7 @@ const Roadmap = React.memo(
                     <Check color={isCompleted ? "#5d4bf3" : "#E9F1FC"} />
                   )}
                 </motion.div>
-                <div className={`mt-2 text-sm font-semibold text-center ${isCompleted ? "text-[#5d4bf3]" : "text-neutral-500"}`}>
+                <div className="mt-2 text-sm font-semibold text-center text-gray-600">
                   {step.title}
                 </div>
               </div>
