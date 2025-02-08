@@ -138,17 +138,6 @@ export function useDailyGoal() {
     })();
   }, []);
 
-  useEffect(() => {
-    if (progress && progress.id) {
-      // Compare local minutes to DB’s today_minutes
-      const localMinutes = storedMinutes + sessionElapsed;
-      if (localMinutes > progress.today_minutes) {
-        updateMinutes.mutate({ id: progress.id, minutes: localMinutes });
-        localStorage.setItem("todayMinutes", localMinutes.toString());
-      }
-    }
-  }, [progress, storedMinutes, sessionElapsed, updateMinutes]);
-
   return {
     isActive,
     autoPaused,
