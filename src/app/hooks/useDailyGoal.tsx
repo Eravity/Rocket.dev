@@ -20,7 +20,6 @@ export function useDailyGoal() {
   const [isActive, setIsActive] = useState(false);
   const [autoPaused, setAutoPaused] = useState(false);
   const [lastUpdateTime, setLastUpdateTime] = useState<Date | null>(null);
-  const [sessionElapsed, setSessionElapsed] = useState(0);
   const [storedMinutes, setStoredMinutes] = useState(0); // effective minutes from localStorage
   const queryClient = useQueryClient();
 
@@ -46,12 +45,8 @@ export function useDailyGoal() {
         setLastUpdateTime(now);
         setStoredMinutes(0);
         localStorage.setItem("todayMinutes", "0");
-      } else if (now.getTime() - storedDate.getTime() > 60000) {
-        // If more than 1 minute elapsed while inactive, reset lastUpdateTime to now (ignore gap)
-        setLastUpdateTime(now);
-        setStoredMinutes(Number(storedMinutesVal) || 0);
-        localStorage.setItem("dailyGoalLastUpdateTime", now.toISOString());
       } else {
+        // Always load stored values without resetting due to inactivity gap
         setLastUpdateTime(storedDate);
         setStoredMinutes(Number(storedMinutesVal) || 0);
       }
@@ -82,7 +77,7 @@ export function useDailyGoal() {
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["learningProgress"] }),
   });
 
-  // Timer update effect: accumulate active minutes without resetting on pause
+  // Timer update effect: accumulate active minutes and persist them
   useEffect(() => {
     let interval: NodeJS.Timeout;
     if (isActive && lastUpdateTime && !autoPaused) { // removed "progress" from condition
@@ -90,7 +85,11 @@ export function useDailyGoal() {
         const diff = Date.now() - lastUpdateTime.getTime();
         if (diff >= 60000) { // if at least 1 minute passed
           const minutesDiff = Math.floor(diff / (1000 * 60));
-          setSessionElapsed(prev => prev + minutesDiff);
+          setStoredMinutes(prev => {
+            const newTotal = prev + minutesDiff;
+            localStorage.setItem("todayMinutes", newTotal.toString());
+            return newTotal;
+          });
           setLastUpdateTime(new Date());
         }
       }, 1000);
@@ -98,13 +97,23 @@ export function useDailyGoal() {
     return () => interval && clearInterval(interval);
   }, [isActive, lastUpdateTime, autoPaused]);
 
-  // Updated: Compute progress combining DB and accumulated session time
+  // Updated: Compute progress using the maximum of storedMinutes and API value
   const displayedProgress = useMemo(() => {
-    const localMinutes = storedMinutes + sessionElapsed;
+    const localMinutes = storedMinutes;
+    const dbMinutes = progress ? progress.today_minutes : 0;
+    const finalMinutes = Math.max(localMinutes, dbMinutes);
     return progress
-      ? { ...progress, today_minutes: localMinutes }
-      : { today_minutes: localMinutes, total_goal: 0, streak_days: 0, streak_start: "", streak_end: "", progress_percentage: 0, created_at: new Date().toISOString() };
-  }, [progress, sessionElapsed, storedMinutes]);
+      ? { ...progress, today_minutes: finalMinutes }
+      : {
+          today_minutes: finalMinutes,
+          total_goal: 0,
+          streak_days: 0,
+          streak_start: "",
+          streak_end: "",
+          progress_percentage: 0,
+          created_at: new Date().toISOString()
+        };
+  }, [progress, storedMinutes]);
 
   const progressPercentage = displayedProgress
     ? Math.round((displayedProgress.today_minutes / displayedProgress.total_goal) * 100)
