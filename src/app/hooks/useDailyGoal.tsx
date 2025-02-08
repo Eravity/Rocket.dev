@@ -38,9 +38,23 @@ export function useDailyGoal() {
   useEffect(() => {
     const storedTime = localStorage.getItem("dailyGoalLastUpdateTime");
     const storedMinutesVal = localStorage.getItem("todayMinutes");
+    const now = new Date();
     if (storedTime) {
-      setLastUpdateTime(new Date(storedTime));
-      setStoredMinutes(Number(storedMinutesVal) || 0);
+      const storedDate = new Date(storedTime);
+      if (now.toDateString() !== storedDate.toDateString()) {
+        // Reset if from another day
+        setLastUpdateTime(now);
+        setStoredMinutes(0);
+        localStorage.setItem("todayMinutes", "0");
+      } else if (now.getTime() - storedDate.getTime() > 60000) {
+        // If more than 1 minute elapsed while inactive, reset lastUpdateTime to now (ignore gap)
+        setLastUpdateTime(now);
+        setStoredMinutes(Number(storedMinutesVal) || 0);
+        localStorage.setItem("dailyGoalLastUpdateTime", now.toISOString());
+      } else {
+        setLastUpdateTime(storedDate);
+        setStoredMinutes(Number(storedMinutesVal) || 0);
+      }
       setIsActive(true);
     } else {
       handleStart();
@@ -123,6 +137,17 @@ export function useDailyGoal() {
       }
     })();
   }, []);
+
+  useEffect(() => {
+    if (progress && progress.id) {
+      // Compare local minutes to DB’s today_minutes
+      const localMinutes = storedMinutes + sessionElapsed;
+      if (localMinutes > progress.today_minutes) {
+        updateMinutes.mutate({ id: progress.id, minutes: localMinutes });
+        localStorage.setItem("todayMinutes", localMinutes.toString());
+      }
+    }
+  }, [progress, storedMinutes, sessionElapsed, updateMinutes]);
 
   return {
     isActive,

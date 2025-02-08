@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 interface Progress {
   id: string;
@@ -24,7 +24,19 @@ export function useProgressSync({
   setStoredMinutes,
   setLastUpdateTime,
 }: ProgressSyncProps) {
-  // Visibility change effect
+  // Refs pentru a păstra cele mai recente valori
+  const lastUpdateTimeRef = useRef(lastUpdateTime);
+  const storedMinutesRef = useRef(storedMinutes);
+
+  useEffect(() => {
+    lastUpdateTimeRef.current = lastUpdateTime;
+  }, [lastUpdateTime]);
+
+  useEffect(() => {
+    storedMinutesRef.current = storedMinutes;
+  }, [storedMinutes]);
+
+  // Efectul pentru schimbarea vizibilității paginii
   useEffect(() => {
     const handleVisibilityChange = () => {
       const now = new Date();
@@ -67,7 +79,7 @@ export function useProgressSync({
     setLastUpdateTime,
   ]);
 
-  // Fallback sync effect every 30 minutes
+  // Efectul de sincronizare la fiecare 30 de minute (fallback)
   useEffect(() => {
     const interval = setInterval(() => {
       if (isActive && progress && lastUpdateTime) {
@@ -97,29 +109,34 @@ export function useProgressSync({
     setLastUpdateTime,
   ]);
 
-  // Beforeunload effect
+  // Efectul pentru sincronizarea datelor când pagina este părăsită
   useEffect(() => {
-    const handleBeforeUnload = () => {
-      if (isActive && progress && lastUpdateTime) {
+    const handlePageHide = () => {
+      if (isActive && progress) {
         const now = new Date();
+        // Dacă lastUpdateTime nu este setat, folosim momentul curent
+        const effectiveLastUpdateTime = lastUpdateTimeRef.current || now;
         const elapsed = Math.floor(
-          (now.getTime() - lastUpdateTime.getTime()) / (1000 * 60)
+          (now.getTime() - effectiveLastUpdateTime.getTime()) / (1000 * 60)
         );
         if (elapsed > 0) {
-          const url = "/api/sync-progress"; // endpoint to sync progress
-          const data = JSON.stringify({
+          const url = "/api/sync-progress"; // endpoint-ul pentru sincronizare
+          const newMinutes = storedMinutesRef.current + elapsed;
+          const payload = JSON.stringify({
             id: progress.id,
-            minutes: storedMinutes + elapsed,
+            minutes: newMinutes,
           });
+          // Creăm un Blob cu tipul corect
+          const blob = new Blob([payload], { type: "application/json" });
           if (navigator.sendBeacon) {
-            navigator.sendBeacon(url, data);
+            navigator.sendBeacon(url, blob);
           } else {
-            fetch(url, { method: "POST", body: data, keepalive: true });
+            fetch(url, { method: "POST", body: payload, keepalive: true });
           }
         }
       }
     };
-    window.addEventListener("beforeunload", handleBeforeUnload);
-    return () => window.removeEventListener("beforeunload", handleBeforeUnload);
-  }, [isActive, progress, lastUpdateTime, storedMinutes]);
+    window.addEventListener("pagehide", handlePageHide);
+    return () => window.removeEventListener("pagehide", handlePageHide);
+  }, [isActive, progress]);
 }
