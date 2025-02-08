@@ -18,7 +18,8 @@ export function useDailyGoal() {
   const [isActive, setIsActive] = useState(false);
   const [autoPaused, setAutoPaused] = useState(false);
   const [lastUpdateTime, setLastUpdateTime] = useState<Date | null>(null);
-  const [localElapsed, setLocalElapsed] = useState(0);
+  const [sessionElapsed, setSessionElapsed] = useState(0);
+  const [storedMinutes, setStoredMinutes] = useState(0); // NEW: state for effective minutes from localStorage
   const queryClient = useQueryClient();
   const inactivityTimer = useRef<NodeJS.Timeout | null>(null);
 
@@ -29,13 +30,17 @@ export function useDailyGoal() {
     setAutoPaused(false);
     setLastUpdateTime(now);
     localStorage.setItem("dailyGoalLastUpdateTime", now.toISOString());
+    // NEW: initialize effective minutes to 0 in localStorage
+    localStorage.setItem("todayMinutes", "0");
   };
 
   // Update initialization effect to start timer immediately on first visit
   useEffect(() => {
-    const stored = localStorage.getItem("dailyGoalLastUpdateTime");
-    if (stored) {
-      setLastUpdateTime(new Date(stored));
+    const storedTime = localStorage.getItem("dailyGoalLastUpdateTime");
+    const storedMinutesVal = localStorage.getItem("todayMinutes");
+    if (storedTime) {
+      setLastUpdateTime(new Date(storedTime));
+      setStoredMinutes(Number(storedMinutesVal) || 0);
       setIsActive(true);
     } else {
       handleStart();
@@ -60,18 +65,18 @@ export function useDailyGoal() {
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["learningProgress"] }),
   });
 
-  // Update elapsed timer every second while active
+  // Timer update effect: accumulate active minutes without resetting on pause
   useEffect(() => {
     let interval: NodeJS.Timeout;
-    if (isActive && lastUpdateTime && progress) {
+    if (isActive && lastUpdateTime && progress && !autoPaused) {
       interval = setInterval(() => {
-        if (!autoPaused) {
-          const elapsed = Math.floor((Date.now() - lastUpdateTime.getTime()) / (1000 * 60));
-          setLocalElapsed(elapsed);
+        const diff = Date.now() - lastUpdateTime.getTime();
+        if (diff >= 60000) { // if at least 1 minute passed
+          const minutesDiff = Math.floor(diff / (1000 * 60));
+          setSessionElapsed(prev => prev + minutesDiff);
+          setLastUpdateTime(new Date());
         }
       }, 1000);
-    } else {
-      setLocalElapsed(0);
     }
     return () => interval && clearInterval(interval);
   }, [isActive, lastUpdateTime, progress, autoPaused]);
@@ -81,11 +86,11 @@ export function useDailyGoal() {
     if (progress && lastUpdateTime) {
       const now = new Date();
       const progressDate = new Date(progress.created_at);
-      const minutes = now.toDateString() !== progressDate.toDateString() ? 0 : progress.today_minutes + localElapsed;
+      const minutes = now.toDateString() !== progressDate.toDateString() ? 0 : storedMinutes + sessionElapsed;
       return { ...progress, today_minutes: minutes };
     }
     return progress;
-  }, [progress, lastUpdateTime, localElapsed]);
+  }, [progress, lastUpdateTime, sessionElapsed, storedMinutes]);
 
   const progressPercentage = displayedProgress
     ? Math.round((displayedProgress.today_minutes / displayedProgress.total_goal) * 100)
@@ -106,7 +111,7 @@ export function useDailyGoal() {
           setAutoPaused(true);
         }
       }, 60000); // 1 minute timeout
-    }; 
+    };
     document.addEventListener("mousemove", resetInactivity);
     document.addEventListener("mousedown", resetInactivity);
     document.addEventListener("scroll", resetInactivity);
@@ -142,16 +147,18 @@ export function useDailyGoal() {
           const newMinutes =
             now.toDateString() !== progressDate.toDateString()
               ? 0
-              : progress.today_minutes + elapsed;
+              : storedMinutes + elapsed;
           updateMinutes.mutate({ id: progress.id, minutes: newMinutes });
+          setStoredMinutes(newMinutes);
           setLastUpdateTime(now);
           localStorage.setItem("dailyGoalLastUpdateTime", now.toISOString());
+          localStorage.setItem("todayMinutes", newMinutes.toString());
         }
       }
     };
     document.addEventListener("visibilitychange", handleVisibilityChange);
     return () => document.removeEventListener("visibilitychange", handleVisibilityChange);
-  }, [isActive, progress, lastUpdateTime, updateMinutes]);
+  }, [isActive, progress, lastUpdateTime, updateMinutes, storedMinutes]);
 
   // Ensure streak functionality on mount
   useEffect(() => {
@@ -171,12 +178,15 @@ export function useDailyGoal() {
       const elapsed = Math.floor((now.getTime() - lastUpdateTime.getTime()) / (1000 * 60));
       if (elapsed >= 10) {
         // also check for 10 min threshold here
-        updateMinutes.mutate({ id: progress.id, minutes: progress.today_minutes + elapsed });
+        const newMinutes = storedMinutes + elapsed;
+        updateMinutes.mutate({ id: progress.id, minutes: newMinutes });
+        setStoredMinutes(newMinutes);
         setLastUpdateTime(now);
         localStorage.setItem("dailyGoalLastUpdateTime", now.toISOString());
+        localStorage.setItem("todayMinutes", newMinutes.toString());
       }
     }
-  }, [isActive, progress, updateMinutes, lastUpdateTime]);
+  }, [isActive, progress, updateMinutes, lastUpdateTime, storedMinutes]);
 
   // Add fallback: Sync progress every 30 minutes
   useEffect(() => {
@@ -185,15 +195,18 @@ export function useDailyGoal() {
         const now = new Date();
         const elapsed = Math.floor((now.getTime() - lastUpdateTime.getTime()) / (1000 * 60));
         if (elapsed >= 30) {
-          updateMinutes.mutate({ id: progress.id, minutes: progress.today_minutes + elapsed });
+          const newMinutes = storedMinutes + elapsed;
+          updateMinutes.mutate({ id: progress.id, minutes: newMinutes });
+          setStoredMinutes(newMinutes);
           setLastUpdateTime(now);
           localStorage.setItem("dailyGoalLastUpdateTime", now.toISOString());
+          localStorage.setItem("todayMinutes", newMinutes.toString());
           console.info("Fallback sync: 30+ minutes elapsed, data updated");
         }
       }
     }, 30 * 60 * 1000); // every 30 minutes
     return () => clearInterval(interval);
-  }, [isActive, progress, lastUpdateTime, updateMinutes]);
+  }, [isActive, progress, lastUpdateTime, updateMinutes, storedMinutes]);
 
   // Handle beforeunload: send final update if needed
   useEffect(() => {
@@ -204,7 +217,7 @@ export function useDailyGoal() {
         if (elapsed >= 10) {
           // Use navigator.sendBeacon if available for a synchronous request
           const url = "/api/sync-progress"; // endpoint to sync progress
-          const data = JSON.stringify({ id: progress.id, minutes: progress.today_minutes + elapsed });
+          const data = JSON.stringify({ id: progress.id, minutes: storedMinutes + elapsed });
           if (navigator.sendBeacon) {
             navigator.sendBeacon(url, data);
           } else {
@@ -216,7 +229,7 @@ export function useDailyGoal() {
     };
     window.addEventListener("beforeunload", handleBeforeUnload);
     return () => window.removeEventListener("beforeunload", handleBeforeUnload);
-  }, [isActive, progress, lastUpdateTime]);
+  }, [isActive, progress, lastUpdateTime, storedMinutes]);
 
   return {
     isActive,
@@ -224,6 +237,6 @@ export function useDailyGoal() {
     displayedProgress,
     progressPercentage,
     isLoading,
-    handleStart,  
+    handleStart,  // used as settings callback now
   };
 }
