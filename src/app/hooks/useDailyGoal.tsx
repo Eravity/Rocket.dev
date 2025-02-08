@@ -85,7 +85,7 @@ export function useDailyGoal() {
   // Timer update effect: accumulate active minutes without resetting on pause
   useEffect(() => {
     let interval: NodeJS.Timeout;
-    if (isActive && lastUpdateTime && progress && !autoPaused) {
+    if (isActive && lastUpdateTime && !autoPaused) { // removed "progress" from condition
       interval = setInterval(() => {
         const diff = Date.now() - lastUpdateTime.getTime();
         if (diff >= 60000) { // if at least 1 minute passed
@@ -96,20 +96,15 @@ export function useDailyGoal() {
       }, 1000);
     }
     return () => interval && clearInterval(interval);
-  }, [isActive, lastUpdateTime, progress, autoPaused]);
+  }, [isActive, lastUpdateTime, autoPaused]);
 
-  // Compute progress combining DB and accumulated session time
+  // Updated: Compute progress combining DB and accumulated session time
   const displayedProgress = useMemo(() => {
-    if (progress && lastUpdateTime) {
-      const now = new Date();
-      const progressDate = new Date(progress.created_at);
-      const minutes = now.toDateString() !== progressDate.toDateString()
-        ? 0
-        : storedMinutes + sessionElapsed;
-      return { ...progress, today_minutes: minutes };
-    }
-    return progress;
-  }, [progress, lastUpdateTime, sessionElapsed, storedMinutes]);
+    const localMinutes = storedMinutes + sessionElapsed;
+    return progress
+      ? { ...progress, today_minutes: localMinutes }
+      : { today_minutes: localMinutes, total_goal: 0, streak_days: 0, streak_start: "", streak_end: "", progress_percentage: 0, created_at: new Date().toISOString() };
+  }, [progress, sessionElapsed, storedMinutes]);
 
   const progressPercentage = displayedProgress
     ? Math.round((displayedProgress.today_minutes / displayedProgress.total_goal) * 100)
