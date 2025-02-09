@@ -2,7 +2,7 @@ export default function Time() {
   return (
     <div>
       <svg
-        fill="#737373"
+        fill="#fbbf24"
         width="30px"
         height="30px"
         viewBox="0 0 24 24"

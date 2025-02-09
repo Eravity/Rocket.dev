@@ -7,7 +7,7 @@ interface ArticleIconProps {
 }
 
 export default function ArticleIcon({ 
-  fill = "#737373", 
+  fill = "#fbbf24", 
   stroke = fill,
   width = 40,
   height = 40,

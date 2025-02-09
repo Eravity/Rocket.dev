@@ -28,7 +28,7 @@ const Roadmap = React.memo(
           {/* Progress bar */}
           <div className="w-full h-3 bg-[#E9F1FC] rounded relative">
             <motion.div
-              className="h-3 bg-blueLotus rounded"
+              className="h-3 bg-blueLotus rounded-full"
               style={{ width: `${completionPercentage}%` }}
               transition={{ duration: 0.3 }}
             />

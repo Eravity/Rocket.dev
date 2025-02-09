@@ -9,12 +9,12 @@ export default function CourseData({
 }) {
   return (
     <div className="w-full h-fit flex p-4 border rounded-xl">
-      <div className="p-2 rounded-full w-14 h-14 flex items-center justify-center mr-3 bg-neutral-300">
+      <div className="p-2 rounded-full w-14 h-14 flex items-center justify-center mr-3 border-2 border-amber-300">
         {icon}
       </div>
       <div>
         <h1 className="text-3xl font-bold">{value}</h1>
-        <p className="text-md font-semibold text-neutral-500">{label}</p>
+        <p className="text-md font-semibold text-amber-400">{label}</p>
       </div>
     </div>
   );
