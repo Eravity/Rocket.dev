@@ -38,6 +38,7 @@ export default function ToBeReviewed() {
         {dummyReviews.slice(0, 4).map((review, index) => (
           <ReviewItem
             key={index}
+            icon="defaultIcon"
             title={review.title}
             type={review.type}
             questions={review.questions}

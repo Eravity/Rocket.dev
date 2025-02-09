@@ -4,7 +4,6 @@ import dynamic from "next/dynamic";
 import Clock from "./Icons/Clock";
 import Files from "./Icons/Files";
 import CourseIcon from "./Icons/CourseIcon";
-import { useLearningEvent } from "../hooks/useLearningEvent";
 import { useRelativeTime } from "../hooks/useRelativeTime";
 import InfoCell from "./InfoCell";
 
@@ -24,7 +23,6 @@ export type CourseData = {
 };
 
 const CourseRow = ({ course, resources }: { course: CourseData; resources: number[] }) => {
-  const { emitLearningEvent } = useLearningEvent();
   const formattedDeadline = useRelativeTime({ dateString: course.deadline });
   const isUrgent = formattedDeadline.includes("min") || formattedDeadline.includes("h");
 
@@ -32,7 +30,7 @@ const CourseRow = ({ course, resources }: { course: CourseData; resources: numbe
     <>
       <div className="flex items-center justify-center p-2">
         <div className="relative w-full aspect-[16/10] overflow-hidden rounded-lg">
-          <Link href="" className="relative block w-full h-full">
+          <Link href={`/course/${course.id}`} className="relative block w-full h-full">
             <Image
               src={course.image}
               alt={course.title}
@@ -54,7 +52,7 @@ const CourseRow = ({ course, resources }: { course: CourseData; resources: numbe
         </div>
         <div className="w-full">
           <Link
-            href=""
+            href={`/course/${course.id}`}
             className="inline-block text-sm sm:text-base md:text-lg font-bold transition-colors duration-200 hover:text-blueLotus line-clamp-1"
           >
             {course.title}
@@ -72,12 +70,12 @@ const CourseRow = ({ course, resources }: { course: CourseData; resources: numbe
       <InfoCell icon={<Clock color={isUrgent ? "red" : "#737373"} />} label="Deadline" value={formattedDeadline} isUrgent={isUrgent} />
 
       <div className="flex items-center justify-end pr-2 sm:pr-4 md:pr-6 lg:pr-8">
-        <button
-          onClick={() => emitLearningEvent("start")}
+        <Link
+          href={`/course/${course.id}`}
           className="px-3 sm:px-4 py-1 border rounded-md text-xs sm:text-sm transition-all duration-200 hover:bg-blueLotus hover:text-white hover:border-blueLotus active:scale-95"
         >
           {course.completion > 0 ? "Continue" : "Start"}
-        </button>
+        </Link>
       </div>
     </>
   );
