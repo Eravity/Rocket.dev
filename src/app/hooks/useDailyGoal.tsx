@@ -33,24 +33,31 @@ export function useDailyGoal() {
     localStorage.setItem("todayMinutes", "0");
   };
 
-  // Initialization effect
+  // Initialization effect with validation
   useEffect(() => {
     const storedTime = localStorage.getItem("dailyGoalLastUpdateTime");
     const storedMinutesVal = localStorage.getItem("todayMinutes");
     const now = new Date();
 
+    const resetStorage = () => {
+      setLastUpdateTime(now);
+      setStoredMinutes(0);
+      localStorage.setItem("todayMinutes", "0");
+      localStorage.setItem("dailyGoalLastUpdateTime", now.toISOString());
+    };
+
     if (storedTime) {
       const storedDate = new Date(storedTime);
+      const storedMinutes = Number(storedMinutesVal) || 0;
+      
       if (now.toDateString() !== storedDate.toDateString()) {
-        // Only reset if it's a new day
-        setLastUpdateTime(now);
-        setStoredMinutes(0);
-        localStorage.setItem("todayMinutes", "0");
-        localStorage.setItem("dailyGoalLastUpdateTime", now.toISOString());
+        console.debug("[Daily Goal] New day detected, resetting storage");
+        resetStorage();
       } else {
-        // Otherwise keep the stored values regardless of elapsed time
-        setLastUpdateTime(storedDate);
-        setStoredMinutes(Number(storedMinutesVal) || 0);
+        // Always set lastUpdateTime to now on page load to prevent immediate increment
+        setLastUpdateTime(now);
+        setStoredMinutes(storedMinutes);
+        localStorage.setItem("dailyGoalLastUpdateTime", now.toISOString());
       }
       setIsActive(true);
     } else {
@@ -79,7 +86,7 @@ export function useDailyGoal() {
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["learningProgress"] }),
   });
 
-  // Timer update effect: accumulate active minutes, updating localStorage every minute.
+  // Timer update effect with safety check
   useEffect(() => {
     let interval: NodeJS.Timeout;
     if (isActive && lastUpdateTime && !autoPaused) { // runs only when not paused (AFK)
@@ -87,9 +94,20 @@ export function useDailyGoal() {
         const diff = Date.now() - lastUpdateTime.getTime();
         if (diff >= 60000) { // each minute elapsed
           const minutesDiff = Math.floor(diff / (1000 * 60));
+          // Add safety check for reasonable increment
+          if (minutesDiff > 60) { // If more than an hour has passed
+            console.warn("[Timer Effect] Unreasonable time increment detected, resetting timer");
+            setLastUpdateTime(new Date());
+            return;
+          }
           console.debug("[Timer Effect] Adding", minutesDiff, "minute(s); diff =", diff, "ms");
           setStoredMinutes(prev => {
             const newTotal = prev + minutesDiff;
+            // Add safety check for total minutes
+            if (newTotal > 960) { // More than 16 hours
+              console.warn("[Timer Effect] Unreasonable total minutes detected");
+              return prev;
+            }
             localStorage.setItem("todayMinutes", newTotal.toString());
             console.debug("[Timer Effect] Updated storedMinutes:", newTotal);
             return newTotal;
