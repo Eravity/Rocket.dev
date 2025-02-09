@@ -22,11 +22,12 @@ export default function GoalChart({ data }: { data: number }) {
     setChartValue(data);
   }, [data]);
 
-  // Assume value is in percentage (0-100)
-  const validatedData = Math.max(0, Math.min(100, chartValue));  
+  // Adjust rendering: if progress exceeds 100, cap the visual display at 100%
+  const validatedData = Math.max(0, chartValue);
+  const primaryValue = validatedData > 100 ? 100 : validatedData;
   const chartData = [
-    { value: validatedData },
-    { value: 100 - validatedData },
+    { value: primaryValue },
+    { value: primaryValue < 100 ? 100 - primaryValue : 0 },
   ];
 
   return (
@@ -56,7 +57,12 @@ export default function GoalChart({ data }: { data: number }) {
           cornerRadius={CORNER_RADIUS}
         >
           {chartData.map((entry, index) => (
-            <Cell key={`cell-${index}`} fill={index === 0 ? COLORS.completed : COLORS.remaining} />
+            <Cell
+              key={`cell-${index}`}
+              fill={index === 0 ? COLORS.completed : COLORS.remaining}
+              stroke="none"
+              strokeWidth={0}
+            />
           ))}
         </Pie>
       </PieChart>
