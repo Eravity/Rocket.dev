@@ -127,6 +127,29 @@ export function useDailyGoal() {
     };
   }, [isActive, lastUpdateTime, autoPaused]);
 
+  // Add cleanup effect for page unload/visibility change
+  useEffect(() => {
+    const handleCleanup = () => {
+      setIsActive(false);
+      setAutoPaused(true);
+      const now = new Date();
+      localStorage.setItem("dailyGoalLastUpdateTime", now.toISOString());
+      console.debug("[Daily Goal] Cleanup: stopped timer");
+    };
+
+    window.addEventListener("beforeunload", handleCleanup);
+    document.addEventListener("visibilitychange", () => {
+      if (document.visibilityState === "hidden") {
+        handleCleanup();
+      }
+    });
+
+    return () => {
+      window.removeEventListener("beforeunload", handleCleanup);
+      document.removeEventListener("visibilitychange", handleCleanup);
+    };
+  }, []);
+
   // Updated: Compute progress so that while active, we use local storedMinutes directly.
   const displayedProgress = useMemo(() => {
     if (isActive) {

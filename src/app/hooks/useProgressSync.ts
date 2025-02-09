@@ -117,27 +117,19 @@ export function useProgressSync({
   useEffect(() => {
     const handlePageHide = () => {
       if (isActive && progress) {
-        const now = new Date();
-        // Dacă lastUpdateTime nu este setat, folosim momentul curent
-        const effectiveLastUpdateTime = lastUpdateTimeRef.current || now;
-        const elapsed = Math.floor(
-          (now.getTime() - effectiveLastUpdateTime.getTime()) / (1000 * 60)
-        );
-        if (elapsed > 0) {
-          const url = "/api/sync-progress"; // endpoint-ul pentru sincronizare
-          const newMinutes = storedMinutesRef.current + elapsed;
-          const payload = JSON.stringify({
-            id: progress.id,
-            minutes: newMinutes,
-          });
-          // Creăm un Blob cu tipul corect
-          const blob = new Blob([payload], { type: "application/json" });
-          if (navigator.sendBeacon) {
-            navigator.sendBeacon(url, blob);
-          } else {
-            fetch(url, { method: "POST", body: payload, keepalive: true });
-          }
+        const currentMinutes = Number(localStorage.getItem("todayMinutes")) || storedMinutesRef.current;
+        const url = "/api/sync-progress";
+        const payload = JSON.stringify({
+          id: progress.id,
+          minutes: currentMinutes
+        });
+        const blob = new Blob([payload], { type: "application/json" });
+        if (navigator.sendBeacon) {
+          navigator.sendBeacon(url, blob);
+        } else {
+          fetch(url, { method: "POST", body: payload, keepalive: true });
         }
+        console.debug("[ProgressSync] Final sync with minutes:", currentMinutes);
       }
     };
     window.addEventListener("pagehide", handlePageHide);
