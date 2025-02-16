@@ -1,46 +1,48 @@
 "use client";
-import React, { useMemo } from "react";
+import React from "react";
 import Check from "./Icons/Check";
 import Rocket from "./Icons/Rocket";
 import { Chapter, useChapterProgress } from "../hooks/useChapterProgress";
 
 const Roadmap = React.memo(
   ({ chapters }: { chapters: Chapter[] }) => {
-    const totalSteps = chapters.length;
-    const { currentChapter } = useChapterProgress(chapters);
-
-    // Compute completion percentage based on chapter id
-    const completionPercentage = useMemo(() => {
-      if (!totalSteps) return 0;
-      const lastId = chapters[totalSteps - 1].id || totalSteps - 1;
-      return Math.min(
-        100,
-        Math.floor((currentChapter.id / lastId) * 100)
-      );
-    }, [chapters, currentChapter, totalSteps]);
+    const { sortedChapters, overallCompletion } = useChapterProgress(chapters);
+    const totalSteps = sortedChapters.length;
 
     return (
       <div className="w-full h-full px-4 py-4">
         <div className="relative w-full h-fit">
-          {/* Progress bar */}
-          <div className="w-full h-3 bg-[#E9F1FC] rounded relative">
-            <div
-              className="h-3 bg-blueLotus rounded-full"
-              style={{ width: `${completionPercentage}%` }}
-            />
+          {/* Segmented progress bar */}
+          <div className="w-full h-3 rounded flex relative">
+            {Array.from({ length: 8 }).map((_, index) => (
+              <div 
+                key={`progress-${index}`} 
+                className="h-full first:rounded-l last:rounded-r absolute"
+                style={{ 
+                  backgroundColor: sortedChapters[index]?.completion >= 100 ? '#5d4bf3' : '#E9F1FC',
+                  width: '13%',  // Slightly wider than 12.5% (100/8)
+                  left: `${(index * 12.5)}%`, // Position based on 8 segments
+                }}
+              >
+                {sortedChapters[index]?.completion < 100 && (
+                  <div 
+                    className="h-full bg-blueLotus rounded transition-all duration-300"
+                    style={{ width: `${sortedChapters[index]?.completion || 0}%` }}
+                  />
+                )}
+              </div>
+            ))}
           </div>
 
-          {/* Steps */}
-          {chapters.map((chapter, index) => {
-            const leftPercent = (index / (totalSteps - 1)) * 100;
-            const isCompleted = chapter.completion === 100 || index < currentChapter.id;
-            // First & Last based on index
+          {/* Steps circles */}
+          {sortedChapters.map((chapter, index) => {
+            const previousChapter = index > 0 ? sortedChapters[index - 1] : null;
+            const shouldColorCircle = previousChapter?.completion === 100;
+            const isCompleted = chapter.completion >= 100;
             const isFirst = index === 0;
             const isLast = index === totalSteps - 1;
-            // Adjust transform styling
-            const transformStyle = isLast
-              ? "translate(-50%, -32%)"
-              : "translate(-50%, -27%)";
+            const leftPercent = (index / (totalSteps - 1)) * 100;
+            const transformStyle = "translate(-50%, -23%)";
 
             return (
               <div
@@ -56,8 +58,8 @@ const Roadmap = React.memo(
                   className={`w-12 h-12 flex items-center justify-center rounded-full border-[5px] transition-all duration-300 ${
                     isFirst || isLast
                       ? "bg-blueLotus border-white shadow-lg"
-                      : isCompleted
-                      ? "bg-white border-blueLotus"
+                      : isCompleted || shouldColorCircle
+                      ? "bg-[#fff] border-[#5d4bf3]"
                       : "bg-white border-[#E9F1FC]"
                   }`}
                 >
@@ -65,15 +67,16 @@ const Roadmap = React.memo(
                     <Rocket width={25} height={25} color="#fff" />
                   ) : isLast ? (
                     <span className="text-white font-semibold text-xs">
-                      {completionPercentage}%
+                      {overallCompletion}%
                     </span>
                   ) : (
-                    <Check color={isCompleted ? "#5d4bf3" : "#E9F1FC"} />
+                    <Check color={(isCompleted || shouldColorCircle) ? "#5d4bf3" : "#E9F1FC"} />
                   )}
                 </div>
                 <div className="mt-2 text-sm font-semibold text-center text-gray-500">
                   <h1 className="font-bold text-black">{chapter.title}</h1>
                   <h1 className="text-xs w-13">{chapter.description || ""}</h1>
+                  <h1 className="text-xs mt-1">Progress: {chapter.completion}%</h1>
                 </div>
               </div>
             );

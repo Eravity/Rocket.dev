@@ -8,17 +8,23 @@ export interface Chapter {
 }
 
 export function useChapterProgress(chapters: Chapter[]) {
-  // Ensure chapters are sorted by id in ascending order
-  const sortedChapters = useMemo(
-    () => [...chapters].sort((a, b) => a.id - b.id),
-    [chapters]
-  );
+  // Sort chapters by ID
+  const sortedChapters = useMemo(() => {
+    return [...chapters].sort((a, b) => a.id - b.id);
+  }, [chapters]);
 
-  // Find the first chapter that is not completely finished
-  const currentChapter = useMemo(() => {
-    const index = sortedChapters.findIndex((chapter) => chapter.completion < 100);
-    return index === -1 ? sortedChapters[sortedChapters.length - 1] : sortedChapters[index];
+  // Compute average progress or any other desired metric
+  const overallCompletion = useMemo(() => {
+    if (!sortedChapters.length) return 0;
+    // Each chapter contributes (completion / 100) to a total fractional amount
+    const sumFraction = sortedChapters.reduce(
+      (acc, ch) => acc + ch.completion / 100,
+      0
+    );
+    // Convert fractional to a percentage based on total chapters
+    return Math.floor((sumFraction / sortedChapters.length) * 100);
   }, [sortedChapters]);
 
-  return { currentChapter };
+  // Return the sorted chapters and the overall completion metric
+  return { sortedChapters, overallCompletion };
 }

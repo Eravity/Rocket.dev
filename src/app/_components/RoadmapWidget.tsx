@@ -3,8 +3,8 @@ import Roadmap from "./Roadmap";
 
 const sampleChapters = [
   { id: 0, title: "Introduction", description: "Basics", completion: 100 },
-  { id: 1, title: "Web Foundations", description: "HTML & CSS", completion: 80 },
-  { id: 2, title: "Interactive Coding", description: "JavaScript & TS", completion: 50 },
+  { id: 1, title: "Web Foundations", description: "HTML & CSS", completion: 100 },
+  { id: 2, title: "Interactive Coding", description: "JavaScript & TS", completion: 100 },
   { id: 3, title: "Version Control", description: "Git", completion: 0 },
   { id: 4, title: "Data & APIs", description: "Databases & API", completion: 0 },
   { id: 5, title: "Modern UI", description: "React", completion: 0 },
