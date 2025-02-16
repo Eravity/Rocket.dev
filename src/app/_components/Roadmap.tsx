@@ -42,7 +42,7 @@ const Roadmap = React.memo(
             const isFirst = index === 0;
             const isLast = index === totalSteps - 1;
             const leftPercent = (index / (totalSteps - 1)) * 100;
-            const transformStyle = "translate(-50%, -23%)";
+            const transformStyle = !isLast ? "translate(-50%, -23%)" : "translate(-50%, -25%)";
 
             return (
               <div
@@ -76,7 +76,9 @@ const Roadmap = React.memo(
                 <div className="mt-2 text-sm font-semibold text-center text-gray-500">
                   <h1 className="font-bold text-black">{chapter.title}</h1>
                   <h1 className="text-xs w-13">{chapter.description || ""}</h1>
-                  <h1 className="text-xs mt-1">Progress: {chapter.completion}%</h1>
+                  <h1 className="text-xs mt-1">
+                    {!isLast ? `Progress: ${chapter.completion}%` : ""}
+                  </h1>
                 </div>
               </div>
             );
