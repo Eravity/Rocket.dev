@@ -5,13 +5,16 @@ import Check from "./Icons/Check";
 import Rocket from "./Icons/Rocket";
 
 const steps = [
-  { title: "Start" },
-  { title: "HTML & CSS" },
-  { title: "JavaScript" },
-  { title: "React & State" },
-  { title: "Next.js & API" },
-  { title: "Supabase & SQL" },
-  { title: "Finish" },
+  { title: "Web Foundations", description: "HTML & CSS Foundations" },
+  {
+    title: "Interactive Coding",
+    description: "JavaScript & TypeScript Essentials",
+  },
+  { title: "Version Control", description: "Git & Version Control" },
+  { title: "Data & APIs", description: "Databases & API Integration" },
+  { title: "Modern UI", description: "Building UI with React" },
+  { title: "Full-Stack Mastery", description: "Full-Stack with Next.js" },
+  { title: "Automation & AI", description: "AI & Automation in Web" },
 ];
 
 const Roadmap = React.memo(
@@ -38,8 +41,12 @@ const Roadmap = React.memo(
           {steps.map((step, index) => {
             const leftPercent = (index / (totalSteps - 1)) * 100;
             const isCompleted = index < currentIndex;
-            const isFirst = step.title === "Start";
-            const isLast = step.title === "Finish";
+            // Set first and last conditions based on index
+            const isFirst = index === 0;
+            const isLast = index === totalSteps - 1;
+            // Adjust transform for the last step to compensate for a two-row description
+            const transformStyle =
+              isLast ? "translate(-50%, -25%)" : "translate(-50%, -32%)";
 
             return (
               <div
@@ -48,7 +55,7 @@ const Roadmap = React.memo(
                 style={{
                   left: `${leftPercent}%`,
                   top: "50%",
-                  transform: "translate(-50%, -32%)",
+                  transform: transformStyle,
                 }}
               >
                 <motion.div
@@ -71,7 +78,7 @@ const Roadmap = React.memo(
                   )}
                 </motion.div>
                 <div className="mt-2 text-sm font-semibold text-center text-gray-600">
-                  {step.title}
+                  <h1 className="">{step.title}</h1>
                 </div>
               </div>
             );

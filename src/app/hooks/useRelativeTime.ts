@@ -1,6 +1,10 @@
 import { useState, useEffect } from "react";
 
-export function useRelativeTime({ dateString }: { dateString: string }): string {
+export function useRelativeTime({
+  dateString,
+}: {
+  dateString: string;
+}): string {
   const [timeLeft, setTimeLeft] = useState(() => calculateTimeLeft(dateString));
 
   useEffect(() => {
@@ -19,11 +23,19 @@ function calculateTimeLeft(dateString: string): string {
   const target = new Date(dateString);
   const diffInSeconds = Math.floor((target.getTime() - now.getTime()) / 1000);
 
-  if (diffInSeconds >= 86400) {
-    return `${Math.floor(diffInSeconds / 86400)} ${Math.floor(diffInSeconds / 86400) > 1 ? "Days" : "Day"}`;
+  const days = Math.floor(diffInSeconds / 86400);
+  const hours = Math.floor((diffInSeconds % 86400) / 3600);
+  const minutes = Math.floor((diffInSeconds % 3600) / 60);
+
+  if (days >= 1) {
+    return `${days} ${days > 1 ? "Days" : "Day"} ${hours} ${
+      hours !== 1 ? "Hours" : "Hour"
+    }`;
   }
-  if (diffInSeconds >= 3600) {
-    return `${Math.floor(diffInSeconds / 3600)} ${Math.floor(diffInSeconds / 3600) > 1 ? "Hours" : "Hour"}`;
+  if (hours >= 1) {
+    return `${hours} ${hours !== 1 ? "Hours" : "Hour"} ${minutes} ${
+      minutes !== 1 ? "min" : "min"
+    }`;
   }
-  return `${Math.floor(diffInSeconds / 60)} min ${diffInSeconds % 60} sec`;
+  return `${Math.abs(minutes)} min`;
 }
