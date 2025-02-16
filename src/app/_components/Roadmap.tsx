@@ -1,56 +1,50 @@
 "use client";
-import { motion } from "framer-motion";
-import React from "react";
+import React, { useMemo } from "react";
 import Check from "./Icons/Check";
 import Rocket from "./Icons/Rocket";
-
-const steps = [
-  { title: "Web Foundations", description: "HTML & CSS Foundations" },
-  {
-    title: "Interactive Coding",
-    description: "JavaScript & TypeScript Essentials",
-  },
-  { title: "Version Control", description: "Git & Version Control" },
-  { title: "Data & APIs", description: "Databases & API Integration" },
-  { title: "Modern UI", description: "Building UI with React" },
-  { title: "Full-Stack Mastery", description: "Full-Stack with Next.js" },
-  { title: "Automation & AI", description: "AI & Automation in Web" },
-];
+import { Chapter, useChapterProgress } from "../hooks/useChapterProgress";
 
 const Roadmap = React.memo(
-  ({ completionPercentage }: { completionPercentage: number }) => {
-    const totalSteps = steps.length;
-    const completedForRest = Math.floor(
-      (completionPercentage / 100) * (totalSteps - 1)
-    );
-    const currentIndex = 1 + completedForRest;
+  ({ chapters }: { chapters: Chapter[] }) => {
+    const totalSteps = chapters.length;
+    const { currentChapter } = useChapterProgress(chapters);
+
+    // Compute completion percentage based on chapter id
+    const completionPercentage = useMemo(() => {
+      if (!totalSteps) return 0;
+      const lastId = chapters[totalSteps - 1].id || totalSteps - 1;
+      return Math.min(
+        100,
+        Math.floor((currentChapter.id / lastId) * 100)
+      );
+    }, [chapters, currentChapter, totalSteps]);
 
     return (
       <div className="w-full h-full px-4 py-4">
         <div className="relative w-full h-fit">
           {/* Progress bar */}
           <div className="w-full h-3 bg-[#E9F1FC] rounded relative">
-            <motion.div
+            <div
               className="h-3 bg-blueLotus rounded-full"
               style={{ width: `${completionPercentage}%` }}
-              transition={{ duration: 0.3 }}
             />
           </div>
 
           {/* Steps */}
-          {steps.map((step, index) => {
+          {chapters.map((chapter, index) => {
             const leftPercent = (index / (totalSteps - 1)) * 100;
-            const isCompleted = index < currentIndex;
-            // Set first and last conditions based on index
+            const isCompleted = chapter.completion === 100 || index < currentChapter.id;
+            // First & Last based on index
             const isFirst = index === 0;
             const isLast = index === totalSteps - 1;
-            // Adjust transform for the last step to compensate for a two-row description
-            const transformStyle =
-              isLast ? "translate(-50%, -25%)" : "translate(-50%, -32%)";
+            // Adjust transform styling
+            const transformStyle = isLast
+              ? "translate(-50%, -32%)"
+              : "translate(-50%, -27%)";
 
             return (
               <div
-                key={index}
+                key={chapter.id}
                 className="absolute z-10 flex flex-col items-center"
                 style={{
                   left: `${leftPercent}%`,
@@ -58,7 +52,7 @@ const Roadmap = React.memo(
                   transform: transformStyle,
                 }}
               >
-                <motion.div
+                <div
                   className={`w-12 h-12 flex items-center justify-center rounded-full border-[5px] transition-all duration-300 ${
                     isFirst || isLast
                       ? "bg-blueLotus border-white shadow-lg"
@@ -76,9 +70,10 @@ const Roadmap = React.memo(
                   ) : (
                     <Check color={isCompleted ? "#5d4bf3" : "#E9F1FC"} />
                   )}
-                </motion.div>
-                <div className="mt-2 text-sm font-semibold text-center text-gray-600">
-                  <h1 className="">{step.title}</h1>
+                </div>
+                <div className="mt-2 text-sm font-semibold text-center text-gray-500">
+                  <h1 className="font-bold text-black">{chapter.title}</h1>
+                  <h1 className="text-xs w-13">{chapter.description || ""}</h1>
                 </div>
               </div>
             );

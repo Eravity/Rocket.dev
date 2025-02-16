@@ -3,7 +3,7 @@ import InProgressContent from "./_components/InProgressContent";
 import NewEnrollment from "./_components/NewEnrollment";
 import Stats from "./_components/Stats";
 import CourseAside from "./_components/CourseAside";
-import Treat from "./_components/Treat";
+import Treat from "./_components/RoadmapWidget";
 import MostViewedContents from "./_components/MostViewedContents";
 import ToBeReviewed from "./_components/ToBeReviewed";
 
