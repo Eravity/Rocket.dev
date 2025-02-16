@@ -15,7 +15,7 @@ const sampleChapters = [
 
 export default function Treat() {
   return (
-    <div className="relative rounded-xl flex flex-col md:flex-row gap-4 md:gap-0 justify-between py-6 px-16 min-h-[140px] bg-white border border-gray-200">
+    <div className="relative rounded-xl flex flex-col md:flex-row gap-4 md:gap-0 justify-between py-6 px-16 min-h-[160px] bg-white border border-gray-200">
       <Roadmap chapters={sampleChapters} />
     </div>
   );
