@@ -16,10 +16,10 @@ export function CourseBox({
   status,
 }: CourseBoxProps) {
   return (
-    <div className="h-full flex flex-col w-full border p-2 sm:p-0 rounded-lg overflow-hidden transition-all duration-300 hover:shadow-lg cursor-pointer">
+    <div className="group h-full flex flex-col w-full border p-2 sm:p-0 rounded-lg overflow-hidden transition-all duration-300 hover:shadow-lg cursor-pointer">
       <div className="overflow-hidden rounded-t-lg aspect-video relative">
         <Image
-          className="absolute inset-0 w-full h-full object-cover rounded-t-lg transition-transform duration-300 hover:scale-105"
+          className="absolute inset-0 w-full h-full object-cover rounded-t-lg transition-transform duration-300 group-hover:scale-105"
           src={imageUrl}
           alt={title}
           width={400}
