@@ -24,10 +24,8 @@ export default function CurrentPath({ id }: { id: number }) {
   }, [id]);
 
   return (
-    <h1 className="font-semibold">
+    <h1 className="font-semibold text-neutral-500">
       {breadcrumbSegments.map((segment, index) => {
-        // For the first element, navigate to the main page ("/")
-        // For other elements, navigate to the corresponding location in the path
         const subPath = index === 0 ? "/" : "/" + breadcrumbSegments.slice(0, index + 1).join("/");
         return (
           <Link key={index} href={subPath}>
@@ -40,7 +38,7 @@ export default function CurrentPath({ id }: { id: number }) {
       })}
       {courseTitle && (
         <span className="text-black">
-          {" / "}{capitalize(courseTitle)}
+          <span className="text-neutral-500">{" / "}</span>{capitalize(courseTitle)}
         </span>
       )}
     </h1>
