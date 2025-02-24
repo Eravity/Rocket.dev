@@ -56,7 +56,9 @@ export const getCoursesWithChapters = async () => {
 export const getLearningProgress = async () => {
   const { data: learning_progress, error } = await supabase
     .from("learning_progress")
-    .select("id, streak_start, streak_end, streak_days, total_goal, today_minutes, progress_percentage, created_at"); // Added id
+    .select(
+      "id, streak_start, streak_end, streak_days, total_goal, today_minutes, progress_percentage, created_at"
+    ); // Added id
 
   if (error)
     throw new Error(
@@ -88,16 +90,23 @@ export const ensureLearningProgress = async () => {
   if (data && data.length > 0) {
     const lastRecord = data[0];
     const streakEnd = new Date(lastRecord.streak_end);
-    const diffDays = Math.floor((now.getTime() - streakEnd.getTime()) / (1000 * 60 * 60 * 24));
-    if (diffDays > 0) { // if a new day
+    const diffDays = Math.floor(
+      (now.getTime() - streakEnd.getTime()) / (1000 * 60 * 60 * 24)
+    );
+    if (diffDays > 0) {
+      // if a new day
       const { data: newRecord, error: insertError } = await supabase
         .from("learning_progress")
-        .insert([{
-          user_id: "e4f7f29e-fb4f-4e42-8e14-c8b882c39e07",
-          total_goal: 30,
-        }]);
+        .insert([
+          {
+            user_id: "e4f7f29e-fb4f-4e42-8e14-c8b882c39e07",
+            total_goal: 30,
+          },
+        ]);
       if (insertError)
-        throw new Error(`Error inserting new learning progress: ${insertError.message}`);
+        throw new Error(
+          `Error inserting new learning progress: ${insertError.message}`
+        );
       return newRecord;
     }
     return lastRecord;
@@ -105,12 +114,28 @@ export const ensureLearningProgress = async () => {
     // No record exists; create one.
     const { data: newRecord, error: insertError } = await supabase
       .from("learning_progress")
-      .insert([{
-        user_id: "e4f7f29e-fb4f-4e42-8e14-c8b882c39e07",
-        total_goal: 30,
-      }]);
+      .insert([
+        {
+          user_id: "e4f7f29e-fb4f-4e42-8e14-c8b882c39e07",
+          total_goal: 30,
+        },
+      ]);
     if (insertError)
-      throw new Error(`Error inserting new learning progress: ${insertError.message}`);
+      throw new Error(
+        `Error inserting new learning progress: ${insertError.message}`
+      );
     return newRecord;
   }
+};
+
+export const getContentType = async (contentRefId: number) => {
+  const { data: content, error } = await supabase
+    .from("contents")
+    .select("type")
+    .eq("id", contentRefId)
+    .maybeSingle(); 
+
+  if (error) throw new Error(`Error fetching content types: ${error.message}`);
+
+  return content?.type;
 };
