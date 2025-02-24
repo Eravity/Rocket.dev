@@ -9,7 +9,7 @@ import ToBeReviewed from "./_components/ToBeReviewed";
 
 export default function Home() {
   return (
-    <main className="flex flex-col space-y-6 md:space-y-10">
+    <main className="flex container mx-auto flex-col my-8 space-y-6 2xl:px-16 md:px-6 md:space-y-10">
       <div className="flex flex-col md:flex-row justify-between items-center gap-6">
         <div className="w-full md:w-auto">
           <Greeting />

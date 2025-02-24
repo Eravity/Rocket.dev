@@ -19,11 +19,7 @@ export default function RootLayout({
     <html lang="en">
       <body className="tracking-wide antialiased">
         <Header />
-        <div className="container mx-auto my-8 px-4 md:px-6 2xl:px-16">
-          <ClientProviders>
-            {children}
-          </ClientProviders>
-        </div>
+        <ClientProviders>{children}</ClientProviders>
       </body>
     </html>
   );

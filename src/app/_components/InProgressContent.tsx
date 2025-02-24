@@ -2,11 +2,13 @@
 
 import dynamic from "next/dynamic";
 import SectionTitle from "./SectionTitle";
+import React from "react";
 
-export default function InProgressContent() {
-  const DynamicCourseProgress = dynamic(() => import("./CourseProgress"), {
-    ssr: false,
-  });
+const DynamicCourseProgress = dynamic(() => import("./CourseProgress"), {
+  ssr: false,
+});
+
+function InProgressContent() {
   return (
     <div className="space-y-4">
       <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2">
@@ -22,3 +24,5 @@ export default function InProgressContent() {
     </div>
   );
 }
+
+export default React.memo(InProgressContent);
