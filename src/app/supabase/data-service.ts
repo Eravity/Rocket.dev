@@ -133,9 +133,19 @@ export const getContentType = async (contentRefId: number) => {
     .from("contents")
     .select("type")
     .eq("id", contentRefId)
-    .maybeSingle(); 
+    .maybeSingle();
 
   if (error) throw new Error(`Error fetching content types: ${error.message}`);
 
   return content?.type;
+};
+
+export const getCourseTags = async (id: number) => {
+  const { data, error } = await supabase
+    .from("courses")
+    .select("tags")
+    .eq("id", id);
+  if (error) throw new Error(`Error fetching course tags: ${error.message}`);
+
+  return data 
 };
