@@ -28,7 +28,7 @@ export default function CourseHeader({ id, course, contentType, tags }: CourseHe
               <CourseTypeIcon contentType={contentType} />
             </div>
             
-            <h1 className="text-4xl max-w-xl my-2 font-bold">
+            <h1 className="text-4xl max-w-xl font-bold">
               {course.title}
             </h1>
             
