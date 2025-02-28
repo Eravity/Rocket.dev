@@ -10,6 +10,11 @@ type CourseChaptersProps = {
   };
 };
 
+type Article = {
+  id: number;
+  title: string;
+};
+
 export default async function CourseChapters({ course }: CourseChaptersProps) {
   const chapters = await getChapters(course.id);
   const accordionItems = chapters.map((chapter) => ({
@@ -17,13 +22,20 @@ export default async function CourseChapters({ course }: CourseChaptersProps) {
     title: chapter.title,
     content: (
       <ul className="space-y-2">
-        {chapter.articles?.map((article) => (
+        {chapter.articles?.map((article: Article) => (
           <li key={article.id} className="pl-4 border-l-2 border-gray-200 py-2">
-            <Link href={`/courses/${course.id}/chapters/${chapter.id}/articles/${article.id}`} className="hover:text-blue-500">
+            <Link
+              href={`/courses/${course.id}/chapters/${chapter.id}/articles/${article.id}`}
+              className="hover:text-blue-500"
+            >
               {article.title}
             </Link>
           </li>
-        )) || <p className="text-gray-500 italic">No articles available for this chapter.</p>}
+        )) || (
+          <p className="text-gray-500 italic">
+            No articles available for this chapter.
+          </p>
+        )}
       </ul>
     ),
   }));

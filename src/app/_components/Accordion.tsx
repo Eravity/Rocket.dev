@@ -68,7 +68,7 @@ export default function Accordion({
   };
 
   return (
-    <div className="border border-gray-200 container mx-auto rounded-md overflow-hidden">
+    <div className="border-2 border-gray-200 container mx-auto rounded-md overflow-hidden">
       {items.map((item, index) => (
         <AccordionItem
           key={item.id}
