@@ -4,6 +4,7 @@ import {
   getCourseTags,
 } from "@/app/supabase/data-service";
 import CourseHeader from "@/app/_components/CourseHeader";
+import CourseChapters from "@/app/_components/CourseChapters";
 
 export default async function Page({
   params,
@@ -22,12 +23,15 @@ export default async function Page({
 
   return (
     <main>
-      <CourseHeader 
+      <CourseHeader
         id={id}
         course={course}
         contentType={contentType}
         tags={tags}
       />
+      <div className="container mx-auto">
+        <CourseChapters course={course} />
+      </div>
     </main>
   );
 }

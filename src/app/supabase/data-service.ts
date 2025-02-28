@@ -9,8 +9,11 @@ export const getCourses = async () => {
   return data;
 };
 
-export const getChapters = async () => {
-  const { data: chapters, error } = await supabase.from("chapters").select("*");
+export const getChapters = async (courseId: number) => {
+  const { data: chapters, error } = await supabase
+    .from("chapters")
+    .select("*")
+    .eq("course_id", courseId);
 
   if (error)
     throw new Error(`There was an error getting chapters: ${error.message}`);
@@ -42,10 +45,11 @@ export const getCourse = async (courseId: number) => {
   return course;
 };
 
-export const getCoursesWithChapters = async () => {
+export const getCoursesWithChapters = async (courseId: number) => {
   const { data, error } = await supabase
     .from("courses")
-    .select("*, chapters(*)");
+    .select("*, chapters(*)")
+    .eq("id", courseId);
 
   if (error)
     throw new Error(`Error fetching courses with chapters: ${error.message}`);
@@ -147,5 +151,5 @@ export const getCourseTags = async (id: number) => {
     .eq("id", id);
   if (error) throw new Error(`Error fetching course tags: ${error.message}`);
 
-  return data 
+  return data;
 };
