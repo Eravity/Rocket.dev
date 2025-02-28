@@ -29,9 +29,7 @@ export default async function Page({
         contentType={contentType}
         tags={tags}
       />
-      <div className="container mx-auto">
-        <CourseChapters course={course} />
-      </div>
+      <CourseChapters course={course} />
     </main>
   );
 }

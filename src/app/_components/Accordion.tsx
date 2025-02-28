@@ -37,23 +37,35 @@ type AccordionProps = {
     title: string;
     content: React.ReactNode;
   }[];
-  defaultOpenIndex?: number;
+  defaultAllOpen?: boolean;
 };
 
-export default function Accordion({ items, defaultOpenIndex = -1 }: AccordionProps) {
-  const [openIndex, setOpenIndex] = useState<number>(defaultOpenIndex);
+export default function Accordion({ items, defaultAllOpen = true }: AccordionProps) {
+  // Initialize with all indices if defaultAllOpen is true
+  const initialOpenState = defaultAllOpen 
+    ? new Array(items.length).fill(0).map((_, i) => i) 
+    : [];
+    
+  const [openIndices, setOpenIndices] = useState<number[]>(initialOpenState);
 
   const toggleItem = (index: number) => {
-    setOpenIndex(openIndex === index ? -1 : index);
+    setOpenIndices(prevIndices => {
+      // If the index is already in the array, remove it
+      if (prevIndices.includes(index)) {
+        return prevIndices.filter(i => i !== index);
+      }
+      // Otherwise add it
+      return [...prevIndices, index];
+    });
   };
 
   return (
-    <div className="border border-gray-200 rounded-md overflow-hidden">
+    <div className="border border-gray-200 container mx-auto rounded-md overflow-hidden">
       {items.map((item, index) => (
         <AccordionItem
           key={item.id}
           title={item.title}
-          isOpen={openIndex === index}
+          isOpen={openIndices.includes(index)}
           onClick={() => toggleItem(index)}
         >
           {item.content}
