@@ -31,7 +31,7 @@ const AccordionItem = ({
           ▼
         </span>
       </button>
-      {isOpen && <div className="py-3 px-6 bg-white">{children}</div>}
+      {isOpen && <div className="px-6 bg-white">{children}</div>}
     </div>
   );
 };
