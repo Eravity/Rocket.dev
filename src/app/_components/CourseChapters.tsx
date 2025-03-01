@@ -29,9 +29,10 @@ type CourseChaptersProps = {
 };
 
 export default function CourseChapters({ course }: CourseChaptersProps) {
-  // Removed unused state variable
   const [accordionItems, setAccordionItems] = useState<{ id: number; title: string; content: React.ReactElement; chapterId: number }[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [totalArticles, setTotalArticles] = useState(0);
+  const [totalChapters, setTotalChapters] = useState(0);
 
   useEffect(() => {
     const fetchChaptersAndArticles = async () => {
@@ -40,6 +41,7 @@ export default function CourseChapters({ course }: CourseChaptersProps) {
       try {
         setIsLoading(true);
         const chaptersData = await getChapters(course.id);
+        setTotalChapters(chaptersData.length);
         
         // Fetch articles for each chapter
         const chaptersWithArticlesData = await Promise.all(
@@ -48,6 +50,13 @@ export default function CourseChapters({ course }: CourseChaptersProps) {
             return { ...chapter, articles };
           })
         );
+        
+        // Calculate total number of articles
+        let articleCount = 0;
+        chaptersWithArticlesData.forEach(chapter => {
+          articleCount += chapter.articles.length;
+        });
+        setTotalArticles(articleCount);
         
         // Transform chapters into accordion items with article lists
         const items = chaptersWithArticlesData.map((chapter: ChapterWithArticles) => ({
@@ -102,7 +111,14 @@ export default function CourseChapters({ course }: CourseChaptersProps) {
 
   return (
     <div className="w-full">
-      <h2 className="text-2xl font-bold mb-4">Course Chapters</h2>
+      <div className="flex justify-between items-center mb-4">
+        <h2 className="text-2xl font-bold">Course Chapters</h2>
+        <div className="text-sm text-gray-600">
+          <span className="font-medium">{totalChapters} chapters</span>
+          <span className="mx-2">•</span>
+          <span className="font-medium">{totalArticles} articles</span>
+        </div>
+      </div>
       {accordionItems.length > 0 ? (
         <Accordion items={accordionItems} defaultAllOpen={true} />
       ) : (
