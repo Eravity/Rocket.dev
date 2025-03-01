@@ -165,7 +165,7 @@ export const getChapterArticles = async (chapterId: number) => {
   return articles;
 };
 
-export const getArticlesForAllChapters = async (courseId: number) => {
+export const getArticlesForThisChapters = async (courseId: number) => {
   // First get all chapters for this course
   const chapters = await getChapters(courseId);
   

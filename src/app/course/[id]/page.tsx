@@ -7,6 +7,7 @@ import CourseHeader from "@/app/_components/CourseHeader";
 import CourseChapters from "@/app/_components/CourseChapters";
 import CertificateBanner from "@/app/_components/CertificateBanner";
 import CourseDescription from "@/app/_components/CourseDescription";
+import CourseOverwiev from "@/app/_components/CourseOverwiev";
 
 export default async function Page({
   params,
@@ -34,9 +35,12 @@ export default async function Page({
 
       <section className="container mx-auto flex gap-14 md:px-6 2xl:px-16">
         <div className="w-9/12 flex flex-col gap-14">
-          <CourseDescription description={course.description}/>
+          <CourseDescription description={course.description} />
           <CertificateBanner />
-          <CourseChapters course={course} />
+          <div className="flex flex-col gap-6">
+            <CourseOverwiev courseId={course.id}/>
+            <CourseChapters course={course} />
+          </div>
         </div>
         <aside className="w-3/12 border-2 rounded-lg"></aside>
       </section>
