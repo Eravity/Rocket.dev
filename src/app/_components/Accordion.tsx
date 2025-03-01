@@ -1,12 +1,14 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { getChapterArticles } from "@/app/supabase/data-service";
 
 type AccordionItemProps = {
   title: string;
   children: React.ReactNode;
   isOpen: boolean;
   onClick: () => void;
+  chapterId?: number; // Make chapterId optional
 };
 
 const AccordionItem = ({
@@ -14,7 +16,26 @@ const AccordionItem = ({
   children,
   isOpen,
   onClick,
+  chapterId,
 }: AccordionItemProps) => {
+  const [articlesCount, setArticlesCount] = useState(0);
+
+  useEffect(() => {
+    const fetchArticles = async () => {
+      if (!chapterId) return;
+      
+      try {
+        const articles = await getChapterArticles(chapterId);
+        setArticlesCount(articles.length);
+      } catch (error) {
+        console.error("Error fetching articles:", error);
+        setArticlesCount(0);
+      }
+    };
+
+    fetchArticles();
+  }, [chapterId]);
+
   return (
     <div className="border-b border-neutral-200 last:border-b-0">
       <button
@@ -23,13 +44,16 @@ const AccordionItem = ({
         aria-expanded={isOpen}
       >
         <span>{title}</span>
-        <span
-          className={`transform transition-transform duration-200 ${
-            isOpen ? "rotate-180" : ""
-          }`}
-        >
-          ▼
-        </span>
+        <div className="flex items-center gap-4">
+          {chapterId && <p>{articlesCount} articles</p>}
+          <span
+            className={`transform transition-transform duration-200 ${
+              isOpen ? "rotate-180" : ""
+            }`}
+          >
+            ▼
+          </span>
+        </div>
       </button>
       {isOpen && <div className="px-6 bg-white">{children}</div>}
     </div>
@@ -41,6 +65,7 @@ type AccordionProps = {
     id: string | number;
     title: string;
     content: React.ReactNode;
+    chapterId?: number; // Make chapterId optional
   }[];
   defaultAllOpen?: boolean;
 };
@@ -75,6 +100,7 @@ export default function Accordion({
           title={item.title}
           isOpen={openIndices.includes(index)}
           onClick={() => toggleItem(index)}
+          chapterId={item.chapterId}
         >
           {item.content}
         </AccordionItem>

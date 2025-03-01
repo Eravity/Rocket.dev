@@ -7,7 +7,6 @@ import CourseHeader from "@/app/_components/CourseHeader";
 import CourseChapters from "@/app/_components/CourseChapters";
 import CertificateBanner from "@/app/_components/CertificateBanner";
 import CourseDescription from "@/app/_components/CourseDescription";
-import CourseOverwiev from "@/app/_components/CourseOverwiev";
 
 export default async function Page({
   params,
@@ -38,7 +37,6 @@ export default async function Page({
           <CourseDescription description={course.description} />
           <CertificateBanner />
           <div className="flex flex-col gap-6">
-            <CourseOverwiev courseId={course.id}/>
             <CourseChapters course={course} />
           </div>
         </div>
