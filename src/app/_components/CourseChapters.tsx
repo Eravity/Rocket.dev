@@ -1,6 +1,7 @@
 import { getChapters, getChapterArticles } from "../supabase/data-service";
 import Accordion from "./Accordion";
 import Link from "next/link";
+import ArticleIcon from "./Icons/ArticleIcon";
 
 type CourseChaptersProps = {
   course: {
@@ -14,6 +15,7 @@ type Article = {
   id: number;
   title: string;
   chapter_id: number;
+  order_number: number;
 };
 
 export default async function CourseChapters({ course }: CourseChaptersProps) {
@@ -41,10 +43,11 @@ export default async function CourseChapters({ course }: CourseChaptersProps) {
                 >
                   <Link
                     href={`/course/${course.id}/article/${article.id}`}
-                    className="hover:text-blue-500"
+                    className="flex items-center font-semibold text-gray-800 hover:text-violet-600"
                   >
-                    {article.title}
-                  </Link> 
+                    <ArticleIcon fill="#535353" width={30} className="mr-2" />
+                    Chapter {article.order_number}: {article.title}
+                  </Link>
                 </li>
               ))
             ) : (

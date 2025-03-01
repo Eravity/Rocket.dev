@@ -157,7 +157,7 @@ export const getCourseTags = async (id: number) => {
 export const getChapterArticles = async (chapterId: number) => {
   const { data: articles, error } = await supabase
     .from("articles")
-    .select("id, title, chapter_id")
+    .select("id, title, chapter_id, order_number")
     .eq("chapter_id", chapterId);
 
   if (error) throw new Error(`Error fetching articles: ${error.message}`);
