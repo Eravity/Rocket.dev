@@ -40,11 +40,11 @@ export default async function CourseChapters({ course }: CourseChaptersProps) {
                   }`}
                 >
                   <Link
-                    href={`/courses/${course.title}/article/${article.title}`}
+                    href={`/course/${course.id}/article/${article.id}`}
                     className="hover:text-blue-500"
                   >
                     {article.title}
-                  </Link>
+                  </Link> 
                 </li>
               ))
             ) : (
