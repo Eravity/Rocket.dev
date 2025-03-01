@@ -153,3 +153,28 @@ export const getCourseTags = async (id: number) => {
 
   return data;
 };
+
+export const getChapterArticles = async (chapterId: number) => {
+  const { data: articles, error } = await supabase
+    .from("articles")
+    .select("id, title, chapter_id")
+    .eq("chapter_id", chapterId);
+
+  if (error) throw new Error(`Error fetching articles: ${error.message}`);
+
+  return articles;
+};
+
+export const getArticlesForAllChapters = async (courseId: number) => {
+  // First get all chapters for this course
+  const chapters = await getChapters(courseId);
+  
+  // Then fetch articles for each chapter
+  let allArticles: {id: number, title: string, chapter_id: number}[] = [];
+  for (const chapter of chapters) {
+    const articlesForChapter = await getChapterArticles(chapter.id);
+    allArticles = [...allArticles, ...articlesForChapter];
+  }
+  
+  return allArticles;
+};

@@ -7,7 +7,7 @@ export default function CertificateBanner() {
       <Image className="absolute mr-6" src={Certificate} alt="certificate" />
 
       <div className="overflow-hidden flex items-center h-32 justify-end w-full border-2 rounded-lg">
-        <div className="w-full h-full flex flex-col pl-5 pt-4 absolute">
+        <div className="w-full h-full flex flex-col pl-5 justify-center pt-4 absolute">
           <h1 className="font-bold text-lg">Obtain a Career Certificate!</h1>
             <div className="flex flex-col mt-auto pb-6">
             <p className="text-sm">
