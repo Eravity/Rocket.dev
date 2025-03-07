@@ -1,16 +1,17 @@
 import icons from "./Icons/Icons";
 
 type StatsCardProps = {
-  Icon: React.ComponentType;
+  Icon: React.ComponentType<any>;  // Updated to accept props
   value: number;
   label: string;
+  color?: string;
 };
 
-const StatsCard = ({ Icon, value, label }: StatsCardProps) => (
+const StatsCard = ({ Icon, value, label, color = "#FFAC00" }: StatsCardProps) => (
   <div className="flex justify-between h-16 sm:h-16 md:h-12 lg:h-16 border rounded-lg p-1.5 sm:p-2 w-full sm:w-auto">
     <div className="min-w-[32px] sm:min-w-[40px] md:min-w-[48px] lg:min-w-[56px] flex justify-center items-center">
       <div className="w-5 sm:w-6 md:w-7 lg:w-8">
-        <Icon />
+        <Icon color={color} />
       </div>
     </div>
     <div className="flex flex-col justify-center flex-1 pl-5 md:pl-2 lg:pl-0">
@@ -26,9 +27,9 @@ export default function Stats() {
   const { Points, Medal, Certificate } = icons;
 
   const statsData = [
-    { Icon: Points, value: 100, label: "Points" },
-    { Icon: Medal, value: 32, label: "Badges" },
-    { Icon: Certificate, value: 12, label: "Courses" },
+    { Icon: Points, value: 100, label: "Points", color: "#FFAC00" },
+    { Icon: Medal, value: 32, label: "Badges", color: "#FFAC00" },
+    { Icon: Certificate, value: 12, label: "Courses", color: "#FFAC00" },
   ];
 
   return (

@@ -1,11 +1,11 @@
 export default function Points({
   width = 30,
   height = 30,
-	color = "#FFAC00"
+  color = "#FFAC00"
 }: {
   width?: number;
   height?: number;
-	color?: string;
+  color?: string;
 }) {
   return (
     <div>
@@ -19,7 +19,7 @@ export default function Points({
         viewBox="0 0 512 512"
         xmlSpace="preserve"
       >
-        <style type="text/css">{`.st0{fill:#${color};}`}</style>
+        <style type="text/css">{`.st0{fill:${color};}`}</style>
         <g>
           <path
             className="st0"
