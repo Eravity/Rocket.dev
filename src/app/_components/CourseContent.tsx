@@ -20,7 +20,7 @@ export default function CourseContent() {
   return (
     <aside className="w-3/12 h-fit border-2 flex flex-col gap-4 rounded-lg p-5">
       <h1 className="font-bold text-lg">Course Content</h1>
-      <div className="flex flex-col font-semibold text-neutral-600 gap-2">
+      <div className="flex flex-col font-semibold gap-2">
         <ContentRow
           icon={<Clock width={25} height={25} color="black" stroke={1.5} />}
           title={`${3} Hours Estimation`}
