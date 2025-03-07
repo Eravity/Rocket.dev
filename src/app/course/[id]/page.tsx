@@ -7,6 +7,7 @@ import CourseHeader from "@/app/_components/CourseHeader";
 import CourseChapters from "@/app/_components/CourseChapters";
 import CertificateBanner from "@/app/_components/CertificateBanner";
 import CourseDescription from "@/app/_components/CourseDescription";
+import CourseContent from "@/app/_components/CourseContent";
 
 export default async function Page({
   params,
@@ -40,7 +41,7 @@ export default async function Page({
             <CourseChapters course={course} />
           </div>
         </div>
-        <aside className="w-3/12 border-2 rounded-lg"></aside>
+        <CourseContent />
       </section>
     </main>
   );

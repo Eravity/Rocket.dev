@@ -1,4 +1,12 @@
-export default function Certificate() {
+export default function Points({
+  width = 30,
+  height = 30,
+	color = "#FFAC00"
+}: {
+  width?: number;
+  height?: number;
+	color?: string;
+}) {
   return (
     <div>
       <svg
@@ -6,12 +14,12 @@ export default function Certificate() {
         id="_x32_"
         xmlns="http://www.w3.org/2000/svg"
         xmlnsXlink="http://www.w3.org/1999/xlink"
-        width="30px"
-        height="30px"
+        width={`${width}px`}
+        height={`${height}px`}
         viewBox="0 0 512 512"
         xmlSpace="preserve"
       >
-        <style type="text/css">{`.st0{fill:#FFAC00;}`}</style>
+        <style type="text/css">{`.st0{fill:#${color};}`}</style>
         <g>
           <path
             className="st0"
