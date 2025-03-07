@@ -22,7 +22,7 @@ export default function Header() {
             </div>
             <div className="hidden md:flex space-x-5 items-center">
               <div className="hover:scale-105 transition-transform duration-200">
-                <Calendar/>
+                <Calendar width={25} height={25}/>
               </div>
               <div className="hover:scale-105 transition-transform duration-200">
                 <Bell />

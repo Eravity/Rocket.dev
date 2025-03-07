@@ -25,11 +25,18 @@ type ChapterWithArticles = Chapter & {
 };
 
 type CourseChaptersProps = {
-  course: { id: number; title: string; };
+  course: { id: number; title: string };
 };
 
 export default function CourseChapters({ course }: CourseChaptersProps) {
-  const [accordionItems, setAccordionItems] = useState<{ id: number; title: string; content: React.ReactElement; chapterId: number }[]>([]);
+  const [accordionItems, setAccordionItems] = useState<
+    {
+      id: number;
+      title: string;
+      content: React.ReactElement;
+      chapterId: number;
+    }[]
+  >([]);
   const [isLoading, setIsLoading] = useState(true);
   const [totalArticles, setTotalArticles] = useState(0);
   const [totalChapters, setTotalChapters] = useState(0);
@@ -37,12 +44,12 @@ export default function CourseChapters({ course }: CourseChaptersProps) {
   useEffect(() => {
     const fetchChaptersAndArticles = async () => {
       if (!course?.id) return;
-      
+
       try {
         setIsLoading(true);
         const chaptersData = await getChapters(course.id);
         setTotalChapters(chaptersData.length);
-        
+
         // Fetch articles for each chapter
         const chaptersWithArticlesData = await Promise.all(
           chaptersData.map(async (chapter: Chapter) => {
@@ -50,44 +57,57 @@ export default function CourseChapters({ course }: CourseChaptersProps) {
             return { ...chapter, articles };
           })
         );
-        
+
         // Calculate total number of articles
         let articleCount = 0;
-        chaptersWithArticlesData.forEach(chapter => {
+        chaptersWithArticlesData.forEach((chapter) => {
           articleCount += chapter.articles.length;
         });
         setTotalArticles(articleCount);
-        
+
         // Transform chapters into accordion items with article lists
-        const items = chaptersWithArticlesData.map((chapter: ChapterWithArticles) => ({
-          id: chapter.id,
-          title: chapter.title,
-          content: (
-            <div className="py-4">
-              {chapter.articles.length > 0 ? (
-                <ul className="space-y-4 py-2">
-                  {chapter.articles.map((article) => (
-                    <li key={article.id} className="px-2">
-                      <Link 
-                        href={`/course/${course.id}/article/${article.id}`}
-                        className="flex items-center p-2 rounded-md hover:bg-gray-100 transition-colors"
+        const items = chaptersWithArticlesData.map(
+          (chapter: ChapterWithArticles) => ({
+            id: chapter.id,
+            title: chapter.title,
+            content: (
+              <div className="">
+                {chapter.articles.length > 0 ? (
+                  <ul className="">
+                    {chapter.articles.map((article, index) => (
+                      <li
+                        key={article.id}
+                        className={`${
+                          index < chapter.articles.length - 1
+                            ? "border-b border-neutral-200"
+                            : ""
+                        }`}
                       >
-                        <div className="mr-4 flex-shrink-0 w-6 h-6 bg-neutral-200 rounded-full flex items-center justify-center text-xs font-medium text-neutral-600">
-                          {article.order_number || '•'}
-                        </div>
-                        <span className="text-gray-700">{article.title}</span>
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              ) : (
-                <p className="text-gray-500 italic px-2">No articles available for this chapter.</p>
-              )}
-            </div>
-          ),
-          chapterId: chapter.id
-        }));
-        
+                        <Link
+                          href={`/course/${course.id}/article/${article.id}`}
+                          className="flex items-center px-6 py-5 hover:bg-gray-100 transition-colors"
+                        >
+                          <div
+                            className={`mr-4 flex-shrink-0 w-6 h-6 bg-neutral-200 rounded-full flex items-center justify-center text-xs font-medium text-neutral-600`}
+                          >
+                            {article.order_number || "•"}
+                          </div>
+                          <span className="text-black">{article.title}</span>
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <p className="text-gray-500 italic px-2">
+                    No articles available for this chapter.
+                  </p>
+                )}
+              </div>
+            ),
+            chapterId: chapter.id,
+          })
+        );
+
         setAccordionItems(items);
       } catch (error) {
         console.error("Error fetching chapters and articles:", error);
@@ -102,9 +122,7 @@ export default function CourseChapters({ course }: CourseChaptersProps) {
   if (isLoading) {
     return (
       <div className="w-full text-center py-8">
-        <div className="inline-block animate-pulse">
-          Loading chapters...
-        </div>
+        <div className="inline-block animate-pulse">Loading chapters...</div>
       </div>
     );
   }
@@ -122,7 +140,9 @@ export default function CourseChapters({ course }: CourseChaptersProps) {
       {accordionItems.length > 0 ? (
         <Accordion items={accordionItems} defaultAllOpen={true} />
       ) : (
-        <p className="text-center py-4 text-gray-500">No chapters available for this course.</p>
+        <p className="text-center py-4 text-gray-500">
+          No chapters available for this course.
+        </p>
       )}
     </div>
   );

@@ -1,6 +1,6 @@
 export default function Calendar({
-  width = 20,
-  height = 20,
+  width = 40,
+  height = 40,
   stroke = 2
 }: {
   width?: number;

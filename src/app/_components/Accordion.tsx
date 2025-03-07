@@ -55,7 +55,7 @@ const AccordionItem = ({
           </span>
         </div>
       </button>
-      {isOpen && <div className="px-6 bg-white">{children}</div>}
+      {isOpen && <div className="bg-white">{children}</div>}
     </div>
   );
 };
