@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { getChapterArticles } from "@/app/supabase/data-service";
+import { getChapterArticles } from "@/app/_supabase/data-service";
 
 type AccordionItemProps = {
   title: string;

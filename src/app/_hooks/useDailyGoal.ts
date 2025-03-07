@@ -5,7 +5,7 @@ import {
   getLearningProgress,
   updateTodayMinutes,
   ensureLearningProgress,
-} from "../supabase/data-service";
+} from "../_supabase/data-service";
 import { useInactivityTracker } from "./useInactivityTracker";
 import { useProgressSync } from "./useProgressSync";
 

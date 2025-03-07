@@ -1,5 +1,5 @@
 import Image from "next/image";
-import Certificate from "@/app/images/Certificate.svg";
+import Certificate from "@/app/_images/Certificate.svg";
 
 export default function CertificateBanner() {
   return (

@@ -1,7 +1,7 @@
 import icons from "./Icons/Icons";
 
 type StatsCardProps = {
-  Icon: React.ComponentType<any>;  // Updated to accept props
+  Icon: React.ElementType;
   value: number;
   label: string;
   color?: string;

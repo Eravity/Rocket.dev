@@ -2,7 +2,7 @@ import {
   getCourse,
   getContentType,
   getCourseTags,
-} from "@/app/supabase/data-service";
+} from "@/app/_supabase/data-service";
 import CourseHeader from "@/app/_components/CourseHeader";
 import CourseChapters from "@/app/_components/CourseChapters";
 import CertificateBanner from "@/app/_components/CertificateBanner";

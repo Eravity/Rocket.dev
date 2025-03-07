@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Accordion from "./Accordion";
-import { getChapters, getChapterArticles } from "@/app/supabase/data-service";
+import { getChapters, getChapterArticles } from "@/app/_supabase/data-service";
 import Link from "next/link";
 
 type Chapter = {

@@ -2,7 +2,7 @@
 import React from "react";
 import Check from "./Icons/Check";
 import Rocket from "./Icons/Rocket";
-import { Chapter, useChapterProgress } from "../hooks/useChapterProgress";
+import { Chapter, useChapterProgress } from "../_hooks/useChapterProgress";
 
 const Roadmap = React.memo(
   ({ chapters }: { chapters: Chapter[] }) => {

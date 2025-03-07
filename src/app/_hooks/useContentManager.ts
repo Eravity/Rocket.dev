@@ -1,4 +1,4 @@
-import { calculateTimeSpent, formatTime } from '../utils/timeUtils';
+import { calculateTimeSpent, formatTime } from '../_utils/timeUtils';
 
 export interface Content {
   title: string;

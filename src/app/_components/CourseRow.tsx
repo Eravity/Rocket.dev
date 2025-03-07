@@ -4,7 +4,7 @@ import dynamic from "next/dynamic";
 import Clock from "./Icons/Clock";
 import Files from "./Icons/Files";
 import CourseIcon from "./Icons/CourseIcon";
-import { useRelativeTime } from "../hooks/useRelativeTime";
+import { useRelativeTime } from "../_hooks/useRelativeTime";
 import InfoCell from "./InfoCell";
 
 const DynamicProgressPieChart = dynamic(() => import("./ProgressPieChart"), {

@@ -2,8 +2,8 @@
 
 import { useEffect, useState, useMemo } from "react";
 import Link from "next/link";
-import useCurrentPath from "../hooks/useCurrentPath";
-import { getCourse } from "@/app/supabase/data-service";
+import useCurrentPath from "../_hooks/useCurrentPath";
+import { getCourse } from "@/app/_supabase/data-service";
 
 // Helper function to capitalize strings
 function capitalize(title: string): string {

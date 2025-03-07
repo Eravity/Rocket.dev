@@ -1,4 +1,4 @@
-import { useContentManager } from "../hooks/useContentManager";
+import { useContentManager } from "../_hooks/useContentManager";
 import Content from "./Content";
 import SectionTitle from "./SectionTitle";
 import CourseIcon from "./Icons/CourseIcon";

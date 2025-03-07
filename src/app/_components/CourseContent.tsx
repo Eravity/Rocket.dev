@@ -5,7 +5,7 @@ import Language from "./Icons/Language";
 import Certificate from "./Icons/Certificate";
 import Calendar from "./Icons/Calendar";
 import Image from "next/image";
-import picture from "@/app/images/1.jpg"
+import picture from "@/app/_images/1.jpg"
 
 const ContentRow = ({ icon, title }: { icon: ReactNode; title: string }) => {
   return (

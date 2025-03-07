@@ -1,4 +1,4 @@
-import { getCourses, getCourseChapters } from "../supabase/data-service";
+import { getCourses, getCourseChapters } from "../_supabase/data-service";
 
 export async function fetchCourseData() {
   const courses = await getCourses();

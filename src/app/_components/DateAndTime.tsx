@@ -1,5 +1,5 @@
 "use client";
-import { useIntlDateTime } from "../hooks/intl";
+import { useIntlDateTime } from "../_hooks/intl";
 import { useEffect, useState } from "react";
 
 export default function DateAndTime() {

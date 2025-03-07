@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import { useEffect, useState } from "react";
-import { fetchCourseData } from "../services/courseService";
+import { fetchCourseData } from "../_services/courseService";
 import CourseRow, { CourseData } from "./CourseRow";
 
 export default function CourseProgress() {

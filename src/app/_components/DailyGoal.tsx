@@ -3,7 +3,7 @@ import React from "react";
 import GoalHeader from "./GoalHeader";
 import GoalChartWrapper from "./GoalChartWrapper";
 import GoalStats from "./GoalStats";
-import { useDailyGoal } from "../hooks/useDailyGoal";
+import { useDailyGoal } from "../_hooks/useDailyGoal";
 
 export default function DailyGoal() {
   const {

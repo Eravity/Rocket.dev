@@ -1,6 +1,6 @@
 import { CourseBox } from "./CourseBox";
-import image1 from "../images/1.jpg";
-import image2 from "../images/2.jpg";
+import image1 from "../_images/1.jpg";
+import image2 from "../_images/2.jpg";
 import SectionTitle from "./SectionTitle";
 
 const dummyCourses = [
