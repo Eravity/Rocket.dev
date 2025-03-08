@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useMemo } from "react";
 import Link from "next/link";
-import useCurrentPath from "../_hooks/useCurrentPath";
+import useCurrentPath from "../_utils/getCurrentPath"; // Fix the import path
 import { getCourse } from "@/app/_supabase/data-service";
 
 // Helper function to capitalize strings
@@ -12,12 +12,14 @@ function capitalize(title: string): string {
 
 export default function CurrentPath({ id }: { id: number }) {
   const [courseTitle, setCourseTitle] = useState<string>("");
-  const currentPath = useCurrentPath();
+  const pathData = useCurrentPath();
+  const segments = useMemo(() => pathData?.segments || [], [pathData]);
 
   const breadcrumbSegments = useMemo(() => {
-    const segments = currentPath.split("/").filter(Boolean);
-    return segments.filter(segment => isNaN(Number(segment)));
-  }, [currentPath]);
+    // Start with Home and add filtered segments
+    const filteredSegments = ["Home", ...segments.filter(segment => isNaN(Number(segment)))];
+    return filteredSegments;
+  }, [segments]);
 
   useEffect(() => {
     let mounted = true;
@@ -38,12 +40,16 @@ export default function CurrentPath({ id }: { id: number }) {
   return (
     <h1 className="font-semibold text-neutral-500">
       {breadcrumbSegments.map((segment, index) => {
-        const subPath =
-          index === 0 ? "/" : "/" + breadcrumbSegments.slice(0, index + 1).join("/");
+        // For Home, link to root
+        // For other segments, build path based on original segments to maintain proper routing
+        const subPath = index === 0 
+          ? "/" 
+          : `/${segments.slice(0, index).join("/")}`;
+        
         return (
           <Link key={index} href={subPath}>
             <span className="cursor-pointer">
-              {capitalize(segment)}
+              {segment === "Home" ? segment : capitalize(segment)}
               {index < breadcrumbSegments.length - 1 && " / "}
             </span>
           </Link>

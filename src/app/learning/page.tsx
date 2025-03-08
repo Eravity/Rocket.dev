@@ -1,3 +1,3 @@
 export default function MyLearningPage() {
-  return <div></div>;
+  return <div>hey</div>;
 }

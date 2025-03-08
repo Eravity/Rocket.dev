@@ -17,6 +17,16 @@ export default function Navigation() {
     { href: '/achievements', label: 'Achievements' },
   ];
 
+  // Function to check if a nav item should be active
+  const isLinkActive = (href: string) => {
+    if (href === '/') {
+      // Home link should only be active when exactly at home
+      return pathname === '/';
+    }
+    // Other links should be active when the path starts with their href
+    return pathname.includes(href);
+  };
+
   return (
     <nav className="mt-5">
       {/* Desktop Navigation */}
@@ -25,7 +35,7 @@ export default function Navigation() {
           <li key={item.href}>
             <Link 
               href={item.href} 
-              className={pathname === item.href ? activeLink : link}
+              className={isLinkActive(item.href) ? activeLink : link}
             >
               {item.label}
             </Link>
@@ -39,7 +49,7 @@ export default function Navigation() {
           <li key={item.href}>
             <Link 
               href={item.href} 
-              className={`block ${pathname === item.href ? 'text-black font-semibold' : 'text-neutral-500'}`}
+              className={`block ${isLinkActive(item.href) ? 'text-black font-semibold' : 'text-neutral-500'}`}
             >
               {item.label}
             </Link>
