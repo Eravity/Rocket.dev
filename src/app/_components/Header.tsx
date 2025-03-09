@@ -1,3 +1,5 @@
+'use client';
+import { usePathname } from "next/navigation";
 import { MenuProvider } from './MenuContext';
 import { SearchProvider } from './SearchContext';
 import Bell from "./Icons/Bell";
@@ -9,6 +11,11 @@ import Search from "./Search";
 import MobileMenuButton from "./Icons/MobileMenuButton";
 
 export default function Header() {
+  const pathname = usePathname();
+
+  // Hide header when on an article page
+  if (pathname.includes("/article/")) return null;
+
   return (
     <MenuProvider>
       <SearchProvider>
