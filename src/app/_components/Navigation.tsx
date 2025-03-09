@@ -14,6 +14,7 @@ export default function Navigation() {
     { href: '/learning', label: 'My Learning' },
     { href: '/catalog', label: 'Catalog' },
     { href: '/favorites', label: 'Favorites' },
+    { href: '/terminal', label: 'Terminal' },
     { href: '/achievements', label: 'Achievements' },
   ];
 

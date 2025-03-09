@@ -84,7 +84,7 @@ export default function CourseChapters({ course }: CourseChaptersProps) {
                         }`}
                       >
                         <Link
-                          href={`/course/${course.id}/article/${article.id}`}
+                          href={`/learning/course/${course.id}/article/${article.id}`}
                           className="flex items-center px-6 py-5 hover:bg-gray-100 transition-colors"
                         >
                           <div
