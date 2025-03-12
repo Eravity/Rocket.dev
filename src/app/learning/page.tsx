@@ -1,3 +1,3 @@
-export default function MyLearningPage() {
-  return <div>hey</div>;
-}
+export default function page () {
+  return <div></div>
+};
