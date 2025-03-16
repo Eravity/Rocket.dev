@@ -2,9 +2,8 @@ import { groq } from "next-sanity";
 import { createClient } from "next-sanity";
 import Link from "next/link";
 import Image from "next/image";
-import imageUrlBuilder from "@sanity/image-url";
-import { PortableText } from "@portabletext/react";
 import { TypedObject } from "sanity";
+import imageUrlBuilder from "@sanity/image-url";
 
 const client = createClient({
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID!,
@@ -12,8 +11,6 @@ const client = createClient({
   apiVersion: "2023-01-01",
   useCdn: process.env.NODE_ENV === "production",
 });
-
-const builder = imageUrlBuilder(client);
 
 type Post = {
   _id: string;
@@ -28,8 +25,6 @@ type Post = {
   body?: TypedObject | TypedObject[];
 };
 
-export const urlFor = (source: string | { asset: { _ref: string } }) => builder.image(source);
-
 // Updated query to fetch all posts with necessary fields
 const postsQuery = groq`*[_type == "post"]{
   _id,
@@ -40,54 +35,55 @@ const postsQuery = groq`*[_type == "post"]{
   body // Include body field in the query
 }`;
 
-const components = {
-  types: {
-    image: ({ value }: { value: { asset: { _ref: string } } }) => (
-      <Image
-        src={urlFor(value).width(400).url()}
-        alt="Post Image"
-        width={400}
-        height={300}
-      />
-    ),
-  },
-};
-
 export default async function Page() {
+  const builder = imageUrlBuilder(client);
   const posts = await client.fetch<Post[]>(postsQuery);
+
+  const urlFor = (source: string | { asset: { _ref: string } }) =>
+    builder.image(source);
 
   if (!posts || posts.length === 0) {
     return <div>No courses found</div>;
   }
 
   return (
-    <main>
-      <h1>Learning Resources</h1>
-      <div>
+    <main className="p-4 max-w-7xl mx-auto">
+      <h1 className="text-4xl font-bold mb-8 text-center">Learning Resources</h1>
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
         {posts.map((post: Post) => (
-          <article key={post._id}>
+          <article key={post._id} className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 border border-gray-100">
             {post.mainImage && (
-              <div>
+              <div className="relative h-48 overflow-hidden">
                 <Image
-                  src={urlFor(post.mainImage).width(400).url()}
+                  src={urlFor(post.mainImage).width(800).url()}
                   alt={post.title}
-                  width={400}
-                  height={300}
+                  width={800}
+                  height={Math.round((800 * 9) / 16)}
+                  className="object-cover w-full h-full hover:scale-105 transition-transform duration-300"
+                  style={{ height: 'auto' }}
                 />
               </div>
             )}
-            <div>
-              <h2>
-                <Link href={`/learning/${post.slug.current}`}>
+            <div className="p-6">
+              <h2 className="text-xl font-bold mb-3 text-gray-800 line-clamp-2">
+                <Link href={`/learning/${post.slug.current}`} className="hover:text-blue-600 transition-colors">
                   {post.title}
                 </Link>
               </h2>
               {post.excerpt && (
-                <p>{post.excerpt}</p>
+                <p className="text-gray-600 mb-4 line-clamp-3 text-sm">
+                  {post.excerpt}
+                </p>
               )}
-              {post.body && (
-                <PortableText value={post.body} components={components} />
-              )}
+              <Link 
+                href={`/learning/${post.slug.current}`}
+                className="inline-flex items-center text-blue-600 hover:text-blue-800 font-medium text-sm"
+              >
+                Read more 
+                <svg className="w-4 h-4 ml-2" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+              </Link>
             </div>
           </article>
         ))}
