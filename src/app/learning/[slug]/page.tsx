@@ -4,12 +4,14 @@ import Link from 'next/link'
 import { PortableText } from '@portabletext/react'
 import Image from 'next/image'
 import imageUrlBuilder from '@sanity/image-url'
+
 const client = createClient({
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID!,
   dataset: process.env.NEXT_PUBLIC_SANITY_DATASET!,
   apiVersion: '2023-01-01',
   useCdn: process.env.NODE_ENV === 'production',
 })
+
 const builder = imageUrlBuilder(client);
 
 export const urlFor = (source: string) => builder.image(source)
@@ -22,7 +24,7 @@ const postQuery = groq`*[_type == "post" && slug.current == $slug][0]{
 }`
 
 export default async function PostPage({ params }: { params: { slug: string } }) {
-  const { slug } = params
+  const { slug } = await params
   const post = await client.fetch(postQuery, { slug })
 
   if (!post) {

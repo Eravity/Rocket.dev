@@ -3,6 +3,8 @@ import { createClient } from "next-sanity";
 import Link from "next/link";
 import Image from "next/image";
 import imageUrlBuilder from "@sanity/image-url";
+import { PortableText } from "@portabletext/react";
+import { TypedObject } from "sanity";
 
 const client = createClient({
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID!,
@@ -10,6 +12,7 @@ const client = createClient({
   apiVersion: "2023-01-01",
   useCdn: process.env.NODE_ENV === "production",
 });
+
 const builder = imageUrlBuilder(client);
 
 type Post = {
@@ -22,7 +25,8 @@ type Post = {
       _ref: string;
     };
   };
-}
+  body?: TypedObject | TypedObject[];
+};
 
 export const urlFor = (source: string | { asset: { _ref: string } }) => builder.image(source);
 
@@ -32,8 +36,22 @@ const postsQuery = groq`*[_type == "post"]{
   title,
   slug,
   mainImage,
-  excerpt
+  excerpt,
+  body // Include body field in the query
 }`;
+
+const components = {
+  types: {
+    image: ({ value }: { value: { asset: { _ref: string } } }) => (
+      <Image
+        src={urlFor(value).width(400).url()}
+        alt="Post Image"
+        width={400}
+        height={300}
+      />
+    ),
+  },
+};
 
 export default async function Page() {
   const posts = await client.fetch<Post[]>(postsQuery);
@@ -66,6 +84,9 @@ export default async function Page() {
               </h2>
               {post.excerpt && (
                 <p>{post.excerpt}</p>
+              )}
+              {post.body && (
+                <PortableText value={post.body} components={components} />
               )}
             </div>
           </article>
