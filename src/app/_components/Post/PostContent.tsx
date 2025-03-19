@@ -7,6 +7,7 @@ type PostContentProps = {
 };
 
 export default function PostContent({ content }: PostContentProps) {
+  console.log(content);
   return (
     <div className="max-w-4xl mx-auto px-4 py-12">
       <div className="space-y-6 text-lg text-gray-700">
