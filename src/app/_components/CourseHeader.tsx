@@ -5,21 +5,32 @@ import FavouriteButton from "@/app/_components/FavouriteButton";
 import TagsList from "@/app/_components/TagsList";
 
 interface CourseHeaderProps {
-  id: number;
+  id: string | number;
   course: {
-    id: number;
+    id?: string | number;
     title: string;
-    image: string;
+    image?: string | null;
   };
   contentType: string;
   tags: string[];
+  isSanityCourse?: boolean;
 }
 
-export default function CourseHeader({ id, course, contentType, tags }: CourseHeaderProps) {
+export default function CourseHeader({ 
+  id, 
+  course, 
+  contentType, 
+  tags,
+  isSanityCourse = false
+}: CourseHeaderProps) {
   return (
     <section className="pt-8 pb-24 bg-neutral-100 w-full">
       <div className="container mx-auto md:px-6 2xl:px-16">
-        <CurrentPath id={id} />
+        <CurrentPath 
+          id={id} 
+          isSanityCourse={isSanityCourse} 
+          courseTitle={course.title}
+        />
         
         <div className="flex flex-row gap-8 mt-8">
           {/* Course information */}
@@ -45,13 +56,19 @@ export default function CourseHeader({ id, course, contentType, tags }: CourseHe
           {/* Course image */}
           <div className="flex-shrink-0 self-center">
             <div className="relative aspect-video h-80 rounded-lg">
-              <Image
-                src={course.image}
-                alt={course.title}
-                fill
-                className="object-cover rounded-xl"
-                priority
-              />
+              {course.image ? (
+                <Image
+                  src={course.image}
+                  alt={course.title || "Course image"}
+                  fill
+                  className="object-cover rounded-xl"
+                  priority
+                />
+              ) : (
+                <div className="bg-gray-200 w-full h-full flex items-center justify-center rounded-xl">
+                  <span>No image available</span>
+                </div>
+              )}
             </div>
           </div>
         </div>

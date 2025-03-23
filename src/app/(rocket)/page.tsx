@@ -8,7 +8,7 @@ import MostViewedContents from "@/app/_components/MostViewedContents";
 import ToBeReviewed from "@/app/_components/ToBeReviewed";
 import { getCourses } from "@/sanity/queries/getCourses";
 
-const Home =  async () => {
+const Home = async () => {
   const courses = await getCourses();
   console.log(courses);
   return (
@@ -24,13 +24,13 @@ const Home =  async () => {
         <div className="md:col-span-3 grid gap-6 md:gap-10">
           <InProgressContent />
           <NewEnrollment />
-          <MostViewedContents/>
-          <ToBeReviewed/>
+          <MostViewedContents />
+          <ToBeReviewed />
         </div>
         <CourseAside />
       </div>
     </main>
   );
-}
+};
 
 export default Home;

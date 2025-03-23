@@ -1,66 +1,55 @@
 "use client";
 
-import { useEffect, useState, useMemo } from "react";
-import Link from "next/link";
-import useCurrentPath from "../_utils/getCurrentPath"; // Fix the import path
+import { useEffect, useState } from "react";
 import { getCourse } from "@/app/_supabase/data-service";
+import Link from "next/link";
 
-// Helper function to capitalize strings
-function capitalize(title: string): string {
-  return title.charAt(0).toUpperCase() + title.slice(1);
+interface CurrentPathProps {
+  id: string | number; 
+  title?: string;
+  isSanityCourse?: boolean;
+  courseTitle?: string; 
 }
 
-export default function CurrentPath({ id }: { id: number }) {
-  const [courseTitle, setCourseTitle] = useState<string>("");
-  const pathData = useCurrentPath();
-  const segments = useMemo(() => pathData?.segments || [], [pathData]);
-
-  const breadcrumbSegments = useMemo(() => {
-    // Start with Home and add filtered segments
-    const filteredSegments = ["Home", ...segments.filter(segment => isNaN(Number(segment)))];
-    return filteredSegments;
-  }, [segments]);
+export default function CurrentPath({ id, isSanityCourse = false, courseTitle }: CurrentPathProps) {
+  const [title, setTitle] = useState<string>(courseTitle || "");
+  const [isLoading, setIsLoading] = useState<boolean>(!courseTitle);
 
   useEffect(() => {
-    let mounted = true;
-
-    async function fetchCourse() {
-      const course = await getCourse(id);
-      if (mounted) {
-        setCourseTitle(course[0]?.title || "");
-      }
+    if (courseTitle) {
+      setTitle(courseTitle);
+      return;
     }
-
-    fetchCourse();
-    return () => {
-      mounted = false;
-    };
-  }, [id]);
+    
+    // Only fetch from Supabase if it's not a Sanity course and we don't have the title
+    if (!isSanityCourse && !courseTitle && typeof id === 'number') {
+      const fetchCourse = async () => {
+        try {
+          setIsLoading(true);
+          const course = await getCourse(id as number);
+          if (course.length > 0) {
+            setTitle(course[0].title);
+          }
+        } catch (error) {
+          console.error("Error fetching course:", error);
+        } finally {
+          setIsLoading(false);
+        }
+      };
+      
+      fetchCourse();
+    }
+  }, [id, courseTitle, isSanityCourse]);
 
   return (
-    <h1 className="font-semibold text-neutral-500">
-      {breadcrumbSegments.map((segment, index) => {
-        // For Home, link to root
-        // For other segments, build path based on original segments to maintain proper routing
-        const subPath = index === 0 
-          ? "/" 
-          : `/${segments.slice(0, index).join("/")}`;
-        
-        return (
-          <Link key={index} href={subPath}>
-            <span className="cursor-pointer">
-              {segment === "Home" ? segment : capitalize(segment)}
-              {index < breadcrumbSegments.length - 1 && " / "}
-            </span>
-          </Link>
-        );
-      })}
-      {courseTitle && (
-        <span className="text-black">
-          <span className="text-neutral-500">{" / "}</span>
-          {capitalize(courseTitle)}
-        </span>
-      )}
-    </h1>
+    <div className="flex items-center text-sm text-neutral-400">
+      <Link href="/learning" className="hover:text-neutral-600">
+        Learning
+      </Link>
+      <span className="mx-2">/</span>
+      <span className="text-neutral-600">
+        {isLoading ? "Loading..." : title || "Course"}
+      </span>
+    </div>
   );
 }

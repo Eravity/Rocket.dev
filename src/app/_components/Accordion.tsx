@@ -8,7 +8,9 @@ type AccordionItemProps = {
   children: React.ReactNode;
   isOpen: boolean;
   onClick: () => void;
-  chapterId?: number; // Make chapterId optional
+  chapterId?: string | number; 
+  isSanityChapter?: boolean; 
+  lessonCount?: number; 
 };
 
 const AccordionItem = ({
@@ -17,24 +19,39 @@ const AccordionItem = ({
   isOpen,
   onClick,
   chapterId,
+  isSanityChapter = false,
+  lessonCount = 0, 
 }: AccordionItemProps) => {
   const [articlesCount, setArticlesCount] = useState(0);
 
   useEffect(() => {
+    // Skip any data fetching for Sanity chapters to prevent loops
+    if (isSanityChapter || typeof chapterId !== 'number') {
+      return;
+    }
+
+    let isMounted = true;
     const fetchArticles = async () => {
-      if (!chapterId) return;
-      
       try {
-        const articles = await getChapterArticles(chapterId);
-        setArticlesCount(articles.length);
+        const articles = await getChapterArticles(chapterId as number);
+        if (isMounted) {
+          setArticlesCount(articles.length);
+        }
       } catch (error) {
         console.error("Error fetching articles:", error);
-        setArticlesCount(0);
+        if (isMounted) {
+          setArticlesCount(0);
+        }
       }
     };
 
     fetchArticles();
-  }, [chapterId]);
+    
+    // Cleanup function to prevent state updates if component unmounts
+    return () => {
+      isMounted = false;
+    };
+  }, [chapterId, isSanityChapter]);
 
   return (
     <div className="border-b border-neutral-200 last:border-b-0">
@@ -45,7 +62,8 @@ const AccordionItem = ({
       >
         <span>{title}</span>
         <div className="flex items-center gap-4">
-          {chapterId && <p>{articlesCount} articles</p>}
+          {!isSanityChapter && chapterId && <p>{articlesCount} articles</p>}
+          {isSanityChapter && <p>{lessonCount} lessons</p>}
           <span
             className={`transform transition-transform duration-200 ${
               isOpen ? "rotate-180" : ""
@@ -65,7 +83,9 @@ type AccordionProps = {
     id: string | number;
     title: string;
     content: React.ReactNode;
-    chapterId?: number; // Make chapterId optional
+    chapterId?: number | string; 
+    isSanityChapter?: boolean;
+    lessonCount?: number; 
   }[];
   defaultAllOpen?: boolean;
 };
@@ -74,35 +94,45 @@ export default function Accordion({
   items,
   defaultAllOpen = true,
 }: AccordionProps) {
-  // Initialize with all indices if defaultAllOpen is true
+  const safeItems = Array.isArray(items) ? items : [];
+
   const initialOpenState = defaultAllOpen
-    ? new Array(items.length).fill(0).map((_, i) => i)
+    ? new Array(safeItems.length).fill(0).map((_, i) => i)
     : [];
 
   const [openIndices, setOpenIndices] = useState<number[]>(initialOpenState);
 
   const toggleItem = (index: number) => {
     setOpenIndices((prevIndices) => {
-      // If the index is already in the array, remove it
       if (prevIndices.includes(index)) {
         return prevIndices.filter((i) => i !== index);
       }
-      // Otherwise add it
       return [...prevIndices, index];
     });
   };
 
+  // Add defensive check before rendering
+  if (!safeItems.length) {
+    return (
+      <div className="border border-gray-200 container mx-auto rounded-md overflow-hidden p-4 text-center">
+        No content available
+      </div>
+    );
+  }
+
   return (
     <div className="border-2 border-gray-200 container mx-auto rounded-md overflow-hidden">
-      {items.map((item, index) => (
+      {safeItems.map((item, index) => (
         <AccordionItem
-          key={item.id}
-          title={item.title}
+          key={item.id || index}
+          title={item.title || "Untitled"}
           isOpen={openIndices.includes(index)}
           onClick={() => toggleItem(index)}
           chapterId={item.chapterId}
+          isSanityChapter={item.isSanityChapter}
+          lessonCount={item.lessonCount || 0}
         >
-          {item.content}
+          {item.content || "No content available"}
         </AccordionItem>
       ))}
     </div>
