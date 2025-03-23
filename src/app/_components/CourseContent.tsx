@@ -18,7 +18,7 @@ const ContentRow = ({ icon, title }: { icon: ReactNode; title: string }) => {
 
 export default function CourseContent() {
   return (
-    <aside className="w-3/12 h-fit border-2 flex flex-col gap-4 rounded-lg p-5">
+    <aside className="h-fit border-2 flex flex-col gap-4 rounded-lg p-5">
       <h1 className="font-bold text-lg">Course Content</h1>
       <div className="flex flex-col font-semibold gap-2">
         <ContentRow

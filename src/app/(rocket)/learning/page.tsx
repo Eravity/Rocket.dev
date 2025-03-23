@@ -12,7 +12,6 @@ export type Course = {
 
 export default async function MyLearningPage() {
   const courses: Course[] = await getCourses();
-  console.log(courses);
   return (
     <main className="container mx-auto 2xl:px-16 md:px-6">
       <h1 className="text-3xl font-bold mt-8 mb-4">My Learning</h1>

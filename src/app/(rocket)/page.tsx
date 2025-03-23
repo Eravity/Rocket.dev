@@ -6,11 +6,8 @@ import CourseAside from "@/app/_components/CourseAside";
 import Treat from "@/app/_components/RoadmapWidget";
 import MostViewedContents from "@/app/_components/MostViewedContents";
 import ToBeReviewed from "@/app/_components/ToBeReviewed";
-import { getCourses } from "@/sanity/queries/getCourses";
 
 const Home = async () => {
-  const courses = await getCourses();
-  console.log(courses);
   return (
     <main className="flex container mx-auto flex-col my-8 space-y-6 2xl:px-16 md:px-6 md:space-y-10">
       <div className="flex flex-col md:flex-row justify-between items-center gap-6">
