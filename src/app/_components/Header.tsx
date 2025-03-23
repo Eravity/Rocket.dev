@@ -14,7 +14,7 @@ export default function Header() {
   const pathname = usePathname();
 
   // Hide header when on an article page
-  if (pathname.includes("/article/")) return null;
+  if (pathname!.includes("/article/")) return null;
 
   return (
     <MenuProvider>

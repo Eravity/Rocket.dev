@@ -10,13 +10,13 @@ const Profile: React.FC = () => {
 
         <div className="hidden xl:block">
           <h1 className="font-bold">Cristian Cebotari</h1>
-          <p className="text-neutral-500">FullStack Developer</p>
+          <p className="text-neutral-500"> Developer</p>
         </div>
 
         <ArrowDown className="hidden xl:block" />
       </div>
     </div>
   );
-}
+};
 
-export default Profile
+export default Profile;
