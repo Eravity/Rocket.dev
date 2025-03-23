@@ -1,13 +1,16 @@
-import Greeting from "./_components/Greeting";
-import InProgressContent from "./_components/InProgressContent";
-import NewEnrollment from "./_components/NewEnrollment";
-import Stats from "./_components/Stats";
-import CourseAside from "./_components/CourseAside";
-import Treat from "./_components/RoadmapWidget";
-import MostViewedContents from "./_components/MostViewedContents";
-import ToBeReviewed from "./_components/ToBeReviewed";
+import Greeting from "@/app/_components/Greeting";
+import InProgressContent from "@/app/_components/InProgressContent";
+import NewEnrollment from "@/app/_components/NewEnrollment";
+import Stats from "@/app/_components/Stats";
+import CourseAside from "@/app/_components/CourseAside";
+import Treat from "@/app/_components/RoadmapWidget";
+import MostViewedContents from "@/app/_components/MostViewedContents";
+import ToBeReviewed from "@/app/_components/ToBeReviewed";
+import { getCourses } from "@/sanity/queries/getCourses";
 
-export default function Home() {
+const Home =  async () => {
+  const courses = await getCourses();
+  console.log(courses);
   return (
     <main className="flex container mx-auto flex-col my-8 space-y-6 2xl:px-16 md:px-6 md:space-y-10">
       <div className="flex flex-col md:flex-row justify-between items-center gap-6">
@@ -29,3 +32,5 @@ export default function Home() {
     </main>
   );
 }
+
+export default Home;

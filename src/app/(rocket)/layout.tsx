@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
-import Header from "../app/_components/Header";
-import ClientProviders from "./ClientProviders";
-import "./globals.css";
+import Header from "@/app/_components/Header";
+import ClientProviders from "../ClientProviders";
+import "../globals.css";
 
 export const metadata: Metadata = {
   title: "Rocket",
