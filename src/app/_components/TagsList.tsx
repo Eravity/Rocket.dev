@@ -10,7 +10,7 @@ export default function TagsList({ tags }: TagsListProps) {
       {tags.map((tag: string) => (
         <li key={tag} className="text-neutral-700 text-sm">
           <span className="px-2 py-0.5 flex items-center font-semibold bg-neutral-200 rounded">
-            {tag}
+            {tag.toLowerCase().at(0)?.toUpperCase() + tag.slice(1)}
           </span>
         </li>
       ))}

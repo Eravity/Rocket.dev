@@ -28,6 +28,16 @@ export default defineType({
     }),
 
     defineField({
+      name: 'tags',
+      title: 'Tags',
+      type: 'array',
+      of: [{ type: 'string' }],
+      options: {
+        layout: 'tags',
+      },
+    }),
+
+    defineField({
       name: 'chapters',
       title: 'Chapters',
       type: 'array',
