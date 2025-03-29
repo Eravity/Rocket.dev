@@ -76,6 +76,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
 	const serializedCourse = {
 		_id: course._id || "",
 		id: course._id || "",
+		_type: course._type || "",
 		title: course.title || "Untitled Course",
 		description: course.description || "",
 		content_type: course.content_type || "",
@@ -127,7 +128,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
 			<CourseHeader
 				id={serializedCourse._id}
 				course={serializedCourse}
-				contentType={serializedCourse.content_type}
+				contentType={serializedCourse._type}
 				tags={serializedCourse.tags}
 				isSanityCourse={true}
 			/>

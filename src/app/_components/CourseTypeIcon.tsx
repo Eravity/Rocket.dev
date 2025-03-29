@@ -2,13 +2,13 @@ import CourseIcon from "@/app/_components/Icons/CourseIcon";
 import DocsIcon from "@/app/_components/Icons/DocsIcon";
 import QuizIcon from "@/app/_components/Icons/QuizIcon";
 
-type ContentType = "course" | "article" | "quiz";
 
 interface CourseTypeIconProps {
-  contentType: ContentType | string;
+  contentType: string;
 }
 
 export default function CourseTypeIcon({ contentType }: CourseTypeIconProps) {
+  console.log('Content type is:', contentType);
   return (
     <span className="flex items-center gap-2">
       {contentType === "course" ? (
