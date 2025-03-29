@@ -42,7 +42,7 @@ export default function CurrentPath({ id, isSanityCourse = false, courseTitle }:
   }, [id, courseTitle, isSanityCourse]);
 
   return (
-    <div className="flex items-center text-sm text-neutral-400">
+    <div className="flex items-center font-semibold text-sm text-neutral-400">
       <Link href="/learning" className="hover:text-neutral-600">
         Learning
       </Link>

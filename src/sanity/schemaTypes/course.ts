@@ -22,6 +22,12 @@ export default defineType({
     }),
 
     defineField({
+      name: 'description',
+      title: 'Description',
+      type: 'string',
+    }),
+
+    defineField({
       name: 'chapters',
       title: 'Chapters',
       type: 'array',
