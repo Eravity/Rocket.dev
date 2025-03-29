@@ -9,9 +9,8 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
-	// Await params to ensure it's resolved before using its properties
-	const resolvedParams = await Promise.resolve(params);
-	const { slug } = resolvedParams;
+	// No need to await params, it's already an object
+	const { slug } = params;
 	const course = await getCourseBySlug(slug);
 	if (!course) {
 		return {
@@ -25,7 +24,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
 }
 
 export default async function Page({ params }: { params: { slug: string } }) {
-	const { slug } = await params;
+	const { slug } = params; // Removed 'await' as params is not a promise
 	const course = await getCourseBySlug(slug);
 	if (!course) {
 		notFound();
@@ -43,10 +42,12 @@ export default async function Page({ params }: { params: { slug: string } }) {
 			let chapterIndex = 0;
 			for (const chapter of course.chapters) {
 				interface Lesson {
+					_id: string;
 					_key?: string;
 					title?: string;
 					description?: string;
 					content?: string;
+					slug?: { current: string };
 				}
 
 				const lessons = Array.isArray(chapter.lessons)
@@ -55,6 +56,8 @@ export default async function Page({ params }: { params: { slug: string } }) {
 							title: lesson.title || "Untitled Lesson",
 							description: lesson.description || "",
 							content: lesson.content || "",
+							_id: lesson._id,
+							slug: lesson.slug?.current || `lesson-${lessonIndex}`,
 					  }))
 					: [];
 				courseChapters.push({
@@ -103,7 +106,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
 									key={lesson._key || index}
 									className={`pl-2 ${index < chapter.lessons.length - 1 ? "border-b border-gray-300" : ""}`}
 								>
-									<Link href={`/learning/course/${slug}/lesson/${lesson.title}`}>
+									<Link href={`/learning/course/${slug}/lesson/${lesson.slug}`}>
 										<h1 className="font-medium my-4">{lesson.title}</h1>
 									</Link>
 									{lesson.description && <p className="text-sm text-gray-600">{lesson.description}</p>}
