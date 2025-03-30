@@ -1,16 +1,18 @@
 import getLesson from "@/sanity/queries/getLesson";
+import { notFound } from "next/navigation";
 
-export default async function page({params}: { params: { articleId: string } }) {
-  const { articleId } = params; 
-  console.log("articleSlug", articleId);
+type Props = {
+  params: Promise<{ articleId: string }>;
+};
+
+export default async function LessonPage(props: Props) {
+  const { articleId } = await props.params;
   const lesson = await getLesson(articleId);
-  
+
   if (!lesson) {
-    return <main className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold">Lesson not found</h1>
-    </main>
+    notFound();
   }
-  
+
   return (
     <main>
       <h1>{lesson.title}</h1>

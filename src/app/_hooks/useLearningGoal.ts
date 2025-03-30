@@ -114,7 +114,7 @@ export const useLearningGoal = (initialGoal: number = 30) => {
     });
 
     return () => unsubscribe();
-  }, []);
+  }, [subscribe]);
 
   const startLearning = () => {
     setState(prev => ({ ...prev, isActive: true }));
