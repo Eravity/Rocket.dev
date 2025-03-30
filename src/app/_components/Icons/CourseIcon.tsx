@@ -2,7 +2,7 @@ export default function CourseIcon({width = 15, height = 15}: {width?: number, h
   return (
     <div 
       style={{ width: `${width}px`, height: `${height}px` }}
-      className={`flex items-center justify-center ${height > 20 ? 'p-[6px] rounded-lg' : 'p-[3px]'} rounded bg-skySplash`}
+      className={`flex items-center justify-center ${height > 25 ? 'p-[6px] rounded-lg' : 'p-[3px]'} rounded bg-skySplash`}
     >
       <svg
         width={width}
