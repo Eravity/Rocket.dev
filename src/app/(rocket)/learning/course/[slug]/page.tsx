@@ -8,36 +8,38 @@ import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 
-export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
-	// No need to await params, it's already an object
-	const { slug } = params;
-	const course = await getCourseBySlug(slug);
-	if (!course) {
+export async function generateMetadata(props: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+    const params = await props.params;
+    // No need to await params, it's already an object
+    const { slug } = params;
+    const course = await getCourseBySlug(slug);
+    if (!course) {
 		return {
 			title: "Course Not Found",
 		};
 	}
-	return {
+    return {
 		title: `${course.title} | Rocket.dev Learning`,
 		description: course.description || "Learn with Rocket.dev",
 	};
 }
 
-export default async function Page({ params }: { params: { slug: string } }) {
-	const { slug } = params; // Removed 'await' as params is not a promise
-	const course = await getCourseBySlug(slug);
-	if (!course) {
+export default async function Page(props: { params: Promise<{ slug: string }> }) {
+    const params = await props.params;
+    const { slug } = params; // Removed 'await' as params is not a promise
+    const course = await getCourseBySlug(slug);
+    if (!course) {
 		notFound();
 	}
 
-	// Extra safety check for chapters
-	if (!course.chapters) {
+    // Extra safety check for chapters
+    if (!course.chapters) {
 		course.chapters = [];
 	}
 
-	// More robust chapter processing with error handling
-	const courseChapters = [];
-	try {
+    // More robust chapter processing with error handling
+    const courseChapters = [];
+    try {
 		if (Array.isArray(course.chapters)) {
 			let chapterIndex = 0;
 			for (const chapter of course.chapters) {
@@ -76,7 +78,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
 		console.error("Error processing chapters:", error);
 	}
 
-	const serializedCourse = {
+    const serializedCourse = {
 		_id: course._id || "",
 		id: course._id || "",
 		_type: course._type || "",
@@ -92,7 +94,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
 		banner: course.banner || null,
 	};
 
-	const accordionItems = courseChapters.map((chapter) => ({
+    const accordionItems = courseChapters.map((chapter) => ({
 		id: chapter.id,
 		title: chapter.title,
 		content: (
@@ -126,7 +128,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
 		lessonCount: Array.isArray(chapter.lessons) ? chapter.lessons.length : 0,
 	}));
 
-	return (
+    return (
 		<main className="flex flex-col space-y-16">
 			<CourseHeader
 				id={serializedCourse._id}
