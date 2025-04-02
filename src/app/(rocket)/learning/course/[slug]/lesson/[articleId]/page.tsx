@@ -14,8 +14,8 @@ export default async function LessonPage({ params }: Props) {
   }
 
   return (
-    <div className="container mx-auto 2xl:px-16 md:px-6">
-      <main className="flex w-full">
+    <div className="">
+      <main className="flex">
       </main>
     </div>
   );
