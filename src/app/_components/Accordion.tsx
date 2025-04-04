@@ -94,6 +94,7 @@ export default function Accordion({
   items,
   defaultAllOpen = true,
 }: AccordionProps) {
+
   const safeItems = Array.isArray(items) ? items : [];
 
   const initialOpenState = defaultAllOpen
