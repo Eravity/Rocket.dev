@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useMemo } from "react";
-import Link from "next/link";
+import { useState, useMemo, useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 // Types for lesson/article items
 type LessonItem = {
@@ -28,7 +28,9 @@ export default function ChapterList({
   currentLessonSlug = '',
   courseSlug = '',
 }: CourseNavigationProps) {
+  const router = useRouter();
   const [searchTerm, setSearchTerm] = useState("");
+  const [completedLessons, setCompletedLessons] = useState<Set<string>>(new Set());
   const safeItems = useMemo(() => Array.isArray(items) ? items : [], [items]);
   
   // Get current chapter and lesson for better highlighting
@@ -60,8 +62,56 @@ export default function ChapterList({
     });
   }, [safeItems, searchTerm]);
 
-  // Calculate overall progress (placeholder - would be connected to actual progress data)
-  const overallProgress = 0;
+  // Function to toggle lesson completion
+  const toggleLessonCompletion = (e: React.MouseEvent, lessonSlug: string) => {
+    e.preventDefault();
+    e.stopPropagation(); // Prevent the click from bubbling up to parent elements
+    
+    setCompletedLessons(prev => {
+      const newCompleted = new Set(prev);
+      if (newCompleted.has(lessonSlug)) {
+        newCompleted.delete(lessonSlug);
+      } else {
+        newCompleted.add(lessonSlug);
+      }
+      
+      // Save to localStorage
+      localStorage.setItem('completedLessons', JSON.stringify([...newCompleted]));
+      return newCompleted;
+    });
+  };
+
+  // Function to navigate to lesson
+  const navigateToLesson = (lessonSlug: string) => {
+    router.push(`/learning/course/${courseSlug}/lesson/${lessonSlug}`, { scroll: false });
+  };
+  
+  // Load completed lessons from localStorage on initial render
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const savedCompletedLessons = localStorage.getItem('completedLessons');
+      if (savedCompletedLessons) {
+        try {
+          const parsed = JSON.parse(savedCompletedLessons);
+          setCompletedLessons(new Set(parsed));
+        } catch (e) {
+          console.error('Failed to parse completed lessons:', e);
+        }
+      }
+    }
+  }, []);
+
+  // Calculate overall progress
+  const overallProgress = useMemo(() => {
+    if (!safeItems.length) return 0;
+    
+    const totalLessons = safeItems.reduce(
+      (total, chapter) => total + (chapter.lessons?.length || 0), 
+      0
+    );
+    
+    return totalLessons ? Math.round((completedLessons.size / totalLessons) * 100) : 0;
+  }, [safeItems, completedLessons.size]);
   
   if (!safeItems.length) {
     return (
@@ -118,8 +168,15 @@ export default function ChapterList({
       <div className="course-navigation max-h-[calc(100vh-200px)] overflow-y-auto divide-y divide-gray-100">
         {filteredItems.map((chapter, chapterIndex) => {
           const isCurrentChapter = chapterIndex === currentChapterIndex;
-          // Calculate chapter progress (placeholder)
-          const chapterProgress = 0;
+          
+          // Calculate chapter progress
+          const chapterLessons = chapter.lessons || [];
+          const completedInChapter = chapterLessons.filter(lesson => 
+            completedLessons.has(lesson.slug)
+          ).length;
+          const chapterProgress = chapterLessons.length 
+            ? Math.round((completedInChapter / chapterLessons.length) * 100) 
+            : 0;
           
           return (
             <div key={chapter.id || chapterIndex} className="chapter-section">
@@ -129,7 +186,7 @@ export default function ChapterList({
                     {chapter.title || "Untitled Chapter"}
                   </h3>
                   <span className="text-xs text-gray-500">
-                    {chapter.lessonCount || chapter.lessons?.length || 0} lessons
+                    {completedInChapter}/{chapter.lessonCount || chapter.lessons?.length || 0} lessons
                   </span>
                 </div>
                 
@@ -141,28 +198,46 @@ export default function ChapterList({
               <ul className="lesson-list">
                 {chapter.lessons?.map((lesson, lessonIndex) => {
                   const isCurrentLesson = lesson.slug === currentLessonSlug;
+                  const isCompleted = completedLessons.has(lesson.slug);
                   
                   return (
                     <li key={lesson.id || `lesson-${lessonIndex}`}>
-                      <Link 
-                        href={`/learning/course/${courseSlug}/lesson/${lesson.slug}`}
-                        className={`flex items-center py-2.5 px-5 border-l-2 group transition-colors ${
-                          isCurrentLesson 
-                            ? 'border-blue-500 bg-blue-50 hover:bg-blue-100' 
-                            : 'border-transparent hover:bg-gray-50'
-                        }`}
-                      >
-                        <div className="mr-3 flex-shrink-0 text-xs bg-gray-100 rounded-full h-5 w-5 flex items-center justify-center">
-                          {isCurrentLesson ? (
+                      <div className={`flex items-center py-2.5 px-5 border-l-2 group transition-colors ${
+                        isCurrentLesson 
+                          ? 'border-blue-500 bg-blue-50 hover:bg-blue-100' 
+                          : 'border-transparent hover:bg-gray-50'
+                      }`}>
+                        {/* Completion checkbox - only toggles completion */}
+                        <button
+                          onClick={(e) => toggleLessonCompletion(e, lesson.slug)}
+                          className="mr-3 flex-shrink-0 text-xs bg-gray-100 rounded-full h-5 w-5 flex items-center justify-center hover:bg-gray-200"
+                          aria-label={isCompleted ? "Mark as incomplete" : "Mark as complete"}
+                        >
+                          {isCompleted ? (
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3 text-green-500" viewBox="0 0 20 20" fill="currentColor">
+                              <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                            </svg>
+                          ) : isCurrentLesson ? (
                             <div className="h-2.5 w-2.5 rounded-full bg-blue-500"></div>
                           ) : (
                             <div className="h-2.5 w-2.5 rounded-full bg-gray-300 group-hover:bg-gray-400"></div>
                           )}
-                        </div>
-                        <span className={`text-sm ${isCurrentLesson ? 'font-medium text-blue-700' : 'text-gray-700'}`}>
+                        </button>
+                        
+                        {/* Lesson title - only navigates */}
+                        <button
+                          onClick={() => navigateToLesson(lesson.slug)}
+                          className={`text-sm flex-grow text-left ${
+                            isCompleted 
+                              ? 'text-green-600' 
+                              : isCurrentLesson 
+                                ? 'font-medium text-blue-700' 
+                                : 'text-gray-700'
+                          }`}
+                        >
                           {lesson.title || "Untitled Lesson"}
-                        </span>
-                      </Link>
+                        </button>
+                      </div>
                     </li>
                   );
                 })}
