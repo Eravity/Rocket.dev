@@ -1,8 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Link from "next/link";
-import Accordion from "./Accordion";
+import ChapterList from "./ChapterList";
 import { useParams } from "next/navigation";
 
 interface Lesson {
@@ -46,6 +45,7 @@ export default function ChapterContent({
   const [isLoading, setIsLoading] = useState(true);
   const params = useParams();
   const slug = params.slug as string;
+  const lessonSlug = params.lessonSlug as string;
 
   useEffect(() => {
     async function fetchCourseData() {
@@ -55,7 +55,6 @@ export default function ChapterContent({
       try {
         const course = await getCourseBySlug(slug);
         if (course && course.chapters) {
-          console.log("Fetched course data:", course);
           setCourseChapters(Array.isArray(course.chapters) ? course.chapters : []);
         } else {
           console.error("No chapters found in course data");
@@ -71,50 +70,37 @@ export default function ChapterContent({
     fetchCourseData();
   }, [slug]);
   
-  const accordionItems = courseChapters.map((chapter) => ({
+  const navigationItems = courseChapters.map((chapter) => ({
     id: chapter.id || chapter._id || "defaultId",
     title: chapter.title || "Untitled Chapter",
-    content: (
-      <div className="px-4">
-        {chapter.description && <p className="mb-4">{chapter.description}</p>}
-        {chapter.lessons && Array.isArray(chapter.lessons) && chapter.lessons.length > 0 ? (
-          <div>
-            <ul className="space-y-3">
-              {chapter.lessons.map((lesson: Lesson, index: number) => (
-                <li
-                  key={lesson._key || `lesson-${index}`}
-                  className={`pl-2 ${index < (chapter.lessons?.length || 0) - 1 ? "border-b border-gray-300" : ""}`}
-                >
-                  <Link href={`/learning/course/${slug}/lesson/${typeof lesson.slug === "object" ? lesson.slug.current : lesson.slug}`}>
-                    <h1 className="font-medium my-4">{lesson.title || "Untitled Lesson"}</h1>
-                  </Link>
-                  {lesson.description && <p className="text-sm text-gray-600">{lesson.description}</p>}
-                </li>
-              ))}
-            </ul>
-          </div>
-        ) : chapter.content ? (
-          <div className="mt-3">{chapter.content}</div>
-        ) : (
-          <p className="text-gray-500 my-4 italic">This chapter has no content yet.</p>
-        )}
-      </div>
-    ),
     chapterId: chapter.id || chapter._id || "defaultChapterId",
     isSanityChapter: true,
     lessonCount: Array.isArray(chapter.lessons) ? chapter.lessons.length : 0,
+    lessons: chapter.lessons?.map(lesson => ({
+      id: lesson._id || lesson._key || "",
+      title: lesson.title || "Untitled",
+      slug: typeof lesson.slug === "object" ? lesson.slug.current : lesson.slug || "",
+    })) || [],
   }));
 
   return (
-    <aside className={`w-1/4 border-l p-3 ${className}`}>
-      <input type="text" className="border flex mx-auto p-2 w-full rounded-lg" placeholder="Search..." />
-      <div>
+    <aside className={`w-1/4 bg-white ${className}`}>
+      <div className="h-full">
         {isLoading ? (
-          <div className="p-4 text-center">Loading chapters...</div>
-        ) : accordionItems.length > 0 ? (
-          <Accordion items={accordionItems} />
+          <div className="p-5 text-center">
+            <div className="inline-block animate-spin rounded-full h-6 w-6 border-b-2 border-blue-500"></div>
+            <p className="mt-2 text-gray-600">Loading course content...</p>
+          </div>
+        ) : navigationItems.length > 0 ? (
+          <ChapterList 
+            items={navigationItems} 
+            currentLessonSlug={lessonSlug}
+            courseSlug={slug}
+          />
         ) : (
-          <div className="p-4 text-center">No chapters available for this course.</div>
+          <div className="p-5 text-center text-gray-500">
+            No chapters available for this course.
+          </div>
         )}
       </div>
     </aside>
