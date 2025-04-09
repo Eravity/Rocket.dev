@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useEffect, memo } from "react";
 import { useRouter } from "next/navigation";
 
 // Types for lesson/article items
@@ -23,7 +23,7 @@ type CourseNavigationProps = {
   courseSlug?: string;
 };
 
-export default function ChapterList({
+function ChapterList({
   items,
   currentLessonSlug = '',
   courseSlug = '',
@@ -256,3 +256,5 @@ export default function ChapterList({
     </div>
   );
 }
+
+export default memo(ChapterList);

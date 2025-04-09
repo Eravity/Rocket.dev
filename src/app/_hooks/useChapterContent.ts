@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 
 interface Lesson {
   _id?: string;
@@ -77,18 +77,21 @@ export function useChapterContent(slug: string) {
     fetchCourseData();
   }, [slug]); // Only re-run effect when the course slug changes
 
-  const navigationItems = courseChapters.map((chapter) => ({
-    id: chapter.id || chapter._id || "defaultId",
-    title: chapter.title || "Untitled Chapter",
-    chapterId: chapter.id || chapter._id || "defaultChapterId",
-    isSanityChapter: true,
-    lessonCount: Array.isArray(chapter.lessons) ? chapter.lessons.length : 0,
-    lessons: chapter.lessons?.map(lesson => ({
-      id: lesson._id || lesson._key || "",
-      title: lesson.title || "Untitled",
-      slug: typeof lesson.slug === "object" ? lesson.slug.current : lesson.slug || "",
-    })) || [],
-  }));
+  // Memoize navigationItems to prevent unnecessary re-renders when passing them as props
+  const navigationItems = useMemo(() => {
+    return courseChapters.map((chapter) => ({
+      id: chapter.id || chapter._id || "defaultId",
+      title: chapter.title || "Untitled Chapter",
+      chapterId: chapter.id || chapter._id || "defaultChapterId",
+      isSanityChapter: true,
+      lessonCount: Array.isArray(chapter.lessons) ? chapter.lessons.length : 0,
+      lessons: chapter.lessons?.map(lesson => ({
+        id: lesson._id || lesson._key || "",
+        title: lesson.title || "Untitled",
+        slug: typeof lesson.slug === "object" ? lesson.slug.current : lesson.slug || "",
+      })) || [],
+    }));
+  }, [courseChapters]); // Only recalculate when courseChapters changes
 
   return { courseChapters, isLoading, navigationItems };
 }
