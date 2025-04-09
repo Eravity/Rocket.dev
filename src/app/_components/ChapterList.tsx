@@ -61,8 +61,32 @@ function ChapterList({ courseSlug }: CourseNavigationProps) {
 
   return (
     <div className="bg-white shadow-sm">
+      {/* Initial styling header before navigation list */}
       <div className="px-5 pt-5 pb-4">
         <h2 className="font-semibold text-lg text-gray-800">Course Content</h2>
+        <div className="mt-2 mb-3">
+          <div className="flex justify-between text-xs text-gray-500 mb-1">
+            <span>Course Progress</span>
+            <span>0%</span>
+          </div>
+          <div className="h-1.5 w-full bg-gray-100 rounded-full overflow-hidden">
+            <div className="h-full bg-blue-500 rounded-full" style={{ width: "0%" }}></div>
+          </div>
+        </div>
+        <div className="relative mt-3">
+          <input 
+            type="text"
+            className="w-full p-2 pl-8 pr-8 text-sm border border-gray-200 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
+            placeholder="Search lessons..."
+            readOnly
+          />
+          <svg 
+            className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-400"
+            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+          >
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+        </div>
       </div>
       
       <div className="course-navigation max-h-[calc(100vh-200px)] overflow-y-auto divide-y divide-gray-100">
