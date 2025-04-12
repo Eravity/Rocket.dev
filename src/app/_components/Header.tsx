@@ -1,20 +1,27 @@
 'use client';
 import { usePathname } from "next/navigation";
+import { memo } from 'react';
 import { MenuProvider } from './MenuContext';
 import { SearchProvider } from './SearchContext';
-import Bell from "./Icons/Bell";
-import Calendar from "./Icons/Calendar";
-import Logo from "./Icons/Logo";
-import Navigation from "./Navigation";
-import Profile from "./Profile";
-import Search from "./Search";
-import MobileMenuButton from "./Icons/MobileMenuButton";
+import BellIcon from "./Icons/Bell";
+import CalendarIcon from "./Icons/Calendar";
+import LogoIcon from "./Icons/Logo";
+import NavigationComponent from "./Navigation";
+import ProfileComponent from "./Profile";
+import SearchComponent from "./Search";
+import MobileMenuButtonIcon from "./Icons/MobileMenuButton";
 
-export default function Header() {
+function HeaderComponent() {
+  const Logo = memo(LogoIcon);
+  const Search = memo(SearchComponent);
+  const Calendar = memo(CalendarIcon);
+  const Bell = memo(BellIcon);
+  const Profile = memo(ProfileComponent);
+  const MobileMenuButton = memo(MobileMenuButtonIcon);
+  const Navigation = memo(NavigationComponent);
   const pathname = usePathname();
 
-  // Hide header when on an article page
-  if (pathname!.includes("/article/")) return null;
+  if (pathname?.includes("/article/")) return null;
 
   return (
     <MenuProvider>
@@ -29,7 +36,7 @@ export default function Header() {
             </div>
             <div className="hidden md:flex space-x-5 items-center">
               <div className="hover:scale-105 transition-transform duration-200">
-                <Calendar width={25} height={25}/>
+                <Calendar width={25} height={25} />
               </div>
               <div className="hover:scale-105 transition-transform duration-200">
                 <Bell />
@@ -52,3 +59,6 @@ export default function Header() {
     </MenuProvider>
   );
 }
+
+const MemoizedHeader = memo(HeaderComponent);
+export default MemoizedHeader;
