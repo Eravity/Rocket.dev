@@ -10,7 +10,6 @@ import Link from "next/link";
 
 export async function generateMetadata(props: { params: Promise<{ slug: string }> }): Promise<Metadata> {
     const params = await props.params;
-    // No need to await params, it's already an object
     const { slug } = params;
     const course = await getCourseBySlug(slug);
     if (!course) {

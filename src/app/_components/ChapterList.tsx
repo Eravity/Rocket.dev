@@ -3,6 +3,7 @@
 import { memo } from "react";
 import { useParams, usePathname } from "next/navigation";
 import { useChapterNavigation } from "../_hooks/useChapterNavigation";
+import CourseIndicator from "./CourseIndicator";
 
 type CourseNavigationProps = {
   courseSlug: string;
@@ -47,6 +48,7 @@ function ChapterList({ courseSlug }: CourseNavigationProps) {
 
   return (
     <div className="bg-white shadow-sm">
+      <CourseIndicator slug={courseSlug}/>
       <div className="px-5 pt-5 pb-4">
         <h2 className="font-semibold text-lg text-gray-800">Course Content</h2>
         <div className="mt-2 mb-3">

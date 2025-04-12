@@ -5,9 +5,10 @@ import QuizIcon from "@/app/_components/Icons/QuizIcon";
 
 interface CourseTypeIconProps {
   contentType: string;
+  text?: boolean;
 }
 
-export default function CourseTypeIcon({ contentType }: CourseTypeIconProps) {
+export default function CourseTypeIcon({ contentType, text = true }: CourseTypeIconProps) {
   return (
     <span className="flex items-center gap-2">
       {contentType === "course" ? (
@@ -17,7 +18,8 @@ export default function CourseTypeIcon({ contentType }: CourseTypeIconProps) {
       ) : contentType === "quiz" ? (
         <QuizIcon width={20} height={20} />
       ) : null}
-      {contentType}
+
+      {text && contentType}
     </span>
   );
 }
