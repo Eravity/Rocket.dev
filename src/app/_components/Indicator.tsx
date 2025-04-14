@@ -1,37 +1,36 @@
-// Define props for the component
 type IndicatorProps = {
   chapterNumber?: number;
   lessonNumberInChapter?: number;
   totalLessonsInChapter?: number;
+  isLoading?: boolean; 
 };
 
-// This is now a simple Server Component (or can be used in Client Components too)
 const Indicator = ({
   chapterNumber,
   lessonNumberInChapter,
   totalLessonsInChapter,
+  isLoading, 
 }: IndicatorProps) => {
 
-  // Check if all required props are valid numbers
   const isValid =
-    typeof chapterNumber === 'number' &&
-    typeof lessonNumberInChapter === 'number' &&
-    typeof totalLessonsInChapter === 'number';
+    typeof chapterNumber === "number" &&
+    typeof lessonNumberInChapter === "number" &&
+    typeof totalLessonsInChapter === "number";
+
+  let textContent: string;
+  if (isLoading) {
+    textContent = "Loading lesson position...";
+  } else if (isValid) {
+    textContent = `Chapter ${chapterNumber} - Lesson ${lessonNumberInChapter} of ${totalLessonsInChapter}`;
+  } else {
+    textContent = "Lesson position not available.";
+  }
 
   return (
-    // Apply consistent styling whether showing data or fallback
-    <div className="flex px-5 py-3 border-b items-center gap-2 text-sm text-gray-600">
-      {isValid ? (
-        // Use the desired format "Chapter X - Lesson Y of Z"
-        `Chapter ${chapterNumber} - Lesson ${lessonNumberInChapter} of ${totalLessonsInChapter}`
-      ) : (
-        // Display a placeholder message when data is missing
-        'Lesson position not available.'
-      )}
+    <div className="flex py-3 font-semibold items-center text-sm text-gray-600">
+      {textContent}
     </div>
   );
-
-  // Removed the explicit null return, the div always renders now.
 };
 
 export default Indicator;
