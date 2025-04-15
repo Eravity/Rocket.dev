@@ -2,16 +2,17 @@ type IndicatorProps = {
   chapterNumber?: number;
   lessonNumberInChapter?: number;
   totalLessonsInChapter?: number;
-  isLoading?: boolean; 
+  isLoading?: boolean;
+  lessonTitle?: string | null;
 };
 
 const Indicator = ({
   chapterNumber,
   lessonNumberInChapter,
   totalLessonsInChapter,
-  isLoading, 
+  isLoading,
+  lessonTitle,
 }: IndicatorProps) => {
-
   const isValid =
     typeof chapterNumber === "number" &&
     typeof lessonNumberInChapter === "number" &&
@@ -21,14 +22,16 @@ const Indicator = ({
   if (isLoading) {
     textContent = "Loading lesson position...";
   } else if (isValid) {
+    // Only include position info, lesson title will be in a separate tag
     textContent = `Chapter ${chapterNumber} - Lesson ${lessonNumberInChapter} of ${totalLessonsInChapter}`;
   } else {
     textContent = "Lesson position not available.";
   }
 
   return (
-    <div className="flex py-3 font-semibold items-center text-sm text-gray-600">
-      {textContent}
+    <div className="flex flex-col py-3">
+      <h1 className="font-bold text-sm text-gray-600 h-5">{textContent}</h1>
+      <h1 className="font-bold text-3xl mt-1 min-h-[36px]">{lessonTitle}</h1>
     </div>
   );
 };

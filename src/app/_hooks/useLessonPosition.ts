@@ -5,7 +5,7 @@ import { getCourseBySlug } from "@/sanity/queries/getCourses";
 // Define types used within the hook
 interface Lesson {
   _id: string;
-  // Removed title, body etc.
+  title: string;
 }
 interface Chapter {
   _id?: string;
@@ -26,6 +26,7 @@ export function useLessonPosition(lessonSlug: string | undefined | null, courseS
   const [position, setPosition] = useState<LessonPosition>({});
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [targetLessonTitle, setTargetLessonTitle] = useState<string | null>(null);
 
   useEffect(() => {
     // Reset state when slugs change
@@ -63,6 +64,8 @@ export function useLessonPosition(lessonSlug: string | undefined | null, courseS
 
         // Calculate position using the fetched lesson's ID
         let calculatedPosition: LessonPosition = {};
+        const targetLessonTitle = fetchedLesson.title;
+        setTargetLessonTitle(targetLessonTitle);
         const targetLessonId = fetchedLesson._id;
 
         if (fetchedCourse.chapters && Array.isArray(fetchedCourse.chapters)) {
@@ -107,5 +110,6 @@ export function useLessonPosition(lessonSlug: string | undefined | null, courseS
     position,
     isLoading,
     error,
+    targetLessonTitle,
   };
 }
