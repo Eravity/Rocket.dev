@@ -5,7 +5,8 @@ import Indicator from "@/app/_components/Indicator";
 import { useLessonPosition } from "@/app/_hooks/useLessonPosition";
 import { useEffect, useState } from "react";
 import getLesson from "@/sanity/queries/getLesson";
-import { PortableText } from "@portabletext/react";
+import ContentDisplay from "@/app/_components/ContentDisplay";
+import { PortableTextBlock } from "@portabletext/types";
 
 type PageParams = { articleId: string; slug: string };
 
@@ -26,7 +27,8 @@ export default function LessonPage() {
       notFound();
     }
   }, [positionError]);
-  const [lessonContent, setLessonContent] = useState<never>();
+  
+  const [lessonContent, setLessonContent] = useState<PortableTextBlock | PortableTextBlock[]>();
   const [isLessonLoading, setIsLessonLoading] = useState(true);
 
   useEffect(() => {
@@ -72,10 +74,10 @@ export default function LessonPage() {
         lessonTitle={targetLessonTitle}
       />
 
-      <div>
+      <div className="lesson-content">
         {isLessonLoading
           ? "Loading lesson..."
-          : lessonContent && <PortableText value={lessonContent} />}
+          : lessonContent && <ContentDisplay data={{ content: lessonContent }} />}
       </div>
     </main>
   );
