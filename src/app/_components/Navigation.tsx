@@ -2,61 +2,121 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useMenu } from './MenuContext';
+import { useCallback, memo } from 'react';
 
-export default function Navigation() {
-  const pathname = usePathname();
-  const { isMenuOpen } = useMenu();
-  const link = 'font-semibold text-neutral-500';
-  const activeLink = 'font-semibold text-black border-b-2 border-black pb-[9px]';
+// Constants outside component
+const linkClass = 'font-semibold text-neutral-500';
+const activeLinkClass = 'font-semibold text-black border-b-2 border-black pb-[9px]';
+const navItems = [
+  { href: '/', label: 'Home' },
+  { href: '/learning', label: 'My Learning' },
+  { href: '/catalog', label: 'Catalog' },
+  { href: '/favorites', label: 'Favorites' },
+  { href: '/terminal', label: 'Terminal' },
+  { href: '/achievements', label: 'Achievements' },
+];
+
+// Separate memoized component for each nav link
+type NavLinkProps = {
+  href: string;
+  label: string;
+  isActive: boolean;
+  isMobile?: boolean;
+};
+
+const NavLink = memo(({ href, label, isActive, isMobile = false }: NavLinkProps) => {
   
-  const navItems = [
-    { href: '/', label: 'Home' },
-    { href: '/learning', label: 'My Learning' },
-    { href: '/catalog', label: 'Catalog' },
-    { href: '/favorites', label: 'Favorites' },
-    { href: '/terminal', label: 'Terminal' },
-    { href: '/achievements', label: 'Achievements' },
-  ];
-
-  // Function to check if a nav item should be active
-  const isLinkActive = (href: string) => {
-    if (href === '/') {
-      // Home link should only be active when exactly at home
-      return pathname === '/';
+  const className = isMobile 
+    ? `block ${isActive ? 'text-black font-semibold' : 'text-neutral-500'}`
+    : isActive ? activeLinkClass : linkClass;
+  
+  const handleClick = (e: React.MouseEvent) => {
+    if (isActive) {
+      e.preventDefault();
     }
-    // Other links should be active when the path starts with their href
-    return pathname.includes(href);
   };
+  
+  return (
+    <li>
+      <Link 
+        href={href} 
+        className={className}
+        onClick={handleClick}
+      >
+        {label}
+      </Link>
+    </li>
+  );
+});
+
+NavLink.displayName = 'NavLink';
+
+// Define components OUTSIDE the main component
+type DesktopNavigationProps = {
+  pathname: string;
+};
+
+const DesktopNavigation = memo(({ pathname }: DesktopNavigationProps) => {
+  const isLinkActive = useCallback((href: string) => {
+    if (href === '/') return pathname === '/';
+    return pathname.includes(href);
+  }, [pathname]);
 
   return (
-    <nav className="mt-5">
-      {/* Desktop Navigation */}
-      <ul className="hidden md:flex space-x-8">
-        {navItems.map((item) => (
-          <li key={item.href}>
-            <Link 
-              href={item.href} 
-              className={isLinkActive(item.href) ? activeLink : link}
-            >
-              {item.label}
-            </Link>
-          </li>
-        ))}
-      </ul>
+    <ul className="hidden md:flex mt-4 space-x-8">
+      {navItems.map((item) => (
+        <NavLink 
+          key={item.href}
+          href={item.href} 
+          label={item.label}
+          isActive={isLinkActive(item.href)}
+        />
+      ))}
+    </ul>
+  );
+});
 
-      {/* Mobile Navigation */}
-      <ul className={`md:hidden flex flex-col space-y-4 ${isMenuOpen ? 'block' : 'hidden'}`}>
-        {navItems.map((item) => (
-          <li key={item.href}>
-            <Link 
-              href={item.href} 
-              className={`block ${isLinkActive(item.href) ? 'text-black font-semibold' : 'text-neutral-500'}`}
-            >
-              {item.label}
-            </Link>
-          </li>
-        ))}
-      </ul>
-    </nav>
+DesktopNavigation.displayName = 'DesktopNavigation';
+
+type MobileNavigationProps = {
+  pathname: string;
+  isMenuOpen: boolean;
+};
+
+const MobileNavigation = memo(({ pathname, isMenuOpen }: MobileNavigationProps) => {
+  const isLinkActive = useCallback((href: string) => {
+    if (href === '/') return pathname === '/';
+    return pathname.includes(href);
+  }, [pathname]);
+
+  return (
+    <ul className={`md:hidden flex flex-col space-y-4 ${isMenuOpen ? 'block' : 'hidden'}`}>
+      {navItems.map((item) => (
+        <NavLink 
+          key={item.href}
+          href={item.href} 
+          label={item.label}
+          isActive={isLinkActive(item.href)}
+          isMobile
+        />
+      ))}
+    </ul>
+  );
+});
+
+MobileNavigation.displayName = 'MobileNavigation';
+
+// Main navigation component
+function Navigation() {
+  const { isMenuOpen } = useMenu();
+  const pathname = usePathname();
+  
+  return (
+    <>
+      <DesktopNavigation pathname={pathname} />
+      <MobileNavigation pathname={pathname} isMenuOpen={isMenuOpen} />
+    </>
   );
 }
+
+export default memo(Navigation);

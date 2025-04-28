@@ -1,5 +1,5 @@
 'use client'
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useState, useMemo } from 'react';
 
 type SearchContextType = {
   isSearchOpen: boolean;
@@ -10,9 +10,13 @@ const SearchContext = createContext<SearchContextType | undefined>(undefined);
 
 export function SearchProvider({ children }: { children: React.ReactNode }) {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const searchContextValue = useMemo(() => ({
+    isSearchOpen,
+    setIsSearchOpen,
+  }), [isSearchOpen]);
 
   return (
-    <SearchContext.Provider value={{ isSearchOpen, setIsSearchOpen }}>
+    <SearchContext.Provider value={searchContextValue}>
       {children}
     </SearchContext.Provider>
   );

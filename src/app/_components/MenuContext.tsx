@@ -1,27 +1,33 @@
-'use client'
-import { createContext, useContext, useState } from 'react';
+'use client';
+import React, { createContext, useState, useMemo, useContext } from 'react';
 
-type MenuContextType = {
-  isMenuOpen: boolean;
-  setIsMenuOpen: (value: boolean) => void;
-};
-
-const MenuContext = createContext<MenuContextType | undefined>(undefined);
+// Create the context with a default value
+const MenuContext = createContext({
+  isMenuOpen: false,
+  toggleMenu: () => {},
+  openMenu: () => {},
+  closeMenu: () => {},
+});
 
 export function MenuProvider({ children }: { children: React.ReactNode }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  
+  // Create a memoized value to prevent unnecessary re-renders
+  const menuContextValue = useMemo(() => ({
+    isMenuOpen,
+    toggleMenu: () => setIsMenuOpen(prev => !prev),
+    openMenu: () => setIsMenuOpen(true),
+    closeMenu: () => setIsMenuOpen(false),
+  }), [isMenuOpen]);
 
   return (
-    <MenuContext.Provider value={{ isMenuOpen, setIsMenuOpen }}>
+    <MenuContext.Provider value={menuContextValue}>
       {children}
     </MenuContext.Provider>
   );
 }
 
+// Create a custom hook for consuming the context
 export function useMenu() {
-  const context = useContext(MenuContext);
-  if (context === undefined) {
-    throw new Error('useMenu must be used within a MenuProvider');
-  }
-  return context;
+  return useContext(MenuContext);
 }
