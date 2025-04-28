@@ -38,7 +38,7 @@ function ChapterList({ courseSlug }: CourseNavigationProps) {
     );
   }
   
-  if (!filteredItems.length && !searchTerm) {
+  if (!filteredItems.length && !searchTerm && !isSearching) {
     return (
       <div className="bg-white p-4 text-center text-gray-500">
         No course content available
