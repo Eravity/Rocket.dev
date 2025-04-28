@@ -29,7 +29,7 @@ const Indicator = ({
   }
 
   return (
-    <div className="flex flex-col py-3">
+    <div className="flex flex-col pt-3">
       <h1 className="font-bold text-sm text-gray-600 h-5">{textContent}</h1>
       <h1 className="font-bold text-3xl mt-1 min-h-[36px]">{lessonTitle}</h1>
     </div>

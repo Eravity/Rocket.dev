@@ -65,7 +65,7 @@ export default function LessonPage() {
   }
 
   return (
-    <main className="px-1">
+    <main className="bg-white min-h-screen">
       <Indicator
         isLoading={isPositionLoading}
         chapterNumber={position.chapterNumber}
@@ -74,10 +74,14 @@ export default function LessonPage() {
         lessonTitle={targetLessonTitle}
       />
 
-      <div className="lesson-content">
-        {isLessonLoading
-          ? "Loading lesson..."
-          : lessonContent && <ContentDisplay data={{ content: lessonContent }} />}
+      <div className="lesson-content container mx-auto pb-8">
+        {isLessonLoading ? (
+          <div className="flex justify-center items-center py-16">
+            <div className="animate-pulse text-gray-500">Loading lesson content...</div>
+          </div>
+        ) : (
+          lessonContent && <ContentDisplay data={{ content: lessonContent }} />
+        )}
       </div>
     </main>
   );
