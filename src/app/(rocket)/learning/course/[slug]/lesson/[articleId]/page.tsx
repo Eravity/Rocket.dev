@@ -74,7 +74,7 @@ export default function LessonPage() {
         lessonTitle={targetLessonTitle}
       />
 
-      <div className="lesson-content container mx-auto pb-8">
+      <div className="container mx-auto pb-8">
         {isLessonLoading ? (
           <div className="flex justify-center items-center py-16">
             <div className="animate-pulse text-gray-500">Loading lesson content...</div>

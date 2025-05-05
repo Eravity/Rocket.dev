@@ -9,7 +9,7 @@ interface ContentDisplayProps {
 
 export default function ContentDisplay({ data }: ContentDisplayProps) {
   return (
-    <div className="content-container max-w-4xl mx-auto text-justify prose prose-slate prose-a:text-blue-600 prose-img:rounded-lg prose-img:shadow-md">
+    <div className="container max-w-4xl mx-auto text-justify prose prose-slate prose-a:text-blue-600 prose-img:rounded-lg prose-img:shadow-md">
       <MyPortableText value={data.content} />
     </div>
   )
