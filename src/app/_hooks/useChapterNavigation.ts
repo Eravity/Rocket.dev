@@ -87,15 +87,26 @@ export function useChapterNavigation(courseSlug: string, currentLessonSlug: stri
 
   // Calculate overall progress
   const overallProgress = useMemo(() => {
-    if (!items.length) return 0;
-    
+    // Get all valid lesson slugs from the current course
+    const validLessonSlugs = new Set(
+      items.flatMap(chapter => 
+        chapter.lessons?.map(lesson => lesson.slug) || []
+      )
+    );
+
+    // Count only completed lessons that exist in this course
+    const validCompletedLessons = Array.from(completedLessons)
+      .filter(slug => validLessonSlugs.has(slug)).length;
+
     const totalLessons = items.reduce(
-      (total, chapter) => total + (chapter.lessons?.length || 0), 
+      (total, chapter) => total + (chapter.lessons?.length || 0),
       0
     );
-    
-    return totalLessons ? Math.round((completedLessons.size / totalLessons) * 100) : 0;
-  }, [items, completedLessons.size]);
+
+    return totalLessons > 0
+      ? Math.min(Math.round((validCompletedLessons / totalLessons) * 100), 100)
+      : 0;
+  }, [items, completedLessons]);
 
   // Calculate progress for each chapter
   const getChapterProgress = useCallback((chapter: { lessons?: Array<{ slug: string }> }) => {
