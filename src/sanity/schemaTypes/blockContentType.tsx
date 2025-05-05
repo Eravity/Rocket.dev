@@ -115,36 +115,30 @@ interface BlockProps {
 const components = {
   block: {
     h1: ({ children }: BlockProps) => (
-      <h1 className="text-3xl font-bold my-4">{children}</h1>
+      <h1 className="text-4xl font-extrabold mb-6 mt-8 text-gray-900">{children}</h1>
     ),
     h2: ({ children }: BlockProps) => (
-      <h2 className="text-2xl font-bold my-3">{children}</h2>
+      <h2 className="text-3xl font-bold mb-4 mt-6 text-gray-800">{children}</h2>
     ),
     h3: ({ children }: BlockProps) => (
-      <h3 className="text-xl font-semibold my-3">{children}</h3>
+      <h3 className="text-2xl font-bold mb-3 mt-5 text-gray-700">{children}</h3>
     ),
     h4: ({ children }: BlockProps) => (
-      <h4 className="text-lg font-semibold my-2">{children}</h4>
+      <h4 className="text-xl font-semibold mb-2 mt-4 text-gray-600">{children}</h4>
     ),
     blockquote: ({ children }: BlockProps) => (
-      <div className="my-10 mx-4 md:mx-10">
-        <div 
-          className="relative px-8 py-5 rounded-lg border"
-          style={{ 
-            backgroundColor: '#fafafa',
-            padding: '1rem',
-          }}
-        >
-          <div className="relative z-10">
-            <blockquote className="text-lg md:text-xl italic font-normal text-gray-800 leading-relaxed pl-4">
-              {children}
-            </blockquote>
-          </div>
-          
+      <div className="my-8 mx-4 md:mx-6">
+        <div className="relative px-6 py-4 bg-gray-50 rounded-lg border border-gray-200 shadow-sm">
+          <div className="absolute inset-y-0 left-0 w-1 bg-gray-300 rounded-l-lg"></div>
+          <blockquote className="text-lg italic font-normal text-gray-700 leading-relaxed">
+            {children}
+          </blockquote>
         </div>
       </div>
     ),
-    normal: ({ children }: BlockProps) => <p className="my-2">{children}</p>,
+    normal: ({ children }: BlockProps) => (
+      <p className="text-base leading-7 text-gray-600 mb-4">{children}</p>
+    ),
   },
   marks: {
     strong: ({ children }: BlockProps) => (
@@ -169,7 +163,7 @@ const components = {
   },
   list: {
     bullet: ({ children }: BlockProps) => (
-      <ul className="list-disc pl-5 my-4">{children}</ul>
+      <ul className="list-disc pl-5">{children}</ul>
     ),
   },
   types: {
