@@ -127,10 +127,10 @@ const components = {
       <h4 className="text-xl font-semibold mb-2 mt-4 text-gray-600">{children}</h4>
     ),
     blockquote: ({ children }: BlockProps) => (
-      <div className="my-8 mx-4 md:mx-6">
+      <div className="my-8">
         <div className="relative px-6 py-4 bg-gray-50 rounded-lg border border-gray-200 shadow-sm">
           <div className="absolute inset-y-0 left-0 w-1 bg-gray-300 rounded-l-lg"></div>
-          <blockquote className="text-lg italic font-normal text-gray-700 leading-relaxed">
+          <blockquote className="text-lg font-normal text-gray-700 leading-relaxed">
             {children}
           </blockquote>
         </div>
