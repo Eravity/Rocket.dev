@@ -52,7 +52,7 @@ export default function Stats() {
             {/* Content */}
             <div className="relative z-10 h-full flex flex-col">
               {/* Icon and Value Row */}
-              <div className="flex items-start justify-between mb-4">
+              <div className="flex items-center justify-between mb-4">
                 <div
                   className={`${stat.iconBg} w-12 h-12 rounded-xl flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform duration-300 shrink-0`}
                 >
