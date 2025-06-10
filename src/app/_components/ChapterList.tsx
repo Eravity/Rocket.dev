@@ -151,7 +151,7 @@ function ChapterList({ courseSlug }: CourseNavigationProps) {
                             isCompleted 
                               ? 'text-green-600' 
                               : isActive || isCurrentPath
-                                ? 'font-medium text-violet-700' 
+                                ? 'font-semibold text-violet-700' 
                                 : 'text-gray-700'
                           }`}
                         >

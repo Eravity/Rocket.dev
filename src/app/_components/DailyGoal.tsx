@@ -22,7 +22,7 @@ export default function DailyGoal() {
   }
 
   return (
-    <div className="w-full h-fit flex flex-col p-4 border rounded-xl">
+    <div className="w-full h-fit flex flex-col p-4 border shadow-sm backdrop:blur-sm rounded-xl">
       <GoalHeader />
       <div className="flex flex-col gap-3 mt-6 relative">
         <GoalChartWrapper data={progressPercentage} isActive={isActive} autoPaused={autoPaused} />

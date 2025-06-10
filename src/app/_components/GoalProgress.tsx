@@ -16,7 +16,7 @@ export default function GoalProgress({
   const sliderPosition = currentPercent;
 
   return (
-    <div className="border rounded-xl p-4 space-y-4">
+    <div className="border rounded-xl p-4 space-y-4 shadow-sm backdrop:blur-s">
       <div className="flex space-x-2">
         <h1 className="text font-semibold">Goal Progress</h1>
         <InfoSign info=""/>
