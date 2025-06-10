@@ -1,10 +1,18 @@
-export default function Certificate() {
+export default function Medal({
+  width = 35,
+  height = 35,
+  color = "#FFAC00"
+}: {
+  width?: number;
+  height?: number;
+  color?: string;
+}) {
   return (
     <div>
       <svg
-        fill="#FFAC00"
-        height="35px"
-        width="35px"
+        fill={color}
+        height={`${height}px`}
+        width={`${width}px`}
         version="1.1"
         id="Layer_1"
         xmlns="http://www.w3.org/2000/svg"

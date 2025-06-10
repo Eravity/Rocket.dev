@@ -12,11 +12,11 @@ const Home = async () => {
     <main className="min-h-screen bg-gray-50/30">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6 lg:py-8 space-y-6 lg:space-y-8">
         {/* Header Section */}
-        <section className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 lg:gap-6">
-          <div className="flex-1">
+        <section className="grid grid-cols-1 lg:grid-cols-5 xl:grid-cols-3 gap-4 sm:gap-5 lg:gap-6 xl:gap-8 items-start">
+          <div className="lg:col-span-3 xl:col-span-2">
             <Greeting />
           </div>
-          <div className="w-full lg:w-auto">
+          <div className="lg:col-span-2 xl:col-span-1">
             <Stats />
           </div>
         </section>
