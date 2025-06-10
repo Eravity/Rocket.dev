@@ -14,7 +14,7 @@ const Roadmap: React.FC<{ chapters: Chapter[] }> = ({ chapters }) => {
       <div className="mx-auto space-y-3 lg:space-y-4">
         {/* Overall Progress Header */}
         <div className="bg-gradient-to-r from-blueLotus to-lightIndigo rounded-xl lg:rounded-2xl p-4 lg:p-6 text-white shadow-lg">
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <div className="flex flex-row sm:items-center sm:justify-between gap-4">
             <div className="flex-1">
               <h2 className="text-xl lg:text-2xl font-bold mb-1 lg:mb-2">Learning Journey</h2>
               <p className="text-blue-100 text-sm lg:text-base">
