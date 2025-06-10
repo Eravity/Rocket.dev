@@ -2,12 +2,12 @@
 import { useMenu } from '../MenuContext';
 
 export default function MobileMenuButton() {
-  const { isMenuOpen, setIsMenuOpen } = useMenu();
+  const { isMenuOpen, toggleMenu } = useMenu();
 
   return (
     <button
       className="p-2"
-      onClick={() => setIsMenuOpen(!isMenuOpen)}
+      onClick={toggleMenu}
       aria-label="Toggle mobile menu"
     >
       <svg

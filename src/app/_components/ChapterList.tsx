@@ -32,7 +32,7 @@ function ChapterList({ courseSlug }: CourseNavigationProps) {
   if (isLoading) {
     return (
       <div className="p-5 text-center">
-        <div className="inline-block animate-spin rounded-full h-6 w-6 border-b-2 border-blue-500"></div>
+        <div className="inline-block animate-spin rounded-full h-6 w-6 border-b-2 border-violet-500"></div>
         <p className="mt-2 text-gray-600">Loading course content...</p>
       </div>
     );
@@ -57,13 +57,13 @@ function ChapterList({ courseSlug }: CourseNavigationProps) {
             <span>{overallProgress}%</span>
           </div>
           <div className="h-1.5 w-full bg-gray-100 rounded-full overflow-hidden">
-            <div className="h-full bg-blue-500 rounded-full" style={{ width: `${overallProgress}%` }}></div>
+            <div className="h-full bg-violet-500 rounded-full" style={{ width: `${overallProgress}%` }}></div>
           </div>
         </div>
         <div className="relative mt-3">
           <input 
             type="text"
-            className="w-full p-2 pl-8 pr-8 text-sm border border-gray-200 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
+            className="w-full p-2 pl-8 pr-8 text-sm border border-gray-200 rounded-md focus:outline-none focus:ring-1 focus:ring-violet-500"
             placeholder="Search lessons..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
@@ -103,7 +103,7 @@ function ChapterList({ courseSlug }: CourseNavigationProps) {
                   </span>
                 </div>
                 <div className="h-1 w-full bg-gray-200 rounded-full overflow-hidden">
-                  <div className="h-full bg-blue-500 rounded-full" style={{ width: `${progress.percentage}%` }}></div>
+                  <div className="h-full bg-violet-500 rounded-full" style={{ width: `${progress.percentage}%` }}></div>
                 </div>
               </div>
               
@@ -117,7 +117,7 @@ function ChapterList({ courseSlug }: CourseNavigationProps) {
                   return (
                     <li key={lesson.id || `lesson-${lessonIndex}`}>
                       <div className={`flex items-center py-2.5 px-5 border-l-2 group ${
-                        isActive || isCurrentPath ? 'border-blue-500 bg-blue-50' : 'border-transparent hover:bg-gray-50'
+                        isActive || isCurrentPath ? 'border-violet-500 bg-violet-50' : 'border-transparent hover:bg-gray-50'
                       }`}>
                         {/* Completion checkbox */}
                         <button
@@ -130,7 +130,7 @@ function ChapterList({ courseSlug }: CourseNavigationProps) {
                               <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                             </svg>
                           ) : isActive ? (
-                            <div className="h-2.5 w-2.5 rounded-full bg-blue-500"></div>
+                            <div className="h-2.5 w-2.5 rounded-full bg-violet-500"></div>
                           ) : (
                             <div className="h-2.5 w-2.5 rounded-full bg-gray-300 group-hover:bg-gray-400"></div>
                           )}
@@ -151,7 +151,7 @@ function ChapterList({ courseSlug }: CourseNavigationProps) {
                             isCompleted 
                               ? 'text-green-600' 
                               : isActive || isCurrentPath
-                                ? 'font-medium text-blue-700' 
+                                ? 'font-medium text-violet-700' 
                                 : 'text-gray-700'
                           }`}
                         >
@@ -176,7 +176,7 @@ function ChapterList({ courseSlug }: CourseNavigationProps) {
       
       {/* Searching indicator */}
       {isSearching && (
-        <div className="fixed bottom-4 right-4 bg-gray-800 text-white px-3 py-1 rounded-md text-sm">
+        <div className="fixed bottom-4 right-4 bg-white text-violet-500 border font-bold border-violet-500 px-3 py-1 rounded-md text-sm">
           Searching...
         </div>
       )}

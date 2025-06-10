@@ -4,7 +4,7 @@ export default function Layout({
   children,
 }: {
   children: React.ReactNode;
-  params: { slug: string; articleId: string };
+  params: Promise<{ slug: string; articleId: string }>;
 }) {
   return (
     <div className="relative w-full h-[calc(100vh-117px)] overflow-hidden">
