@@ -78,7 +78,7 @@ const Roadmap: React.FC<{ chapters: Chapter[] }> = ({ chapters }) => {
                     isCompleted
                       ? "border-green-200 bg-green-50/50 shadow-md"
                       : isAccessible
-                      ? "border-blue-200 hover:border-blueLotus hover:shadow-xl cursor-pointer"
+                      ? "border-blue-200 hover:border-blueLotus hover:shadow-md cursor-pointer"
                       : "border-gray-200 opacity-60"
                   }`}
                 >

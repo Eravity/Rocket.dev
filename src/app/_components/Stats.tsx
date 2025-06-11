@@ -45,7 +45,7 @@ export default function Stats() {
         {stats.map((stat, index) => (
             <div
             key={index}
-            className={`group relative bg-gradient-to-br ${stat.bgGradient} rounded-2xl p-4 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 overflow-hidden md:aspect-square`}
+            className={`group relative bg-gradient-to-br ${stat.bgGradient} rounded-2xl p-4 hover:shadow-md transition-all duration-300 transform hover:-translate-y-1 overflow-hidden md:aspect-square`}
             style={{
               borderWidth: '2px',
               borderColor: stat.color === 'amber' ? 'rgba(251, 191, 36, 0.3)' : 
@@ -99,7 +99,7 @@ export default function Stats() {
       </div>
 
       {/* Learning Streak Section */}
-      <div className="bg-gradient-to-r from-blue-50/90 to-purple-50/90 rounded-xl border-2 border-blue-200/60 p-6 relative overflow-hidden transition-all duration-300 transform hover:-translate-y-1 hover:shadow-xl cursor-pointer group">
+      <div className="bg-gradient-to-r from-blue-50/90 to-purple-50/90 rounded-xl border-2 border-blue-200/60 p-6 relative overflow-hidden transition-all duration-300 transform hover:-translate-y-1 hover:shadow-md cursor-pointer group">
         {/* Background blur effects */}
         <div className="absolute inset-0">
           <div className="absolute top-0 right-0 w-16 h-16 bg-gradient-to-br from-blue-300/20 to-purple-300/20 rounded-full blur-xl opacity-60 group-hover:scale-125 transition-transform duration-500"></div>

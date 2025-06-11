@@ -54,7 +54,7 @@ export default function Greeting({
       </div>
 
       {/* Main greeting card */}
-      <div className="relative bg-gradient-to-br from-white via-white to-violet-50/25 rounded-xl lg:rounded-2xl border-2 shadow-sm hover:shadow-lg border-violet-300/40 transition-all duration-300 p-2 sm:p-3 md:p-4 lg:p-5 xl:p-6 flex-1 min-h-0 overflow-hidden backdrop-blur-sm">
+      <div className="relative bg-gradient-to-br from-white via-white to-violet-50/25 rounded-xl lg:rounded-2xl border-2 shadow-sm hover:shadow-md border-violet-300/40 transition-all duration-300 p-2 sm:p-3 md:p-4 lg:p-5 xl:p-6 flex-1 min-h-0 overflow-hidden backdrop-blur-sm">
         <div className="relative z-10 h-full gap-4 flex flex-col justify-between">
           <div className="flex items-center mb-1 justify-between">
             {/* Time and date badge */}
@@ -157,9 +157,9 @@ export default function Greeting({
                   key={chapter.id}
                   className={`relative overflow-hidden rounded-xl transition-all duration-300 transform hover:scale-105 ${
                     isCompleted
-                      ? "bg-gradient-to-br from-emerald-50 via-green-50 to-teal-50 shadow-lg ring-2 ring-emerald-200/60"
+                      ? "bg-gradient-to-br from-emerald-50 via-green-50 to-teal-50 shadow-md ring-2 ring-emerald-200/60"
                       : isAccessible
-                        ? "bg-gradient-to-br from-violet-50 via-indigo-50 to-purple-50 hover:shadow-2xl cursor-pointer ring-2 ring-violet-200/60 hover:ring-violet-400/60"
+                        ? "bg-gradient-to-br from-violet-50 via-indigo-50 to-purple-50 hover:shadow-md cursor-pointer ring-2 ring-violet-200/60 hover:ring-violet-400/60"
                         : "bg-gradient-to-br from-gray-50 to-gray-100 opacity-70 ring-2 ring-gray-200/60"
                   }`}
                 >
