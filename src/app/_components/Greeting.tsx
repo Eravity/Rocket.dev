@@ -54,13 +54,18 @@ export default function Greeting({
       </div>
 
       {/* Main greeting card */}
-      <div className="relative bg-gradient-to-br from-white via-white to-violet-50/25 rounded-xl lg:rounded-2xl border-2 border-gray-200/70 shadow-sm hover:shadow-lg hover:border-violet-300/40 transition-all duration-300 p-2 sm:p-3 md:p-4 lg:p-5 xl:p-6 flex-1 min-h-0 overflow-hidden backdrop-blur-sm">
+      <div className="relative bg-gradient-to-br from-white via-white to-violet-50/25 rounded-xl lg:rounded-2xl border-2 shadow-sm hover:shadow-lg border-violet-300/40 transition-all duration-300 p-2 sm:p-3 md:p-4 lg:p-5 xl:p-6 flex-1 min-h-0 overflow-hidden backdrop-blur-sm">
         <div className="relative z-10 h-full gap-4 flex flex-col justify-between">
           <div className="flex items-center mb-1 justify-between">
             {/* Time and date badge */}
-            <div className="inline-flex items-center gap-1.5 sm:gap-2 bg-gray-100/80 backdrop-blur-sm rounded-xl px-2.5 py-1 sm:px-3 sm:py-1.5 border border-gray-300/50 self-start">
-              <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-green-500 rounded-full animate-pulse"></div>
-              <span className="text-xs sm:text-sm font-medium text-gray-700 whitespace-nowrap">
+            <div className="inline-flex items-center gap-1.5 sm:gap-2 bg-gradient-to-r from-blue-50/90 to-purple-50/90 backdrop-blur-sm rounded-xl px-2.5 py-1 sm:px-3 sm:py-1.5 border border-blue-200/60 self-start relative overflow-hidden">
+              {/* Background blur effects */}
+              <div className="absolute inset-0">
+                <div className="absolute top-0 right-0 w-8 h-8 bg-gradient-to-br from-blue-300/20 to-purple-300/20 rounded-full blur-sm opacity-60"></div>
+                <div className="absolute bottom-0 left-0 w-6 h-6 bg-gradient-to-tr from-purple-300/15 to-blue-300/15 rounded-full blur-sm opacity-50"></div>
+              </div>
+              <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-green-500 rounded-full animate-pulse relative z-10"></div>
+              <span className="text-xs sm:text-sm font-medium text-gray-700 whitespace-nowrap relative z-10">
                 {formatTime()} • {formatDate()}
               </span>
             </div>
@@ -70,13 +75,18 @@ export default function Greeting({
               <div className="flex justify-center">
                 <button
                   onClick={() => setIsExpanded(!isExpanded)}
-                  className="flex items-center gap-2 px-3 py-1.5 bg-gray-100/80 hover:bg-gray-200/80 rounded-xl transition-all duration-300 text-xs sm:text-sm font-medium backdrop-blur-sm border border-gray-300/50"
+                  className="flex items-center gap-2 px-3 py-1.5 bg-gradient-to-r from-blue-50/90 to-purple-50/90 hover:from-blue-100/90 hover:to-purple-100/90 rounded-xl transition-all duration-300 hover:shadow-md text-xs sm:text-sm font-medium backdrop-blur-sm border border-blue-200/60 hover:border-blue-300/60 relative overflow-hidden"
                 >
-                  <span>
+                  {/* Background blur effects */}
+                  <div className="absolute inset-0">
+                    <div className="absolute top-0 right-0 w-8 h-8 bg-gradient-to-br from-blue-300/20 to-purple-300/20 rounded-full blur-sm opacity-60"></div>
+                    <div className="absolute bottom-0 left-0 w-6 h-6 bg-gradient-to-tr from-purple-300/15 to-blue-300/15 rounded-full blur-sm opacity-50"></div>
+                  </div>
+                  <span className="relative z-10">
                     {isExpanded ? "Hide Details" : "View Progress Details"}
                   </span>
                   <svg
-                    className={`w-3 h-3 sm:w-4 sm:h-4 transform transition-transform duration-300 ${isExpanded ? "rotate-180" : ""}`}
+                    className={`w-3 h-3 sm:w-4 sm:h-4 transform transition-transform duration-300 relative z-10 ${isExpanded ? "rotate-180" : ""}`}
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -95,7 +105,7 @@ export default function Greeting({
 
           {/* Main greeting */}
           <div className="flex-1 flex flex-col justify-center space-y-1 sm:space-y-2 md:space-y-3">
-            <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold bg-gradient-to-r from-gray-800 via-gray-900 to-gray-800 bg-clip-text text-transparent leading-tight truncate">
+            <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold text-black">
               <span className="block sm:inline">{greeting},</span>
               <span className="block sm:inline"> {username}</span>
             </h1>
@@ -116,7 +126,7 @@ export default function Greeting({
                 ></div>
               </div>
               <span className="text-xs sm:text-sm font-semibold text-gray-600 text-center">
-                {overallCompletion}% Complete
+                <span className="text-violet-500 font-bold">{overallCompletion}%</span> Complete
               </span>
             </div>
           </div>
@@ -126,7 +136,7 @@ export default function Greeting({
       {/* Expandable Chapter Cards */}
       {totalSteps > 0 && (
         <div
-          className={`overflow-hidden transition-[max-height] ease-in-out duration-500 ${
+          className={`transition-[max-height] ease-in-out duration-500 ${
             isExpanded ? "max-h-[2000px]" : "max-h-0"
           }`}
         >
