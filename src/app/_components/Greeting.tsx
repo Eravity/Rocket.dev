@@ -126,11 +126,13 @@ export default function Greeting({
       {/* Expandable Chapter Cards */}
       {totalSteps > 0 && (
         <div
-          className={`transition-all duration-500 ease-in-out ${
-            isExpanded ? "max-h-none opacity-100" : "max-h-0 opacity-0"
+          className={`overflow-hidden transition-[max-height] ease-in-out duration-500 ${
+            isExpanded ? "max-h-[2000px]" : "max-h-0"
           }`}
         >
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-3 gap-4 lg:gap-6 pt-6">
+          <div className={`grid grid-cols-1 md:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-3 gap-4 lg:gap-6 pt-6 transition-opacity duration-300 ${
+            isExpanded ? "opacity-100" : "opacity-0"
+          }`}>
             {sortedChapters.map((chapter, index) => {
               const previousChapter =
                 index > 0 ? sortedChapters[index - 1] : null;
@@ -143,7 +145,7 @@ export default function Greeting({
               return (
                 <div
                   key={chapter.id}
-                  className={`relative overflow-hidden rounded-xl transition-all duration-500 transform hover:scale-105 ${
+                  className={`relative overflow-hidden rounded-xl transition-all duration-300 transform hover:scale-105 ${
                     isCompleted
                       ? "bg-gradient-to-br from-emerald-50 via-green-50 to-teal-50 shadow-lg ring-2 ring-emerald-200/60"
                       : isAccessible
@@ -218,7 +220,7 @@ export default function Greeting({
 
                         <div className="relative h-2 bg-gray-200 rounded-full overflow-hidden">
                           <div
-                            className={`absolute top-0 left-0 h-full rounded-full transition-all duration-700 ease-out ${
+                            className={`absolute top-0 left-0 h-full rounded-full transition-all duration-300 ease-out ${
                               isCompleted
                                 ? "bg-gradient-to-r from-emerald-400/80 to-green-500/80"
                                 : "bg-gradient-to-r from-violet-400/80 to-indigo-500/80"
@@ -247,7 +249,7 @@ export default function Greeting({
 
                   {/* Interactive Glow Effect */}
                   {isAccessible && !isCompleted && (
-                    <div className="absolute inset-0 bg-gradient-to-br from-violet-400/0 via-indigo-400/0 to-purple-400/0 group-hover:from-violet-400/3 group-hover:via-indigo-400/3 group-hover:to-purple-400/3 rounded-xl transition-all duration-500" />
+                    <div className="absolute inset-0 bg-gradient-to-br from-violet-400/0 via-indigo-400/0 to-purple-400/0 group-hover:from-violet-400/3 group-hover:via-indigo-400/3 group-hover:to-purple-400/3 rounded-xl transition-all duration-300" />
                   )}
 
                   {/* Status Indicator Bar */}
