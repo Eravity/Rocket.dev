@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import Greeting from "./Greeting";
-import Stats from "./Stats";
+
 import { Chapter } from "../_hooks/useChapterProgress";
 
 type GreetingWithStateProps = {

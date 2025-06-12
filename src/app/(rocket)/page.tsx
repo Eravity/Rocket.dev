@@ -23,7 +23,7 @@ const sampleChapters = [
   },
   {
     id: 2,
-    title: "JavaScript Essentials",
+    title: "JS Essentials",
     description:
       "Dive into JavaScript programming and TypeScript for type-safe development",
     completion: 85,
@@ -75,7 +75,7 @@ const sampleChapters = [
 const Home = async () => {
   return (
     <main className="min-h-screen bg-gray-50/30">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6 lg:py-8 space-y-6 lg:space-y-8">        {/* Header Section */}
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6 lg:py-8 space-y-6 lg:space-y-8">
         <section className="grid grid-cols-1 lg:grid-cols-5 xl:grid-cols-3 gap-4 sm:gap-5 lg:gap-6 xl:gap-8 items-start">
           <div className="lg:col-span-3 xl:col-span-2">
             <Greeting chapters={sampleChapters} />

@@ -20,7 +20,7 @@ export default function Search() {
 
   return (
     <div className="relative w-full">
-      <div className="flex rounded-lg focus-within:ring-2 focus-within:ring-blueLotus">
+      <div className="flex rounded-lg mx-4 sm:mx-6 md:mx-0 focus-within:ring-2 focus-within:ring-blueLotus">
         <input
           type="text"
           value={searchQuery}

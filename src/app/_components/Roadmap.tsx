@@ -46,7 +46,7 @@ const Roadmap: React.FC<{ chapters: Chapter[] }> = ({ chapters }) => {
               onClick={() => setIsExpanded(!isExpanded)}
               className="flex items-center gap-2 px-4 py-2 bg-white/20 hover:bg-white/30 rounded-full transition-all duration-300 text-sm lg:text-base font-medium backdrop-blur-sm"
             >
-              <span>{isExpanded ? 'Hide Details' : 'View Progress Details'}</span>
+              <span>{isExpanded ? 'Hide Details' : 'View Details'}</span>
               <svg 
                 className={`w-4 h-4 lg:w-5 lg:h-5 transform transition-transform duration-300 ${isExpanded ? 'rotate-180' : ''}`}
                 fill="none" 
