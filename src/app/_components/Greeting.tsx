@@ -49,12 +49,11 @@ export default function Greeting({
       {/* Background blur effects */}
       <div className="absolute inset-0 rounded-xl lg:rounded-2xl overflow-hidden">
         <div className="absolute top-4 right-4 w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 bg-gradient-to-br from-violet-400/15 via-purple-400/20 to-indigo-400/15 rounded-full blur-3xl opacity-50 group-hover:opacity-70 transition-opacity duration-500"></div>
-        <div className="absolute bottom-4 left-4 w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 bg-gradient-to-tr from-orange-400/20 via-yellow-400/25 to-amber-400/15 rounded-full blur-2xl opacity-60 group-hover:opacity-80 transition-opacity duration-500"></div>
         <div className="absolute top-1/2 right-1/4 w-16 h-16 bg-gradient-to-r from-pink-300/10 to-purple-300/10 rounded-full blur-xl opacity-30 group-hover:opacity-50 transition-opacity duration-700"></div>
       </div>
 
       {/* Main greeting card */}
-      <div className="relative bg-gradient-to-br from-white via-white to-violet-50/25 rounded-xl lg:rounded-2xl border-2 shadow-sm hover:shadow-md border-violet-300/40 transition-all duration-300 p-2 sm:p-3 md:p-4 lg:p-5 xl:p-6 flex-1 min-h-0 overflow-hidden backdrop-blur-sm">
+      <div className="relative bg-white rounded-xl lg:rounded-2xl border-2 shadow-sm hover:shadow-md border-violet-300/40 transition-all duration-300 p-2 sm:p-3 md:p-4 lg:p-5 xl:p-6 flex-1 min-h-0 overflow-hidden">
         <div className="relative z-10 h-full gap-4 flex flex-col justify-between">
           <div className="flex items-center mb-1 justify-between">
             {/* Time and date badge */}

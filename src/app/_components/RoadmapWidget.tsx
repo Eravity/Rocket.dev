@@ -1,7 +1,8 @@
 "use client";
+import { useState } from "react";
 import Roadmap from "./Roadmap";
 
-const sampleChapters = [
+const initialChapters = [
   {
     id: 0,
     title: "Getting Started",
@@ -18,7 +19,7 @@ const sampleChapters = [
   },
   {
     id: 2,
-    title: "JavaScript Essentials",
+    title: "JS Essentials",
     description:
       "Dive into JavaScript programming and TypeScript for type-safe development",
     completion: 85,
@@ -68,5 +69,37 @@ const sampleChapters = [
 ];
 
 export default function RoadmapWidget() {
-  return <Roadmap chapters={sampleChapters} />;
+  const [chapters, setChapters] = useState(initialChapters);
+
+  // Helper function to update chapter completion (for testing)
+  const updateChapterCompletion = (id: number, completion: number) => {
+    setChapters(prev => 
+      prev.map(chapter => 
+        chapter.id === id ? { ...chapter, completion } : chapter
+      )
+    );
+  };
+
+  return (
+    <div>
+      <Roadmap chapters={chapters} />
+      {/* Optional: Add dev controls for testing */}
+      {process.env.NODE_ENV === 'development' && (
+        <div className="mt-4 p-4 bg-gray-100 rounded-lg">
+          <h3 className="font-bold mb-2">Dev Controls:</h3>
+          <div className="flex flex-wrap gap-2">
+            {chapters.map(chapter => (
+              <button
+                key={chapter.id}
+                onClick={() => updateChapterCompletion(chapter.id, chapter.completion < 100 ? 100 : 0)}
+                className="px-3 py-1 bg-blue-500 text-white rounded text-sm hover:bg-blue-600"
+              >
+                Toggle {chapter.title}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+  );
 }
