@@ -1,6 +1,7 @@
 "use client";
 
 import icons from "./Icons/Icons";
+import { useDailyGoal } from "../_hooks/useDailyGoal";
 
 // Types
 interface StatItem {
@@ -53,12 +54,6 @@ const STATS_DATA: StatItem[] = [
     iconColor: "#10B981",
   },
 ];
-
-const STREAK_DATA: StreakData = {
-  currentStreak: 5,
-  maxStreak: 7,
-  description: "Keep it up!",
-};
 
 const THEME_COLORS = {
   amber: {
@@ -169,8 +164,8 @@ const StreakDots: React.FC<{ currentStreak: number; maxStreak: number; className
         key={i}
         className={`${className} rounded-full transition-all duration-300 group-hover:scale-110 ${
           i < currentStreak
-            ? "bg-blue-500 group-hover:bg-blue-600"
-            : "bg-gray-300 group-hover:bg-gray-400"
+            ? "bg-violet-500 group-hover:bg-violet-600"
+            : "bg-gray-300 group-hover:bg-[#c1c5c9]"
         }`}
       />
     ))}
@@ -231,7 +226,7 @@ const LearningStreakCard: React.FC<{
           </div>
           <div className="flex flex-col items-end gap-3">
             <span className="text-lg 2xl:text-xl font-bold text-blue-600 group-hover:text-blue-700 transition-colors duration-300">
-              {streakData.currentStreak} days
+              {streakData.currentStreak} {streakData.currentStreak === 1 ? "Day" : "Days"}
             </span>
             <StreakDots 
               currentStreak={streakData.currentStreak} 
@@ -247,6 +242,19 @@ const LearningStreakCard: React.FC<{
 
 
 export default function Stats() {
+  const { displayedProgress } = useDailyGoal();
+  
+  // Use real streak data or fallback to default
+  const streakData: StreakData = {
+    currentStreak: displayedProgress?.streak_days || 0,
+    maxStreak: 7, // You can adjust this or make it dynamic
+    description: displayedProgress?.streak_days 
+      ? displayedProgress.streak_days > 3 
+        ? "Keep it up!" 
+        : "Great start!"
+      : "Start your streak!",
+  };
+
   return (
     <div className="w-full h-full flex flex-col">
       <div className="space-y-2 sm:space-y-3 md:space-y-3 lg:space-y-2.5 xl:space-y-1 2xl:gap-y-3.5 h-full flex flex-col">
@@ -257,12 +265,12 @@ export default function Stats() {
         ))}
         
         {/* Learning Streak Section - integrated in grid for lg+ screens */}
-        <LearningStreakCard streakData={STREAK_DATA} variant="grid" />
+        <LearningStreakCard streakData={streakData} variant="grid" />
       </div>
 
       {/* Learning Streak Section - separate for small/medium screens and 2xl+ */}
       <div className="flex-shrink-0">
-        <LearningStreakCard streakData={STREAK_DATA} variant="horizontal" />
+        <LearningStreakCard streakData={streakData} variant="horizontal" />
       </div>
       </div>
     </div>

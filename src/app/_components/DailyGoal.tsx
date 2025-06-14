@@ -17,14 +17,14 @@ export default function DailyGoal() {
 
   if (isLoading) {
     return (
-      <div className="w-full h-fit flex flex-col p-4 border rounded-xl">Loading...</div>
+      <div className="w-full h-full flex flex-col p-4 border rounded-xl">Loading...</div>
     );
   }
 
   return (
-    <div className="w-full h-fit flex flex-col p-4 border shadow-sm backdrop:blur-sm rounded-xl">
+    <div className="w-full h-full flex flex-col p-4 border shadow-sm backdrop:blur-sm rounded-xl">
       <GoalHeader />
-      <div className="flex flex-col gap-3 mt-6 relative">
+      <div className="flex flex-col gap-3 mt-6 relative flex-1">
         <GoalChartWrapper data={progressPercentage} isActive={isActive} autoPaused={autoPaused} />
         <GoalStats
           progress={displayedProgress!}
