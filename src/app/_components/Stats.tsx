@@ -226,9 +226,9 @@ const LearningStreakCard: React.FC<{
 export default function Stats() {
   return (
     <div className="w-full h-full flex flex-col">
-      <div className="space-y-3 lg:space-y-2.5 xl:space-y-1 2xl:gap-y-3.5 h-full flex flex-col">
+      <div className="space-y-2 sm:space-y-3 md:space-y-3 lg:space-y-2.5 xl:space-y-1 2xl:gap-y-3.5 h-full flex flex-col">
       {/* Main Stats Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-3 gap-x-3 gap-y-6 lg:gap-x-3 lg:gap-y-3 xl:gap-x-2.5 xl:gap-y-2.5 2xl:gap-x-4 2xl:gap-y-6 flex-1">
+      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-3 gap-x-3 gap-y-2 sm:gap-y-3 md:gap-y-3 lg:gap-x-3 lg:gap-y-3 xl:gap-x-2.5 xl:gap-y-2.5 2xl:gap-x-4 2xl:gap-y-6 flex-1">
         {STATS_DATA.map((stat, index) => (
           <StatCard key={index} stat={stat} index={index} />
         ))}

@@ -158,7 +158,7 @@ export default function Greeting({
           }`}
         >
           <div
-            className={`grid grid-cols-1 md:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-3 gap-4 lg:gap-6 pt-6 transition-opacity duration-300 ${
+            className={`grid grid-cols-1 md:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-3 gap-2 sm:gap-3 md:gap-3 lg:gap-6 pt-3 md:pt-4 lg:pt-6 transition-opacity duration-300 ${
               isExpanded ? "opacity-100" : "opacity-0"
             }`}
           >

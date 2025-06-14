@@ -75,8 +75,8 @@ const sampleChapters = [
 const Home = async () => {
   return (
     <main className="min-h-screen bg-gray-50/30">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6 lg:py-8 space-y-6 lg:space-y-8">
-        <section className="grid grid-cols-1 lg:grid-cols-5 xl:grid-cols-3 gap-4 sm:gap-5 lg:gap-6 xl:gap-8 items-start">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-3 md:py-6 lg:py-8 space-y-3 md:space-y-5 lg:space-y-8">
+        <section className="grid grid-cols-1 lg:grid-cols-5 xl:grid-cols-3 gap-x-2 gap-y-2 sm:gap-x-3 sm:gap-y-3 md:gap-x-4 md:gap-y-3 lg:gap-6 xl:gap-8 items-start">
           <div className="lg:col-span-3 xl:col-span-2">
             <Greeting chapters={sampleChapters} />
           </div>
@@ -86,9 +86,9 @@ const Home = async () => {
         </section>
 
         {/* Main Content Grid */}
-        <section className="grid grid-cols-1 xl:grid-cols-4 gap-6 lg:gap-8">
+        <section className="grid grid-cols-1 xl:grid-cols-4 gap-3 sm:gap-4 md:gap-5 lg:gap-8">
           {/* Main Content Area */}
-          <div className="xl:col-span-3 space-y-6 lg:space-y-8">
+          <div className="xl:col-span-3 space-y-4 md:space-y-6 lg:space-y-8">
             <InProgressContent />
             <NewEnrollment />
             <MostViewedContents />
