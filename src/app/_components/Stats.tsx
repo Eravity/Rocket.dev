@@ -105,31 +105,54 @@ const StatCard: React.FC<{ stat: StatItem; index: number }> = ({ stat, index }) 
     <div className="absolute -top-6 -right-6 w-20 h-20 lg:w-16 lg:h-16 xl:w-14 xl:h-14 2xl:w-20 2xl:h-20 bg-gradient-to-br from-white/40 to-transparent rounded-full blur-2xl group-hover:scale-150 transition-transform duration-500"></div>
     <div className="absolute -bottom-4 -left-4 w-16 h-16 lg:w-12 lg:h-12 xl:w-10 xl:h-10 2xl:w-16 2xl:h-16 bg-gradient-to-tr from-white/30 to-transparent rounded-full blur-xl group-hover:scale-125 transition-transform duration-700"></div>
 
-    {/* Content */}
-    <div className="relative z-10 h-full flex flex-col">
-      {/* Icon and Value Row */}
-      <div className="flex items-center justify-between mb-4 lg:mb-3 xl:mb-2 2xl:mb-4">
+    {/* Content - Mobile horizontal layout, larger screens vertical */}
+    <div className="relative z-10 h-full">
+      {/* Mobile Layout: All in one row */}
+      <div className="flex md:hidden items-center justify-between gap-3">
         <div
-          className={`${stat.iconBg} w-8 h-8 lg:w-9 lg:h-9 xl:w-9 xl:h-9 2xl:w-12 2xl:h-12 rounded-xl flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform duration-300 shrink-0`}
+          className={`${stat.iconBg} w-8 h-8 rounded-xl flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform duration-300 shrink-0`}
         >
           <stat.icon color={stat.iconColor} width={20} height={20} />
         </div>
-        <div className="text-lg sm:text-xl md:text-2xl lg:text-lg xl:text-lg 2xl:text-2xl font-bold text-gray-900 group-hover:text-gray-800 transition-colors">
+        <div className="flex-1 min-w-0">
+          <h3 className="text-sm font-semibold text-gray-800 leading-tight truncate">
+            {stat.label}
+          </h3>
+          <p className="text-xs text-gray-600 truncate">
+            {stat.subtext}
+          </p>
+        </div>
+        <div className="text-lg font-bold text-gray-900 group-hover:text-gray-800 transition-colors shrink-0">
           {stat.value}
         </div>
       </div>
 
-      {/* Spacer to push label and subtext to bottom */}
-      <div className="flex-1"></div>
+      {/* Medium+ Layout: Original vertical layout */}
+      <div className="hidden md:flex flex-col h-full">
+        {/* Icon and Value Row */}
+        <div className="flex items-center justify-between mb-4 lg:mb-3 xl:mb-2 2xl:mb-4">
+          <div
+            className={`${stat.iconBg} w-8 h-8 lg:w-9 lg:h-9 xl:w-9 xl:h-9 2xl:w-12 2xl:h-12 rounded-xl flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform duration-300 shrink-0`}
+          >
+            <stat.icon color={stat.iconColor} width={20} height={20} />
+          </div>
+          <div className="text-lg sm:text-xl md:text-2xl lg:text-lg xl:text-lg 2xl:text-2xl font-bold text-gray-900 group-hover:text-gray-800 transition-colors">
+            {stat.value}
+          </div>
+        </div>
 
-      {/* Label and Subtext at bottom */}
-      <div className="space-y-1">
-        <h3 className="text-xs sm:text-sm md:text-base lg:text-sm xl:text-sm 2xl:text-base font-semibold text-gray-800 leading-tight">
-          {stat.label}
-        </h3>
-        <p className="text-xs 2xl:text-xs text-gray-600">
-          {stat.subtext}
-        </p>
+        {/* Spacer to push label and subtext to bottom */}
+        <div className="flex-1"></div>
+
+        {/* Label and Subtext at bottom */}
+        <div className="space-y-1">
+          <h3 className="text-xs sm:text-sm md:text-base lg:text-sm xl:text-sm 2xl:text-base font-semibold text-gray-800 leading-tight">
+            {stat.label}
+          </h3>
+          <p className="text-xs 2xl:text-xs text-gray-600">
+            {stat.subtext}
+          </p>
+        </div>
       </div>
     </div>
   </div>
