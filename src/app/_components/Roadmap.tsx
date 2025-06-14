@@ -4,36 +4,48 @@ import Check from "./Icons/Check";
 import Rocket from "./Icons/Rocket";
 import { Chapter, useChapterProgress } from "../_hooks/useChapterProgress";
 
+/**
+ * Roadmap component displays learning progress with expandable chapter details
+ * 
+ * Height Matching: This component is designed to match the height of the Stats component
+ * when used side by side. Key features for height consistency:
+ * - When collapsed: Shows placeholder content that matches Stats grid layout
+ * - Consistent spacing and aspect ratios across all viewports
+ * - Flex layout with h-full for proper height distribution
+ * 
+ * The collapsed state shows a summary card that maintains the same visual weight
+ * and dimensions as the Stats component cards.
+ */
 const Roadmap: React.FC<{ chapters: Chapter[] }> = ({ chapters }) => {
   const { sortedChapters, overallCompletion } = useChapterProgress(chapters);
   const totalSteps = sortedChapters.length;
   const [isExpanded, setIsExpanded] = useState(false);
 
   return (
-    <div className="w-full h-full">
-      <div className="mx-auto space-y-3 lg:space-y-4">
+    <div className="w-full h-full flex flex-col min-h-[380px] lg:min-h-[330px] xl:min-h-[300px] 2xl:min-h-[380px]">
+      <div className="mx-auto space-y-4 lg:space-y-3 xl:space-y-3 flex-1 flex flex-col">
         {/* Overall Progress Header */}
-        <div className="bg-gradient-to-r from-blueLotus to-lightIndigo rounded-xl lg:rounded-2xl p-4 lg:p-6 text-white shadow-lg">
+        <div className="bg-gradient-to-r from-blueLotus to-lightIndigo rounded-xl lg:rounded-2xl p-4 lg:p-3 xl:p-2.5 2xl:p-6 text-white shadow-lg flex-shrink-0">
           <div className="flex flex-row sm:items-center sm:justify-between gap-4">
             <div className="flex-1">
-              <h2 className="text-xl lg:text-2xl font-bold mb-1 lg:mb-2">Learning Journey</h2>
-              <p className="text-blue-100 text-sm lg:text-base">
+              <h2 className="text-xl lg:text-lg xl:text-lg 2xl:text-2xl font-bold mb-1 lg:mb-1 xl:mb-0.5 2xl:mb-2">Learning Journey</h2>
+              <p className="text-blue-100 text-sm lg:text-sm xl:text-sm 2xl:text-base">
                 {sortedChapters.filter(ch => ch.completion >= 100).length} of {totalSteps} chapters completed
               </p>
             </div>
-            <div className="flex items-center gap-3 lg:gap-4 self-start sm:self-center">
+            <div className="flex items-center gap-3 lg:gap-3 xl:gap-3 2xl:gap-4 self-start sm:self-center">
               <div className="text-center">
-                <div className="text-2xl lg:text-3xl font-bold">{overallCompletion}%</div>
-                <div className="text-xs lg:text-sm text-blue-100">Complete</div>
+                <div className="text-2xl lg:text-lg xl:text-lg 2xl:text-3xl font-bold">{overallCompletion}%</div>
+                <div className="text-xs lg:text-xs xl:text-xs 2xl:text-sm text-blue-100">Complete</div>
               </div>
-              <div className="w-12 h-12 lg:w-16 lg:h-16 bg-white/20 rounded-full flex items-center justify-center">
+              <div className="w-12 h-12 lg:w-9 lg:h-9 xl:w-9 xl:h-9 2xl:w-16 2xl:h-16 bg-white/20 rounded-full flex items-center justify-center">
                 <Rocket width={24} height={24} color="#fff" />
               </div>
             </div>
           </div>
           
           {/* Overall Progress Bar */}
-          <div className="mt-4 lg:mt-6 bg-white/20 rounded-full h-2">
+          <div className="mt-4 lg:mt-3 xl:mt-2 2xl:mt-6 bg-white/20 rounded-full h-2">
             <div 
               className="bg-white rounded-full h-2 transition-all duration-500"
               style={{ width: `${overallCompletion}%` }}
@@ -41,7 +53,7 @@ const Roadmap: React.FC<{ chapters: Chapter[] }> = ({ chapters }) => {
           </div>
 
           {/* Expand/Collapse Button */}
-          <div className="mt-4 lg:mt-6 flex justify-center">
+          <div className="mt-4 lg:mt-3 xl:mt-2 2xl:mt-6 flex justify-center">
             <button
               onClick={() => setIsExpanded(!isExpanded)}
               className="flex items-center gap-2 px-4 py-2 bg-white/20 hover:bg-white/30 rounded-full transition-all duration-300 text-sm lg:text-base font-medium backdrop-blur-sm"
@@ -57,6 +69,31 @@ const Roadmap: React.FC<{ chapters: Chapter[] }> = ({ chapters }) => {
               </svg>
             </button>
           </div>
+        </div>
+
+        {/* Fixed height content area to match Stats component */}
+        <div className="flex-1 min-h-0">
+          {/* When collapsed, show a placeholder that matches stats grid height */}
+          {!isExpanded && (
+            <div className="h-full flex flex-col justify-center">
+              {/* Single content area matching stats grid */}
+              <div className="aspect-square lg:aspect-[4/3] xl:aspect-[3/2] 2xl:aspect-square bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl border-2 border-blue-200/60 p-4 lg:p-3 xl:p-2.5 2xl:p-4 flex items-center justify-center">
+                <div className="text-center">
+                  <div className="w-12 h-12 lg:w-10 lg:h-10 xl:w-10 xl:h-10 2xl:w-12 2xl:h-12 bg-blueLotus/20 rounded-full flex items-center justify-center mx-auto mb-3 lg:mb-2 xl:mb-2 2xl:mb-3">
+                    <Rocket width={20} height={20} color="#5B4FE7" />
+                  </div>
+                  <h3 className="font-semibold text-gray-800 text-sm lg:text-sm xl:text-sm 2xl:text-base mb-1">Learning Progress</h3>
+                  <p className="text-xs 2xl:text-xs text-gray-600 mb-2">{sortedChapters.filter(ch => ch.completion >= 100).length}/{totalSteps} Chapters Complete</p>
+                  <div className="bg-blueLotus/20 rounded-full h-2 w-full max-w-[120px] mx-auto">
+                    <div 
+                      className="bg-blueLotus rounded-full h-2 transition-all duration-500"
+                      style={{ width: `${overallCompletion}%` }}
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Expandable Chapter Cards */}
