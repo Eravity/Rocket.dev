@@ -9,12 +9,12 @@ interface GoalStatsProps {
     total_goal: number;
   } | null;
   isActive: boolean;
-  onSettings: () => void;
+  onSettingsAction: () => void;
 }
 
-export default function GoalStats({ progress, onSettings }: GoalStatsProps) {
+export default function GoalStats({progress, onSettingsAction}: GoalStatsProps) {
   const handleSettings = () => {
-    onSettings();
+    onSettingsAction();
   };
 
   return (
@@ -27,7 +27,8 @@ export default function GoalStats({ progress, onSettings }: GoalStatsProps) {
       </h2>
       <button
         onClick={handleSettings}
-        className="self-center font-semibold underline-offset-[5px] border-b-2 border-blueLotus text-blueLotus hover:opacity-80 active:scale-95 transition-all duration-200 text-sm sm:text-base"
+        className=
+          "self-center font-semibold underline-offset-[5px] border-b-2 border-blueLotus text-blueLotus hover:opacity-80 active:scale-95 transition-all duration-200 text-sm sm:text-base"
       >
         Settings
       </button>
