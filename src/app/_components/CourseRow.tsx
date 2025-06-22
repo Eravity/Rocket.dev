@@ -50,9 +50,9 @@ const CourseRow = ({course, resources}: { course: CourseData; resources: number[
         {/* Course info section */}
         <div className="flex justify-center flex-col flex-grow min-w-0">
           <div className="flex items-center gap-1 md:gap-2">
-            <small className="font-bold text-xs md:text-sm">Course</small>
-            <p className="mb-0">&#x2022;</p>
-            <small className="font-semibold text-xs md:text-sm">{resources} Chapters</small>
+            <small className="font-bold text-[#5194FB] text-xs md:text-sm">Course</small>
+            <p className="mb-0 text-neutral-500">&#x2022;</p>
+            <small className="font-medium text-neutral-500 text-xs md:text-sm">{resources} Chapters</small>
           </div>
 
           <div className="flex flex-col gap-1 md:gap-2">
@@ -73,12 +73,12 @@ const CourseRow = ({course, resources}: { course: CourseData; resources: number[
         <div className="flex justify-between items-end h-full flex-col ml-auto">
           <div className="flex flex-col items-end">
             <div className="flex gap-1 md:gap-2 items-center">
-              <Clock className={`w-4 h-4 md:w-5 md:h-5 ${isUrgent ? 'text-red-500' : 'text-gray-500'}`}/>
+              <Clock className={`w-4 h-4 md:w-5 md:h-5`} color={isUrgent ? '#ef4444' : '#6b7280'}/>
               <p className={`text-xs md:text-sm font-semibold ${isUrgent ? 'text-red-500' : 'text-gray-500'}`}>
                 {formattedDeadline}
               </p>
             </div>
-            <small className="text-xs mb-1">{isUrgent ? 'Overdue' : 'Remaining'}</small>
+            <small className="text-xs text-neutral-500 font-medium mb-1">{isUrgent ? 'Overdue' : 'Remaining'}</small>
           </div>
           <button
             className="py-1 px-3 md:px-4 mt-2 text-xs md:text-sm border-2 font-semibold border-[#5194FB] text-[#5194FB] bg-[#E6F0FB] rounded-md whitespace-nowrap hover:bg-[#d0e4fb] transition-colors">
