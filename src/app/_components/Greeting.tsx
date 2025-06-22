@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useEffect, Dispatch, SetStateAction } from "react";
-import { Chapter, useChapterProgress } from "../_hooks/useChapterProgress";
+import {Dispatch, SetStateAction, useEffect, useState} from "react";
+import {Chapter, useChapterProgress} from "../_hooks/useChapterProgress";
 
 type GreetingProps = {
   username?: string;
@@ -13,20 +13,21 @@ type GreetingProps = {
 };
 
 export default function Greeting({
-  username = "Champion",
-  chapters = [],
-  isConstrained = false,
-  expandableOnly = false,
-  isExpanded: isExpandedProp,
-  setIsExpanded: setIsExpandedProp,
-}: GreetingProps) {
+                                   username = "Champion",
+                                   chapters = [],
+                                   isConstrained = false,
+                                   expandableOnly = false,
+                                   isExpanded: isExpandedProp,
+                                   setIsExpanded: setIsExpandedProp,
+                                 }: GreetingProps) {
+
   const [currentTime, setCurrentTime] = useState(new Date());
   const [internalExpanded, setInternalExpanded] = useState(false);
   const isExpanded =
     isExpandedProp !== undefined ? isExpandedProp : internalExpanded;
   const setIsExpanded =
     setIsExpandedProp !== undefined ? setIsExpandedProp : setInternalExpanded;
-  const { sortedChapters, overallCompletion } = useChapterProgress(chapters);
+  const {sortedChapters, overallCompletion} = useChapterProgress(chapters);
   const totalSteps = sortedChapters.length;
 
   useEffect(() => {
@@ -60,17 +61,21 @@ export default function Greeting({
     <div className="group relative w-full h-full flex flex-col">
       {/* Background blur effects */}
       <div className="absolute inset-0 rounded-xl lg:rounded-2xl overflow-hidden">
-        <div className="absolute top-4 right-4 w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 bg-gradient-to-br from-violet-400/15 via-purple-400/20 to-indigo-400/15 rounded-full blur-3xl opacity-50 group-hover:opacity-70 transition-opacity duration-500"></div>
-        <div className="absolute top-1/2 right-1/4 w-16 h-16 bg-gradient-to-r from-pink-300/10 to-purple-300/10 rounded-full blur-xl opacity-30 group-hover:opacity-50 transition-opacity duration-700"></div>
+        <div
+          className="absolute top-4 right-4 w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 bg-gradient-to-br from-violet-400/15 via-purple-400/20 to-indigo-400/15 rounded-full blur-3xl opacity-50 group-hover:opacity-70 transition-opacity duration-500"></div>
+        <div
+          className="absolute top-1/2 right-1/4 w-16 h-16 bg-gradient-to-r from-pink-300/10 to-purple-300/10 rounded-full blur-xl opacity-30 group-hover:opacity-50 transition-opacity duration-700"></div>
       </div>
 
       {/* Main greeting card */}
       {!expandableOnly && (
-        <div className="relative bg-white rounded-xl lg:rounded-2xl border-2 shadow-sm hover:shadow-md border-violet-300/40 transition-all duration-300 p-4 sm:p-4 md:p-4 lg:p-5 xl:p-6 flex-1 min-h-0 overflow-hidden">
+        <div
+          className="relative bg-white rounded-xl lg:rounded-2xl border-2 shadow-sm hover:shadow-md border-violet-300/40 transition-all duration-300 p-4 sm:p-4 md:p-4 lg:p-5 xl:p-6 flex-1 min-h-0 overflow-hidden">
           <div className="relative z-10 h-full gap-4 flex flex-col justify-between">
             <div className="flex items-center mb-1 justify-between">
               {/* Time and date badge */}
-              <div className="inline-flex items-center gap-1.5 sm:gap-2 bg-gradient-to-r from-blue-50/90 to-purple-50/90 backdrop-blur-sm rounded-xl px-2.5 sm:px-3 py-1.5 border border-blue-200/60 self-start relative overflow-hidden">
+              <div
+                className="inline-flex items-center gap-1.5 sm:gap-2 bg-gradient-to-r from-blue-50/90 to-purple-50/90 backdrop-blur-sm rounded-xl px-2.5 sm:px-3 py-1.5 border border-blue-200/60 self-start relative overflow-hidden">
                 {/* Background blur effects */}
                 <div className="absolute inset-0">
                   <div className="absolute top-0 right-0 w-8 h-8 bg-gradient-to-br from-blue-300/20 to-purple-300/20 rounded-full blur-sm opacity-60"></div>
@@ -135,7 +140,7 @@ export default function Greeting({
                 <div className="w-full h-2 bg-gray-200 rounded-full overflow-hidden border border-gray-300/30">
                   <div
                     className="h-full bg-gradient-to-r from-violet-500 to-purple-500 rounded-full transition-all duration-500"
-                    style={{ width: `${overallCompletion}%` }}
+                    style={{width: `${overallCompletion}%`}}
                   ></div>
                 </div>
                 <span className="text-xs sm:text-sm font-semibold text-gray-600 text-center">
@@ -154,7 +159,7 @@ export default function Greeting({
       {!isConstrained && totalSteps > 0 && (
         <div
           className={`transition-[max-height] ease-in-out duration-500 ${
-            isExpanded ? "max-h-[2000px]" : "max-h-0"
+            isExpanded ? "max-h-[2000px]" : "max-h-0 hidden"
           }`}
         >
           <div
@@ -184,8 +189,8 @@ export default function Greeting({
                 >
                   {/* Background Pattern */}
                   <div className="absolute inset-0 opacity-25">
-                    <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-bl from-white/30 to-transparent rounded-full -translate-y-8 translate-x-8" />
-                    <div className="absolute bottom-0 left-0 w-16 h-16 bg-gradient-to-tr from-white/25 to-transparent rounded-full translate-y-6 -translate-x-6" />
+                    <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-bl from-white/30 to-transparent rounded-full -translate-y-8 translate-x-8"/>
+                    <div className="absolute bottom-0 left-0 w-16 h-16 bg-gradient-to-tr from-white/25 to-transparent rounded-full translate-y-6 -translate-x-6"/>
                   </div>
 
                   {/* Main Content */}
@@ -215,7 +220,7 @@ export default function Greeting({
                       {/* Completion Badge */}
                       {isCompleted && (
                         <div className="flex items-center gap-1.5 px-2 py-1 bg-emerald-100/80 text-emerald-700 rounded-full text-xs font-semibold">
-                          <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse" />
+                          <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse"/>
                           Complete
                         </div>
                       )}
@@ -254,7 +259,7 @@ export default function Greeting({
                                   ? "bg-gradient-to-r from-emerald-400/80 to-green-500/80"
                                   : "bg-gradient-to-r from-violet-400/80 to-indigo-500/80"
                               }`}
-                              style={{ width: `${chapter.completion}%` }}
+                              style={{width: `${chapter.completion}%`}}
                             />
                           </div>
                         </div>
@@ -278,7 +283,8 @@ export default function Greeting({
 
                   {/* Interactive Glow Effect */}
                   {isAccessible && !isCompleted && (
-                    <div className="absolute inset-0 bg-gradient-to-br from-violet-400/0 via-indigo-400/0 to-purple-400/0 group-hover:from-violet-400/3 group-hover:via-indigo-400/3 group-hover:to-purple-400/3 rounded-xl transition-all duration-300" />
+                    <div
+                      className="absolute inset-0 bg-gradient-to-br from-violet-400/0 via-indigo-400/0 to-purple-400/0 group-hover:from-violet-400/3 group-hover:via-indigo-400/3 group-hover:to-purple-400/3 rounded-xl transition-all duration-300"/>
                   )}
 
                   {/* Status Indicator Bar */}

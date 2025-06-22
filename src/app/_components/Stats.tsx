@@ -164,7 +164,7 @@ const StreakDots: React.FC<{ currentStreak: number; maxStreak: number; className
         key={i}
         className={`${className} rounded-full transition-all duration-300 group-hover:scale-110 ${
           i < currentStreak
-            ? "bg-violet-500 group-hover:bg-violet-600"
+            ? "bg-blue-500 group-hover:bg-blue-600"
             : "bg-gray-300 group-hover:bg-[#c1c5c9]"
         }`}
       />

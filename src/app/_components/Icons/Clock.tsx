@@ -2,15 +2,17 @@ export default function Clock({
   color,
   width = 20,
   height = 20,
-  stroke = 2
+  stroke = 2,
+  className
 }: {
   color?: string;
   width?: number;
   height?: number;
   stroke?: number;
+  className?: string;
 }) {
   return (
-    <div>
+    <div className={`${className}`}>
       <svg
         width={`${width}px`}
         height={`${height}px`}

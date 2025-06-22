@@ -1,18 +1,17 @@
 "use client";
-import React from "react";
-import { useEffect, useState } from "react";
-import { fetchCourseData } from "../_services/courseService";
-import CourseRow, { CourseData } from "./CourseRow";
+import React, {useEffect, useState} from "react";
+import {fetchCourseData} from "../_services/courseService";
+import CourseRow, {CourseData} from "./CourseRow";
 
 export default function CourseProgress() {
   const [courses, setCourses] = useState<CourseData[]>([]);
-  const [courseChapters, setCourseChapters] = useState<{ [key: number]: number }>({});
+  const [courseChapters, setCourseChapters] = useState<{ [key: string]: number }>({});
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     async function loadCourses() {
       try {
-        const { courses, chaptersCount } = await fetchCourseData();
+        const {courses, chaptersCount} = await fetchCourseData();
         setCourses(courses);
         setCourseChapters(chaptersCount);
       } catch (err: unknown) {
@@ -23,7 +22,8 @@ export default function CourseProgress() {
         }
       }
     }
-    loadCourses();
+
+    void loadCourses();
   }, []);
 
   if (error) {
@@ -35,14 +35,13 @@ export default function CourseProgress() {
   }
 
   return (
-    <div className="w-full h-auto grid grid-cols-8 grid-rows-[auto_1px_auto] sm:grid-rows-[1fr_1px_1fr] rounded-lg border overflow-hidden duration-200">
-      {courses.slice(0, 2).map((course, index, arr) => (
+    <div className={"flex flex-col gap-4"}>
+      {courses.slice(0, 2).map((course) => (
         <React.Fragment key={course.id}>
           <CourseRow
             course={course}
             resources={[courseChapters[course.id] || 0]}
           />
-          {index < arr.length - 1 && <div className="col-span-8 bg-gray-200" />}
         </React.Fragment>
       ))}
     </div>

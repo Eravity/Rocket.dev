@@ -1,18 +1,11 @@
+import {useRelativeTime} from "../_hooks/useRelativeTime";
 import Image from "next/image";
 import Link from "next/link";
-import dynamic from "next/dynamic";
-import Clock from "./Icons/Clock";
-import Files from "./Icons/Files";
 import CourseIcon from "./Icons/CourseIcon";
-import { useRelativeTime } from "../_hooks/useRelativeTime";
-import InfoCell from "./InfoCell";
-
-const DynamicProgressPieChart = dynamic(() => import("./ProgressPieChart"), {
-  ssr: false,
-});
+import Clock from "./Icons/Clock";
 
 export type CourseData = {
-  id: number;
+  id: number | string;
   image: string;
   title: string;
   materials: number;
@@ -20,64 +13,80 @@ export type CourseData = {
   deadline: string;
   buttonText: string;
   resources: number;
+  contentType?: string;
 };
 
-const CourseRow = ({ course, resources }: { course: CourseData; resources: number[] }) => {
-  const formattedDeadline = useRelativeTime({ dateString: course.deadline });
+const CourseRow = ({course, resources}: { course: CourseData; resources: number[] }) => {
+  const formattedDeadline = useRelativeTime({dateString: course.deadline});
   const isUrgent = formattedDeadline.includes("min") || formattedDeadline.includes("h");
 
   return (
-    <>
-      <div className="flex items-center justify-center p-2">
-        <div className="relative w-full aspect-[16/10] overflow-hidden rounded-lg">
-          <Link href={`/learning/course/${course.id}`} className="relative block w-full h-full">
-            <Image
-              src={course.image}
-              alt={course.title}
-              fill
-              priority 
-              // sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-              className="object-cover absolute inset-0 transition-transform duration-300 hover:scale-110"
+    <div className="flex border rounded-xl shadow-sm hover:shadow-md transition-all duration-200">
+      <div className="flex flex-row gap-3 md:gap-6 items-center py-3 px-3 md:py-4 md:px-4 w-full">
+        {/* Image section */}
+        <div className="flex-shrink-0">
+          <div className="relative">
+            <div className="relative w-12 md:w-16 aspect-square overflow-hidden rounded-xl">
+              <Link href={`/learning/course/${course.id}`} className="relative block w-full h-full">
+                <Image
+                  src={course.image}
+                  alt={course.title}
+                  fill
+                  priority
+                  className="object-cover absolute inset-0 transition-transform duration-300 hover:scale-110"
+                />
+              </Link>
+            </div>
+            <CourseIcon
+              className="absolute -top-2.5 -right-2.5 border-2 border-white rounded-lg"
+              width={20}
+              height={20}
+              color={"bg-blue-100"}
+              stroke={'#82B4FF'}
             />
-          </Link>
+          </div>
+        </div>
+
+        {/* Course info section */}
+        <div className="flex justify-center flex-col flex-grow min-w-0">
+          <div className="flex items-center gap-1 md:gap-2">
+            <small className="font-bold text-xs md:text-sm">Course</small>
+            <p className="mb-0">&#x2022;</p>
+            <small className="font-semibold text-xs md:text-sm">{resources} Chapters</small>
+          </div>
+
+          <div className="flex flex-col gap-1 md:gap-2">
+            <Link href={`/learning/course/${course.id}`} className="font-bold text-gray-800 hover:underline truncate">
+              {course.title}
+            </Link>
+
+            <div className="flex items-center gap-2 md:gap-4">
+              <div className="w-full p-0.5 bg-gray-200 rounded-full overflow-hidden">
+                <div className={`w-[28%] max-h-1.5 rounded-full bg-blue-500`}>‎ </div>
+              </div>
+              <p className="font-semibold text-xs md:text-sm whitespace-nowrap">28%</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Deadline and button section */}
+        <div className="flex justify-between items-end h-full flex-col ml-auto">
+          <div className="flex flex-col items-end">
+            <div className="flex gap-1 md:gap-2 items-center">
+              <Clock className={`w-4 h-4 md:w-5 md:h-5 ${isUrgent ? 'text-red-500' : 'text-gray-500'}`}/>
+              <p className={`text-xs md:text-sm font-semibold ${isUrgent ? 'text-red-500' : 'text-gray-500'}`}>
+                {formattedDeadline}
+              </p>
+            </div>
+            <small className="text-xs mb-1">{isUrgent ? 'Overdue' : 'Remaining'}</small>
+          </div>
+          <button
+            className="py-1 px-3 md:px-4 mt-2 text-xs md:text-sm border-2 font-semibold border-[#5194FB] text-[#5194FB] bg-[#E6F0FB] rounded-md whitespace-nowrap hover:bg-[#d0e4fb] transition-colors">
+            Continue
+          </button>
         </div>
       </div>
-
-      <div className="col-span-3 flex flex-col items-start justify-center p-2 space-y-0.5">
-        <div className="flex items-center gap-1">
-          <CourseIcon />
-          <h2 className="w-full flex items-center text-neutral-500 font-semibold text-xs sm:text-sm">
-            Course
-          </h2>
-        </div>
-        <div className="w-full">
-          <Link
-            href={`/learning/course/${course.id}`}
-            className="inline-block text-sm sm:text-base md:text-lg font-bold transition-colors duration-200 hover:text-blueLotus line-clamp-1"
-          >
-            {course.title}
-          </Link>
-        </div>
-      </div>
-
-      <InfoCell label="Content" value={<><Files /> {resources[0]} {resources[0] > 1 ? "Chapters" : "Chapter"}</>} />
-
-      <InfoCell
-        label="Completion"
-        value={<><DynamicProgressPieChart data={course.completion} /> {course.completion}%</>}
-      />
-
-      <InfoCell icon={<Clock color={isUrgent ? "red" : "#737373"} />} label="Deadline" value={formattedDeadline} isUrgent={isUrgent} />
-
-      <div className="flex items-center justify-end pr-2 sm:pr-4 md:pr-6 lg:pr-8">
-        <Link
-          href={`/learning/course/${course.id}`}
-          className="px-3 sm:px-4 py-1 border rounded-md text-xs sm:text-sm transition-all duration-200 hover:bg-blueLotus hover:text-white hover:border-blueLotus active:scale-95"
-        >
-          {course.completion > 0 ? "Continue" : "Start"}
-        </Link>
-      </div>
-    </>
+    </div>
   );
 };
 
