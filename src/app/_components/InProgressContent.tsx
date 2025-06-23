@@ -1,12 +1,7 @@
 "use client";
-
-import dynamic from "next/dynamic";
+import CourseProgress from "./CourseProgress";
 import SectionTitle from "./SectionTitle";
 import React from "react";
-
-const DynamicCourseProgress = dynamic(() => import("./CourseProgress"), {
-  ssr: false,
-});
 
 function InProgressContent() {
   return (
@@ -21,7 +16,7 @@ function InProgressContent() {
           View all
         </button>
       </div>
-      <DynamicCourseProgress/>
+      <CourseProgress/>
     </div>
   );
 }

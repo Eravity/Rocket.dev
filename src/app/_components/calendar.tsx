@@ -182,12 +182,20 @@ function CalendarDayButton({
     if (modifiers.focused) ref.current?.focus()
   }, [modifiers.focused])
 
+  // Format date consistently as M/D/YYYY to avoid hydration mismatches
+  const formatDate = (date: Date): string => {
+    const month = date.getMonth() + 1; // getMonth() is zero-based
+    const day = date.getDate();
+    const year = date.getFullYear();
+    return `${month}/${day}/${year}`;
+  };
+
   return (
     <Button
       ref={ref}
       variant="ghost"
       size="icon"
-      data-day={day.date.toLocaleDateString()}
+      data-day={formatDate(day.date)}
       data-selected-single={
         modifiers.selected &&
         !modifiers.range_start &&

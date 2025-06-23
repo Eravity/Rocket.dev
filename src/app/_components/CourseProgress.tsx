@@ -1,7 +1,7 @@
 "use client";
 import React, {useEffect, useState} from "react";
-import {fetchCourseData} from "../_services/courseService";
 import CourseRow, {CourseData} from "./CourseRow";
+import { getCourses } from "@/sanity/queries/getCourses";
 
 export default function CourseProgress() {
   const [courses, setCourses] = useState<CourseData[]>([]);
@@ -11,9 +11,10 @@ export default function CourseProgress() {
   useEffect(() => {
     async function loadCourses() {
       try {
-        const {courses, chaptersCount} = await fetchCourseData();
+        const {courses, chaptersCount} = await getCourses();
         setCourses(courses);
         setCourseChapters(chaptersCount);
+        console.log(chaptersCount)
       } catch (err: unknown) {
         if (err instanceof Error) {
           setError(err.message);
@@ -40,7 +41,7 @@ export default function CourseProgress() {
         <React.Fragment key={course.id}>
           <CourseRow
             course={course}
-            resources={[courseChapters[course.id] || 0]}
+            resources={[courseChapters[String(course.id)] || 0]}
           />
         </React.Fragment>
       ))}
