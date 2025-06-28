@@ -31,7 +31,7 @@ const CourseRow = ({course, resources}: { course: CourseData; resources: number[
         <div className="flex-shrink-0">
           <div className="relative">
             <div className="relative w-12 md:w-16 aspect-square overflow-hidden rounded-xl">
-              <Link href={`/learning/course/${course.id}`} className="relative block w-full h-full">
+              <Link href={`/learning/course/${course.slug}`} className="relative block w-full h-full">
                 <Image
                   src={imageUrl}
                   alt={course.title}
@@ -61,7 +61,7 @@ const CourseRow = ({course, resources}: { course: CourseData; resources: number[
           </div>
 
           <div className="flex flex-col gap-1 md:gap-2">
-            <Link href={`/learning/course/${course.id}`} className="font-bold text-gray-800 hover:underline truncate">
+            <Link href={`/learning/course/${course.slug}`} className="font-bold text-gray-800 hover:underline truncate">
               {course.title}
             </Link>
 

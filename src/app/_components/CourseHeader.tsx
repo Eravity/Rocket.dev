@@ -3,13 +3,20 @@ import CurrentPath from "@/app/_components/CurrentPath";
 import CourseTypeIcon from "@/app/_components/CourseTypeIcon";
 import FavouriteButton from "@/app/_components/FavouriteButton";
 import TagsList from "@/app/_components/TagsList";
+import { urlFor } from "@/sanity/lib/image";
 
 interface CourseHeaderProps {
   id: string | number;
   course: {
     id?: string | number;
     title: string;
-    image?: string | null;
+    image?: string | null | {
+      _type: string;
+      asset: {
+        _ref: string;
+        _type: string;
+      };
+    };
   };
   contentType: string;
   tags: string[];
@@ -23,6 +30,23 @@ export default function CourseHeader({
   tags,
   isSanityCourse = false
 }: CourseHeaderProps) {
+  // Convert Sanity image object to URL
+  const getImageUrl = (image: any): string | null => {
+    if (!image) return null;
+
+    // If it's already a string URL, return it
+    if (typeof image === 'string') return image;
+
+    // If it's a Sanity image object, convert to URL
+    if (image._type === 'image' && image.asset) {
+      return urlFor(image).width(400).height(300).url();
+    }
+
+    return null;
+  };
+
+  const imageUrl = getImageUrl(course.image);
+
   return (
     <section className="pt-8 pb-24 bg-neutral-100 w-full">
       <div className="container mx-auto md:px-6 2xl:px-16">
@@ -56,9 +80,9 @@ export default function CourseHeader({
           {/* Course image */}
           <div className="flex-shrink-0 self-center">
             <div className="relative aspect-video h-80 rounded-lg">
-              {course.image ? (
+              {imageUrl ? (
                 <Image
-                  src={course.image}
+                  src={imageUrl}
                   alt={course.title || "Course image"}
                   fill
                   className="object-cover rounded-xl"
@@ -66,7 +90,9 @@ export default function CourseHeader({
                 />
               ) : (
                 <div className="bg-gray-200 w-full h-full flex items-center justify-center rounded-xl">
-                  <span>No image available</span>
+                  <span className="text-gray-500">
+                    No image available
+                  </span>
                 </div>
               )}
             </div>
