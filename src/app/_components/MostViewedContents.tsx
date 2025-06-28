@@ -39,6 +39,7 @@ export default function MostViewedContents() {
     <section className="flex flex-col gap-3">
       <SectionTitle
         title="Most viewed contents"
+        description="Here you can see your most viewed contents"
         info="Here you can see your most viewed contents"
       />
       <div className="flex flex-col gap-4">

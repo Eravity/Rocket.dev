@@ -45,7 +45,8 @@ export default function NewEnrollment() {
   return (
     <section className="flex flex-col gap-3 relative">
       <div className="flex items-baseline justify-between">
-        <SectionTitle 
+        <SectionTitle
+          description="Here you can see the courses you have enrolled in"
           title="New enrollment" 
           info="Here you can see the courses you have enrolled in" 
         />

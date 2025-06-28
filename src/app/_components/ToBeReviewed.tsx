@@ -31,6 +31,7 @@ export default function ToBeReviewed() {
   return (
     <section className="flex flex-col gap-3">
       <SectionTitle
+        description="Here is the content that you should review"
         title="To be reviewed"
         info="Here is the content that you should review"
       />
