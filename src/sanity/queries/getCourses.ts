@@ -1,5 +1,11 @@
 import { client } from "../lib/client";
+import imageUrlBuilder from '@sanity/image-url';
 import { CourseData } from "@/app/_components/CourseRow";
+
+const builder = imageUrlBuilder(client);
+function urlFor(source: any) {
+  return builder.image(source);
+}
 
 export const getCourses = async () => {
   // Fetch courses with their chapters and lessons
@@ -15,8 +21,16 @@ export const getCourses = async () => {
     title: course.title,
     description: course.description || "",
     slug: course.slug?.current || course.slug || "",
-    image: course.image || "",
-    progress: 0 // Default progress value
+    // build a full absolute URL here:
+    image: course.image
+      ? urlFor(course.image).width(200).height(200).url()
+      : "",
+    progress: 0,
+    materials: 0,
+    completion: 0,
+    deadline: '',
+    buttonText: 'Continue',
+    resources: 0,
   }));
 
   // Calculate the number of chapters per course

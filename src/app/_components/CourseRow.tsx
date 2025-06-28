@@ -6,7 +6,7 @@ import Clock from "./Icons/Clock";
 
 export type CourseData = {
   id: number | string;
-  image: string;
+  image: string;       // now always a full URL
   title: string;
   materials: number;
   completion: number;
@@ -14,11 +14,15 @@ export type CourseData = {
   buttonText: string;
   resources: number;
   contentType?: string;
+  description: string;
+  slug: string;
 };
 
 const CourseRow = ({course, resources}: { course: CourseData; resources: number[] }) => {
   const formattedDeadline = useRelativeTime({dateString: course.deadline});
   const isUrgent = formattedDeadline.includes("min") || formattedDeadline.includes("h");
+  // use the URL directly
+  const imageUrl = course.image;
 
   return (
     <div className="flex border rounded-xl shadow-sm hover:shadow-md transition-all duration-200">
@@ -29,10 +33,11 @@ const CourseRow = ({course, resources}: { course: CourseData; resources: number[
             <div className="relative w-12 md:w-16 aspect-square overflow-hidden rounded-xl">
               <Link href={`/learning/course/${course.id}`} className="relative block w-full h-full">
                 <Image
-                  src={course.image}
+                  src={imageUrl}
                   alt={course.title}
                   fill
                   priority
+                  unoptimized
                   className="object-cover absolute inset-0 transition-transform duration-300 hover:scale-110"
                 />
               </Link>

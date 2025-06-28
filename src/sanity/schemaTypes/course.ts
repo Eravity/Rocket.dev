@@ -12,6 +12,12 @@ export default defineType({
     }),
 
     defineField({
+      name: 'image',
+      title: 'Image',
+      type: 'image',
+    }),
+
+    defineField({
       name: 'slug',
       title: 'Slug',
       type: 'slug',

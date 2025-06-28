@@ -14,7 +14,6 @@ export default function CourseProgress() {
         const {courses, chaptersCount} = await getCourses();
         setCourses(courses);
         setCourseChapters(chaptersCount);
-        console.log(chaptersCount)
       } catch (err: unknown) {
         if (err instanceof Error) {
           setError(err.message);
