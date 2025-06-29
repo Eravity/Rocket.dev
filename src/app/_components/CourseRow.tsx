@@ -61,7 +61,7 @@ const CourseRow = ({course, resources}: { course: CourseData; resources: number[
           </div>
 
           <div className="flex flex-col gap-1 md:gap-2">
-            <Link href={`/learning/course/${course.slug}`} className="font-bold text-gray-800 hover:underline truncate">
+            <Link href={`/learning/course/${course.slug}`} className="font-bold w-fit text-gray-800  hover:underline truncate">
               {course.title}
             </Link>
 

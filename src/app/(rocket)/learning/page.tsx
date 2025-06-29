@@ -2,21 +2,7 @@ import { getCourses } from "@/sanity/queries/getCourses";
 import {  CourseData } from "@/app/_components/CourseRow";
 import { urlFor } from "@/sanity/lib/image";
 import Link from "next/link";
-
-export type Course = {
-  _id?: string;
-  id: string;
-  title: string;
-  description: string;
-  slug: string;
-  image?: string;
-  progress?: number;
-  materials?: number;
-  completion?: number;
-  deadline?: string;
-  buttonText?: string;
-  resources?: number;
-};
+import Image from 'next/image';
 
 export default async function MyLearningPage() {
   let courses: CourseData[] = [];
@@ -30,7 +16,7 @@ export default async function MyLearningPage() {
   }
 
   // Convert Sanity image object to URL
-  const getImageUrl = (image: any): string | null => {
+  const getImageUrl = (image: string | { _type: string; asset: { _ref: string } } | null | undefined): string | null => {
     if (!image) return null;
     if (typeof image === 'string') return image;
     if (image._type === 'image' && image.asset) {
@@ -59,9 +45,11 @@ export default async function MyLearningPage() {
               >
                 {imageUrl && (
                   <div className="relative w-full h-32 mb-3">
-                    <img
+                    <Image
                       src={imageUrl}
                       alt={course.title}
+                      width={300}
+                      height={200}
                       className="w-full h-full object-cover rounded"
                     />
                   </div>

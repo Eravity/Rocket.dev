@@ -1,10 +1,10 @@
-import { calculateTimeSpent, formatTime } from '../_utils/timeUtils';
+import {calculateTimeSpent, formatTime} from '../_utils/timeUtils';
 
 export interface Content {
   title: string;
   type?: string;
-  completition: number;
-  timeSpent: string | Date; 
+  completion: number;
+  timeSpent: string | Date;
 }
 
 export const useContentManager = (contents: Content[]) => {
@@ -15,10 +15,10 @@ export const useContentManager = (contents: Content[]) => {
   }));
 
   const totalMinutes = contentsWithMinutes.reduce(
-    (acc, curr) => acc + curr.minutes, 
+    (acc, curr) => acc + curr.minutes,
     0
   );
-  
+
   const contentsWithStats = contentsWithMinutes.map(content => ({
     ...content,
     timeSpent: formatTime(content.minutes),
@@ -30,7 +30,7 @@ export const useContentManager = (contents: Content[]) => {
     .slice(0, 2);
 
   const topContentPercentage = sortedRegular.reduce(
-    (acc, curr) => acc + curr.displayPercentage, 
+    (acc, curr) => acc + curr.displayPercentage,
     0
   );
 
@@ -44,7 +44,7 @@ export const useContentManager = (contents: Content[]) => {
     topContent: sortedRegular,
     otherContent: {
       title: "Other",
-      completition: 0,
+      completion: 0,
       displayPercentage: otherPercentage,
       timeSpent: formatTime(totalOtherMinutes)
     }

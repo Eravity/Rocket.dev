@@ -36,7 +36,9 @@ export async function GET(
               description: lesson.description || "",
               content: lesson.content || "",
               _id: lesson._id,
-              slug: lesson.slug?.current || `lesson-${lessonIndex}`,
+              slug: typeof lesson.slug === 'object' && lesson.slug?.current
+                ? lesson.slug.current
+                : `lesson-${lessonIndex}`,
             }))
           : [];
           
@@ -59,7 +61,9 @@ export async function GET(
       title: course.title || "Untitled Course",
       description: course.description || "",
       chapters: courseChapters,
-      slug: course.slug?.current || slug,
+      slug: typeof course.slug === 'object' && course.slug?.current
+        ? course.slug.current
+        : slug,
     };
 
     return NextResponse.json(serializedCourse);

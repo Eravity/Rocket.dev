@@ -58,7 +58,9 @@ export default async function Page(props: { params: Promise<{ slug: string }> })
             description: lesson.description || "",
             content: lesson.content || "",
             _id: lesson._id,
-            slug: lesson.slug?.current || `lesson-${lessonIndex}`,
+            slug: typeof lesson.slug === 'object' && lesson.slug?.current
+              ? lesson.slug.current
+              : `lesson-${lessonIndex}`,
           }))
           : [];
         courseChapters.push({
@@ -86,7 +88,9 @@ export default async function Page(props: { params: Promise<{ slug: string }> })
     content_type: course.content_type || "",
     tags: Array.isArray(course.tags) ? course.tags : [],
     chapters: courseChapters,
-    slug: course.slug?.current || slug,
+    slug: typeof course.slug === 'object' && course.slug?.current
+      ? course.slug.current
+      : slug,
     isSanityCourse: true,
     image: course.image || null,
     thumbnail: course.thumbnail || null,

@@ -1,7 +1,8 @@
 "use client";
 
 import icons from "./Icons/Icons";
-import { useDailyGoal } from "../_hooks/useDailyGoal";
+import {useDailyGoal} from "../_hooks/useDailyGoal";
+import React from "react";
 
 // Types
 interface StatItem {
@@ -84,7 +85,7 @@ const handleStatLeave = (event: React.MouseEvent<HTMLDivElement>) => {
 };
 
 // Components
-const StatCard: React.FC<{ stat: StatItem; index: number }> = ({ stat, index }) => (
+const StatCard: React.FC<{ stat: StatItem; index: number }> = ({stat, index}) => (
   <div
     key={index}
     className={`group relative bg-gradient-to-br ${stat.bgGradient} rounded-2xl p-3 lg:p-2.5 xl:p-3 2xl:p-4 hover:shadow-md transition-all duration-300 transform hover:-translate-y-1 overflow-hidden w-full h-full lg:h-[133px] xl:w-full xl:h-32 2xl:w-auto 2xl:h-auto`}
@@ -97,8 +98,10 @@ const StatCard: React.FC<{ stat: StatItem; index: number }> = ({ stat, index }) 
     onMouseLeave={handleStatLeave}
   >
     {/* Decorative blur elements */}
-    <div className="absolute -top-6 -right-6 w-20 h-20 lg:w-16 lg:h-16 xl:w-14 xl:h-14 2xl:w-20 2xl:h-20 bg-gradient-to-br from-white/40 to-transparent rounded-full blur-2xl group-hover:scale-150 transition-transform duration-500"></div>
-    <div className="absolute -bottom-4 -left-4 w-16 h-16 lg:w-12 lg:h-12 xl:w-10 xl:h-10 2xl:w-16 2xl:h-16 bg-gradient-to-tr from-white/30 to-transparent rounded-full blur-xl group-hover:scale-125 transition-transform duration-700"></div>
+    <div
+      className="absolute -top-6 -right-6 w-20 h-20 lg:w-16 lg:h-16 xl:w-14 xl:h-14 2xl:w-20 2xl:h-20 bg-gradient-to-br from-white/40 to-transparent rounded-full blur-2xl group-hover:scale-150 transition-transform duration-500"></div>
+    <div
+      className="absolute -bottom-4 -left-4 w-16 h-16 lg:w-12 lg:h-12 xl:w-10 xl:h-10 2xl:w-16 2xl:h-16 bg-gradient-to-tr from-white/30 to-transparent rounded-full blur-xl group-hover:scale-125 transition-transform duration-700"></div>
 
     {/* Content - Mobile horizontal layout, larger screens vertical */}
     <div className="relative z-10 h-full">
@@ -107,7 +110,7 @@ const StatCard: React.FC<{ stat: StatItem; index: number }> = ({ stat, index }) 
         <div
           className={`${stat.iconBg} w-8 h-8 rounded-xl flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform duration-300 shrink-0`}
         >
-          <stat.icon color={stat.iconColor} width={20} height={20} />
+          <stat.icon color={stat.iconColor} width={20} height={20}/>
         </div>
         <div className="flex-1 min-w-0">
           <h3 className="text-sm font-semibold text-gray-800 leading-tight truncate">
@@ -129,7 +132,7 @@ const StatCard: React.FC<{ stat: StatItem; index: number }> = ({ stat, index }) 
           <div
             className={`${stat.iconBg} w-8 h-8 lg:w-9 lg:h-9 xl:w-9 xl:h-9 2xl:w-12 2xl:h-12 rounded-xl flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform duration-300 shrink-0`}
           >
-            <stat.icon color={stat.iconColor} width={20} height={20} />
+            <stat.icon color={stat.iconColor} width={20} height={20}/>
           </div>
           <div className="text-lg sm:text-xl md:text-2xl lg:text-lg xl:text-lg 2xl:text-2xl font-bold text-gray-900 group-hover:text-gray-800 transition-colors">
             {stat.value}
@@ -153,11 +156,11 @@ const StatCard: React.FC<{ stat: StatItem; index: number }> = ({ stat, index }) 
   </div>
 );
 
-const StreakDots: React.FC<{ currentStreak: number; maxStreak: number; className?: string }> = ({ 
-  currentStreak, 
-  maxStreak, 
-  className = "w-2 h-2 lg:w-3 lg:h-3" 
-}) => (
+const StreakDots: React.FC<{ currentStreak: number; maxStreak: number; className?: string }> = ({
+                                                                                                  currentStreak,
+                                                                                                  maxStreak,
+                                                                                                  className = "w-2 h-2 lg:w-3 lg:h-3"
+                                                                                                }) => (
   <div className="flex items-center gap-1 lg:gap-1.5">
     {[...Array(maxStreak)].map((_, i) => (
       <div
@@ -172,15 +175,15 @@ const StreakDots: React.FC<{ currentStreak: number; maxStreak: number; className
   </div>
 );
 
-const LearningStreakCard: React.FC<{ 
-  streakData: StreakData; 
-  variant: "grid" | "horizontal" 
-}> = ({ streakData, variant }) => {
+const LearningStreakCard: React.FC<{
+  streakData: StreakData;
+  variant: "grid" | "horizontal"
+}> = ({streakData, variant}) => {
   const isGrid = variant === "grid";
-  const visibilityClass = isGrid 
-    ? "hidden lg:block xl:block 2xl:hidden" 
+  const visibilityClass = isGrid
+    ? "hidden lg:block xl:block 2xl:hidden"
     : "lg:hidden xl:hidden 2xl:block";
-  
+
   const containerClass = isGrid
     ? "bg-gradient-to-r from-blue-50/90 to-purple-50/90 rounded-2xl border-2 border-blue-200/60 p-4 lg:p-3 xl:p-3 2xl:p-4 relative overflow-hidden transition-all duration-300 transform hover:-translate-y-1 hover:shadow-md cursor-pointer group w-full h-full xl:w-full xl:h-32 2xl:w-32 2xl:h-36"
     : "bg-gradient-to-r from-blue-50/90 to-purple-50/90 rounded-xl border-2 border-blue-200/60 p-4 2xl:p-5 relative overflow-hidden transition-all duration-300 transform hover:-translate-y-1 hover:shadow-md cursor-pointer group";
@@ -189,8 +192,10 @@ const LearningStreakCard: React.FC<{
     <div className={`${visibilityClass} ${containerClass}`}>
       {/* Background blur effects */}
       <div className="absolute inset-0">
-        <div className="absolute top-0 right-0 w-16 h-16 lg:w-12 lg:h-12 xl:w-10 xl:h-10 2xl:w-16 2xl:h-16 bg-gradient-to-br from-blue-300/20 to-purple-300/20 rounded-full blur-xl opacity-60 group-hover:scale-125 transition-transform duration-500"></div>
-        <div className="absolute bottom-0 left-0 w-12 h-12 lg:w-8 lg:h-8 xl:w-6 xl:h-6 2xl:w-12 2xl:h-12 bg-gradient-to-tr from-purple-300/15 to-blue-300/15 rounded-full blur-lg opacity-50 group-hover:scale-110 transition-transform duration-700"></div>
+        <div
+          className="absolute top-0 right-0 w-16 h-16 lg:w-12 lg:h-12 xl:w-10 xl:h-10 2xl:w-16 2xl:h-16 bg-gradient-to-br from-blue-300/20 to-purple-300/20 rounded-full blur-xl opacity-60 group-hover:scale-125 transition-transform duration-500"></div>
+        <div
+          className="absolute bottom-0 left-0 w-12 h-12 lg:w-8 lg:h-8 xl:w-6 xl:h-6 2xl:w-12 2xl:h-12 bg-gradient-to-tr from-purple-300/15 to-blue-300/15 rounded-full blur-lg opacity-50 group-hover:scale-110 transition-transform duration-700"></div>
       </div>
 
       {isGrid ? (
@@ -203,14 +208,14 @@ const LearningStreakCard: React.FC<{
               {streakData.description}
             </p>
           </div>
-          
+
           <div className="flex flex-col items-center gap-2 lg:gap-2 xl:gap-2 2xl:gap-3">
             <span className="text-lg lg:text-lg xl:text-lg 2xl:text-2xl font-bold text-blue-600 group-hover:text-blue-700 transition-colors duration-300">
               {streakData.currentStreak} days
             </span>
-            <StreakDots 
-              currentStreak={streakData.currentStreak} 
-              maxStreak={streakData.maxStreak} 
+            <StreakDots
+              currentStreak={streakData.currentStreak}
+              maxStreak={streakData.maxStreak}
             />
           </div>
         </div>
@@ -228,8 +233,8 @@ const LearningStreakCard: React.FC<{
             <span className="text-lg 2xl:text-xl font-bold text-blue-600 group-hover:text-blue-700 transition-colors duration-300">
               {streakData.currentStreak} {streakData.currentStreak === 1 ? "Day" : "Days"}
             </span>
-            <StreakDots 
-              currentStreak={streakData.currentStreak} 
+            <StreakDots
+              currentStreak={streakData.currentStreak}
               maxStreak={streakData.maxStreak}
               className="w-3 h-3"
             />
@@ -242,15 +247,15 @@ const LearningStreakCard: React.FC<{
 
 
 export default function Stats() {
-  const { displayedProgress } = useDailyGoal();
-  
+  const {displayedProgress} = useDailyGoal();
+
   // Use real streak data or fallback to default
   const streakData: StreakData = {
     currentStreak: displayedProgress?.streak_days || 0,
     maxStreak: 7, // You can adjust this or make it dynamic
-    description: displayedProgress?.streak_days 
-      ? displayedProgress.streak_days > 3 
-        ? "Keep it up!" 
+    description: displayedProgress?.streak_days
+      ? displayedProgress.streak_days > 3
+        ? "Keep it up!"
         : "Great start!"
       : "Start your streak!",
   };
@@ -258,20 +263,21 @@ export default function Stats() {
   return (
     <div className="w-full h-full flex flex-col">
       <div className="space-y-2 sm:space-y-3 md:space-y-3 lg:space-y-2.5 xl:space-y-1 2xl:gap-y-3.5 h-full flex flex-col">
-      {/* Main Stats Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-3 gap-x-3 gap-y-2 sm:gap-y-3 md:gap-y-3 lg:gap-x-3 lg:gap-y-3 xl:gap-x-2.5 xl:gap-y-2.5 2xl:gap-x-4 2xl:gap-y-6 flex-1">
-        {STATS_DATA.map((stat, index) => (
-          <StatCard key={index} stat={stat} index={index} />
-        ))}
-        
-        {/* Learning Streak Section - integrated in grid for lg+ screens */}
-        <LearningStreakCard streakData={streakData} variant="grid" />
-      </div>
+        {/* Main Stats Grid */}
+        <div
+          className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-3 gap-x-3 gap-y-2 sm:gap-y-3 md:gap-y-3 lg:gap-x-3 lg:gap-y-3 xl:gap-x-2.5 xl:gap-y-2.5 2xl:gap-x-4 2xl:gap-y-6 flex-1">
+          {STATS_DATA.map((stat, index) => (
+            <StatCard key={index} stat={stat} index={index}/>
+          ))}
 
-      {/* Learning Streak Section - separate for small/medium screens and 2xl+ */}
-      <div className="flex-shrink-0">
-        <LearningStreakCard streakData={streakData} variant="horizontal" />
-      </div>
+          {/* Learning Streak Section - integrated in grid for lg+ screens */}
+          <LearningStreakCard streakData={streakData} variant="grid"/>
+        </div>
+
+        {/* Learning Streak Section - separate for small/medium screens and 2xl+ */}
+        <div className="flex-shrink-0">
+          <LearningStreakCard streakData={streakData} variant="horizontal"/>
+        </div>
       </div>
     </div>
   );

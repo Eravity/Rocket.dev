@@ -5,19 +5,21 @@ import FavouriteButton from "@/app/_components/FavouriteButton";
 import TagsList from "@/app/_components/TagsList";
 import { urlFor } from "@/sanity/lib/image";
 
+interface CourseImage {
+  asset: {
+    _ref: string;
+  };
+}
+
+interface Course {
+  id?: string | number;
+  title: string;
+  image?: string | null | CourseImage;
+}
+
 interface CourseHeaderProps {
   id: string | number;
-  course: {
-    id?: string | number;
-    title: string;
-    image?: string | null | {
-      _type: string;
-      asset: {
-        _ref: string;
-        _type: string;
-      };
-    };
-  };
+  course: Course;
   contentType: string;
   tags: string[];
   isSanityCourse?: boolean;
@@ -31,14 +33,14 @@ export default function CourseHeader({
   isSanityCourse = false
 }: CourseHeaderProps) {
   // Convert Sanity image object to URL
-  const getImageUrl = (image: any): string | null => {
+  const getImageUrl = (image: string | CourseImage | null | undefined): string | null => {
     if (!image) return null;
 
     // If it's already a string URL, return it
     if (typeof image === 'string') return image;
 
     // If it's a Sanity image object, convert to URL
-    if (image._type === 'image' && image.asset) {
+    if (typeof image === 'object' && 'asset' in image && image.asset) {
       return urlFor(image).width(400).height(300).url();
     }
 

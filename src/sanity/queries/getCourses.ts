@@ -1,26 +1,82 @@
 import { client } from "../lib/client";
 import imageUrlBuilder from '@sanity/image-url';
 import { CourseData } from "@/app/_components/CourseRow";
+import { SanityImageSource } from '@sanity/image-url/lib/types/types';
 
 const builder = imageUrlBuilder(client);
-function urlFor(source: any) {
+function urlFor(source: SanityImageSource) {
   return builder.image(source);
 }
 
-export const getCourses = async () => {
+interface SanityImageAsset {
+  _ref: string;
+}
+
+interface SanityImage {
+  asset: SanityImageAsset;
+}
+
+export interface Lesson {
+  _id: string;
+  _key?: string;
+  title: string;
+  description?: string;
+  content?: string;
+  slug?: {
+    current: string;
+  };
+}
+
+export interface Chapter {
+  _id: string;
+  title: string;
+  description?: string;
+  content?: string;
+  lessons?: Lesson[];
+}
+
+interface Course {
+  _id: string;
+  _type?: string;
+  title: string;
+  description: string;
+  content_type?: string;
+  tags?: string[];
+  banner?: SanityImage;
+  thumbnail?: SanityImage;
+  image?: SanityImage;
+  chapters: Chapter[];
+  slug?: {
+    current?: string;
+  } | string;
+}
+
+interface RawCourse {
+  _id: string;
+  title: string;
+  description?: string;
+  slug?: {
+    current?: string;
+  } | string;
+  image?: SanityImage;
+  banner?: SanityImage;
+  thumbnail?: SanityImage;
+  chapters?: Chapter[];
+}
+
+export const getCourses = async (): Promise<{ courses: CourseData[]; chaptersCount: { [key: string]: number } }> => {
   // Fetch courses with their chapters and lessons
-  const rawCourses = await client.fetch(`*[_type == "course"] {
+  const rawCourses: RawCourse[] = await client.fetch(`*[_type == "course"] {
     ..., chapters[]-> {
       ..., lessons[]->
     }
   }`);
 
-  // Format courses in the structure expected by CourseProgress component
-  const courses: CourseData[] = rawCourses.map((course: any) => ({
+  const courses: CourseData[] = rawCourses.map((course: RawCourse) => ({
     id: course._id,
     title: course.title,
     description: course.description || "",
-    slug: course.slug?.current || course.slug || "",
+    slug: typeof course.slug === 'string' ? course.slug : (course.slug?.current || ""),
     // build a full absolute URL here:
     image: course.image
       ? urlFor(course.image).width(200).height(200).url()
@@ -35,7 +91,7 @@ export const getCourses = async () => {
 
   // Calculate the number of chapters per course
   const chaptersCount: { [key: string]: number } = {};
-  rawCourses.forEach((course: any) => {
+  rawCourses.forEach((course: RawCourse) => {
     // Ensure chapters exists and is an array before accessing length
     if (Array.isArray(course.chapters)) {
       chaptersCount[course._id] = course.chapters.length;
@@ -47,8 +103,8 @@ export const getCourses = async () => {
   return { courses, chaptersCount };
 };
 
-export const getCourseBySlug = async (slug: string) => {
-  const courses = await client.fetch(
+export const getCourseBySlug = async (slug: string): Promise<Course | null> => {
+  const courses: Course[] = await client.fetch(
     `*[_type == "course" && slug.current == $slug] {
       ..., chapters[]-> {
         ..., lessons[]->
@@ -56,5 +112,20 @@ export const getCourseBySlug = async (slug: string) => {
     }`,
     { slug }
   );
-  return courses[0];
+
+  const course = courses[0];
+  if (!course) return null;
+
+  // Ensure chapters is always an array
+  return {
+    ...course,
+    chapters: course.chapters || []
+  };
+}
+
+// Helper function to safely get slug string
+export const getSlugString = (slug: string | { current?: string } | undefined): string => {
+  if (!slug) return '';
+  if (typeof slug === 'string') return slug;
+  return slug.current || '';
 }

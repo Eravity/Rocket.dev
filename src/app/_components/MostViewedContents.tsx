@@ -10,25 +10,29 @@ export default function MostViewedContents() {
     {
       title: "Enhancing Learning Engagement Through Thoughtful UX/UI",
       type: "Quiz",
-      completition: 5,
+      completion: 5,
+      completition: 5, // Add missing property
       timeSpent: new Date(Date.now() - 1000 * 60 * 150).toISOString(),
     },
     {
       title: "Enhancing Learning Engagement Through Thoughtful UX/UI",
       type: "Course",
-      completition: 20,
+      completion: 20,
+      completition: 20, // Add missing property
       timeSpent: new Date(Date.now() - 1000 * 60 * 45).toISOString(),
     },
     {
       title: "Introduction to React",
       type: "Course",
-      completition: 45,
+      completion: 45,
+      completition: 45, // Add missing property
       timeSpent: new Date(Date.now() - 1000 * 60 * 75).toISOString(),
     },
     {
       title: "TypeScript Basics",
       type: "Course",
-      completition: 30,
+      completion: 30,
+      completition: 30, // Add missing property
       timeSpent: new Date(Date.now() - 1000 * 60 * 105).toISOString(),
     },
   ];

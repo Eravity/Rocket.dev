@@ -8,7 +8,7 @@ const CourseIndicator = ({ slug }: { slug: string }) => {
   useEffect(() => {
     const fetchData = async () => {
       const courseData = await getCourseBySlug(slug);
-      setContentType(courseData?._type);
+      setContentType(courseData?._type || "");
     };
     fetchData();
   }, [slug]);

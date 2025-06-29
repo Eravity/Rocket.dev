@@ -1,16 +1,23 @@
 import imageUrlBuilder from '@sanity/image-url'
 import { SanityImageSource } from '@sanity/image-url/lib/types/types'
+import { client } from '@/sanity/lib/client'
 
-const builder = imageUrlBuilder({
-  projectId: 'your-project-id',
-  dataset: 'production'
-})
+const builder = imageUrlBuilder(client)
 
 export function urlFor(source: SanityImageSource) {
   return builder.image(source)
 }
 
-export function getSanityImageUrl(imageRef: string | any, width?: number, height?: number): string {
+interface SanityImageAsset {
+  _ref: string;
+  _type: string;
+}
+
+interface SanityImage {
+  asset: SanityImageAsset;
+}
+
+export function getSanityImageUrl(imageRef: string | SanityImage | undefined, width?: number, height?: number): string {
   if (!imageRef) {
     return '/placeholder-image.jpg' // Fallback image
   }
@@ -31,4 +38,18 @@ export function getSanityImageUrl(imageRef: string | any, width?: number, height
     console.error('Error building Sanity image URL:', error)
     return '/placeholder-image.jpg' // Fallback image
   }
+}
+
+export function useImageUrlBuilder(image: SanityImage | undefined): string | null {
+  if (!image) {
+    return null
+  }
+
+  const { asset } = image
+
+  if (!asset) {
+    return null
+  }
+
+  return urlFor(asset).url()
 }
