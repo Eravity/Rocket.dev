@@ -13,11 +13,11 @@ export default function Layout({
 }) {
   const scrollContainerRef = useRef<HTMLElement | null>(null);
   const params = useParams();
-  const courseSlug = params.slug as string;
+  // courseSlug is used by ChapterContent component
   const lessonSlug = params.articleId as string;
 
   // This reference will store the function to mark the lesson as complete
-  const markAsCompleteRef = useRef<(lessonSlug: string) => void>();
+  const markAsCompleteRef = useRef<(lessonSlug: string) => void | undefined>(undefined);
 
   const handleScrollComplete = useCallback(() => {
     if (lessonSlug && markAsCompleteRef.current) {

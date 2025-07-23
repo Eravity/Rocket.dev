@@ -44,7 +44,7 @@ export default function LessonPage() {
         }
 
         setLessonContent(lesson.content);
-      } catch (error) {
+      } catch {
         // Silently handle error
       } finally {
         setIsLessonLoading(false);

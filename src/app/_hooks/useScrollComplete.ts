@@ -37,5 +37,7 @@ export default function useScrollComplete(
     return () => {
       el.removeEventListener("scroll", handleScroll);
     };
-  }, [ref, onComplete, offsetBottom, hasCompleted]);
+    // We intentionally omit hasCompleted since it's a ref
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [ref, onComplete, offsetBottom]);
 }

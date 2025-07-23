@@ -4,7 +4,7 @@ import React, {memo, useRef} from "react";
 import {useParams, usePathname} from "next/navigation";
 import {useChapterNavigation} from "../_hooks/useChapterNavigation";
 import CourseIndicator from "./CourseIndicator";
-import useScrollComplete from "../_hooks/useScrollComplete";
+// Note: useScrollComplete is used in layout.tsx, not here
 
 type CourseNavigationProps = {
   courseSlug: string;
