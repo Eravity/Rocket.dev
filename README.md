@@ -1,6 +1,5 @@
 
 <div align="center">
-  <img src="https://rocket-dev-puce.vercel.app/logo.svg" width="80" />
   <h1>🚀 rocket.dev</h1>
   <p><strong>The most interactive way to master fullstack development — from Zero to Hero.</strong></p>
   <p><em>Courses. Quizzes. Code. Achievements. All in one place.</em></p>
