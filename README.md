@@ -1,11 +1,18 @@
 
 <div align="center">
   <h1>🚀 rocket.dev</h1>
-  <p><strong>The most interactive way to master fullstack development — from Zero to Hero.</strong></p>
+  <p><strong>The most interactive way to master fullstack development — Code to Create, Change to Transform.</strong></p>
   <p><em>Courses. Quizzes. Code. Achievements. All in one place.</em></p>
   <img src="https://img.shields.io/badge/status-Live-green?style=flat-square" />
   <a href="https://rocket-dev-puce.vercel.app/">🌐 Visit rocket.dev</a>
 </div>
+
+---
+
+## 🚧 Currently in Live Development
+
+rocket.dev is being built in the open — pixel by pixel, feature by feature.  
+Stay tuned, follow the journey, or jump in to contribute.
 
 ---
 
@@ -27,16 +34,6 @@ It’s built for:
 - 🧑‍💻 Developers who love structured & visual learning  
 - 🏆 Learners who thrive on gamification and feedback  
 
----
-
-## 📸 Sneak Peek
-
-> Your dashboard is your mission control.
-
-![rocket.dev dashboard preview](https://rocket-dev-puce.vercel.app/screenshot.png)
-
----
-
 ## 🛠️ Built With
 
 - Next.js  
@@ -45,15 +42,6 @@ It’s built for:
 - TypeScript  
 - Supabase  
 - ❤️ And a lot of passion
-
----
-
-## 🚧 Currently in Live Development
-
-rocket.dev is being built in the open — pixel by pixel, feature by feature.  
-Stay tuned, follow the journey, or jump in to contribute.
-
----
-
+  
 
 > “Learning to code should feel like leveling up in a game. Let’s make it fun again.” — rocket.dev
