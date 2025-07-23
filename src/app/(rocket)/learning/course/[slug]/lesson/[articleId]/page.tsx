@@ -1,12 +1,12 @@
 "use client";
 
-import { useParams, notFound } from "next/navigation";
+import {useParams, notFound} from "next/navigation";
 import Indicator from "@/app/_components/Indicator";
-import { useLessonPosition } from "@/app/_hooks/useLessonPosition";
-import { useEffect, useState } from "react";
+import {useLessonPosition} from "@/app/_hooks/useLessonPosition";
+import {useEffect, useState} from "react";
 import getLesson from "@/sanity/queries/getLesson";
 import ContentDisplay from "@/app/_components/ContentDisplay";
-import { PortableTextBlock } from "@portabletext/types";
+import {PortableTextBlock} from "@portabletext/types";
 
 type PageParams = { articleId: string; slug: string };
 
@@ -27,7 +27,7 @@ export default function LessonPage() {
       notFound();
     }
   }, [positionError]);
-  
+
   const [lessonContent, setLessonContent] = useState<PortableTextBlock | PortableTextBlock[]>();
   const [isLessonLoading, setIsLessonLoading] = useState(true);
 
@@ -45,7 +45,7 @@ export default function LessonPage() {
 
         setLessonContent(lesson.content);
       } catch (error) {
-        console.error("Error fetching lesson:", error);
+        // Silently handle error
       } finally {
         setIsLessonLoading(false);
       }
@@ -80,7 +80,7 @@ export default function LessonPage() {
             <div className="animate-pulse text-gray-500">Loading lesson content...</div>
           </div>
         ) : (
-          lessonContent && <ContentDisplay data={{ content: lessonContent }} />
+          lessonContent && <ContentDisplay data={{content: lessonContent}}/>
         )}
       </div>
     </main>
