@@ -4,8 +4,6 @@ const nextConfig = {
   experimental: {
     esmExternals: true,
   },
-  // Optimize production builds
-  swcMinify: true,
   // Increase stability for larger applications
   reactStrictMode: true,
   // Improve error handling
